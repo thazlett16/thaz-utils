@@ -1,10 +1,6 @@
 # thaz-util config setup
 
-This is a collection of config items to get some of my tools up and running
-
-## TypeScript Config
-
-This is a starting point for getting TypeScript setup quickly. Config is inspired by: [@total-typescript/tsconfig](https://github.com/total-typescript/tsconfig)
+This is a collection of config items in oxc to get some of my tools up and running
 
 ## Oxfmt Config
 
