@@ -5,7 +5,7 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp pack',
-        dependsOn: ['@thaz-util/oxfmt-config#build', '@thaz-util/oxlint-config#build'],
+        dependsOn: ['@thazstack/oxfmt-config#build', '@thazstack/oxlint-config#build'],
       },
     },
   },

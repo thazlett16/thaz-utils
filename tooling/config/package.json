@@ -1,5 +1,5 @@
 {
-  "name": "@thaz-util/config",
+  "name": "@thazstack/config",
   "version": "0.1.0",
   "description": "Configuration for applications in my thaz namespace",
   "keywords": [
@@ -46,13 +46,13 @@
     "prepack": "vp pack"
   },
   "dependencies": {
-    "@thaz-util/oxfmt-config": "workspace:",
-    "@thaz-util/oxlint-config": "workspace:"
+    "@thazstack/oxfmt-config": "workspace:",
+    "@thazstack/oxlint-config": "workspace:"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
     "@tanstack/eslint-plugin-router": "catalog:",
-    "@thaz-util/typescript-config": "workspace:",
+    "@thazstack/typescript-config": "workspace:",
     "@types/node": "catalog:",
     "bumpp": "catalog:",
     "eslint-plugin-react-hooks-extra": "catalog:",

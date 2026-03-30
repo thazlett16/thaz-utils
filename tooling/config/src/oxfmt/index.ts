@@ -1,1 +1,1 @@
-export * from '@thaz-util/oxfmt-config';
+export * from '@thazstack/oxfmt-config';

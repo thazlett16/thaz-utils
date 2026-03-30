@@ -1,5 +1,5 @@
 {
-  "name": "@thaz-util/oxlint-config",
+  "name": "@thazstack/oxlint-config",
   "version": "0.1.0",
   "description": "Oxlint configuration for applications in my thaz namespace",
   "keywords": [
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
     "@tanstack/eslint-plugin-router": "catalog:",
-    "@thaz-util/typescript-config": "workspace:",
+    "@thazstack/typescript-config": "workspace:",
     "@types/node": "catalog:",
     "bumpp": "catalog:",
     "eslint-plugin-react-hooks-extra": "catalog:",

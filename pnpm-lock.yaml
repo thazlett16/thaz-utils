@@ -57,10 +57,10 @@ importers:
       '@tanstack/eslint-plugin-router':
         specifier: 'catalog:'
         version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      '@thaz-util/config':
+      '@thazstack/config':
         specifier: 'workspace:'
         version: link:tooling/config
-      '@thaz-util/typescript-config':
+      '@thazstack/typescript-config':
         specifier: 'workspace:'
         version: link:tooling/typescript-config
       eslint-plugin-react-hooks-extra:
@@ -77,6 +77,13 @@ importers:
         version: 0.1.13(@types/node@25.5.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.2(@types/node@25.5.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
 
   tooling/config:
+    dependencies:
+      '@thazstack/oxfmt-config':
+        specifier: 'workspace:'
+        version: link:../oxfmt-config
+      '@thazstack/oxlint-config':
+        specifier: 'workspace:'
+        version: link:../oxlint-config
     devDependencies:
       '@tanstack/eslint-plugin-query':
         specifier: 'catalog:'
@@ -84,13 +91,7 @@ importers:
       '@tanstack/eslint-plugin-router':
         specifier: 'catalog:'
         version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      '@thaz-util/oxfmt-config':
-        specifier: 'workspace:'
-        version: link:../oxfmt-config
-      '@thaz-util/oxlint-config':
-        specifier: 'workspace:'
-        version: link:../oxlint-config
-      '@thaz-util/typescript-config':
+      '@thazstack/typescript-config':
         specifier: 'workspace:'
         version: link:../typescript-config
       '@types/node':
@@ -126,7 +127,7 @@ importers:
 
   tooling/oxfmt-config:
     devDependencies:
-      '@thaz-util/typescript-config':
+      '@thazstack/typescript-config':
         specifier: 'workspace:'
         version: link:../typescript-config
       '@types/node':
@@ -153,7 +154,7 @@ importers:
       '@tanstack/eslint-plugin-router':
         specifier: 'catalog:'
         version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      '@thaz-util/typescript-config':
+      '@thazstack/typescript-config':
         specifier: 'workspace:'
         version: link:../typescript-config
       '@types/node':

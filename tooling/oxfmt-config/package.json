@@ -1,5 +1,5 @@
 {
-  "name": "@thaz-util/oxfmt-config",
+  "name": "@thazstack/oxfmt-config",
   "version": "0.1.0",
   "description": "Oxfmt configuration for applications in my thaz namespace",
   "keywords": [
@@ -41,7 +41,7 @@
     "prepack": "vp pack"
   },
   "devDependencies": {
-    "@thaz-util/typescript-config": "workspace:",
+    "@thazstack/typescript-config": "workspace:",
     "@types/node": "catalog:",
     "bumpp": "catalog:",
     "oxfmt": "catalog:",

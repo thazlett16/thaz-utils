@@ -1,1 +1,1 @@
-export * from '@thaz-util/oxlint-config';
+export * from '@thazstack/oxlint-config';

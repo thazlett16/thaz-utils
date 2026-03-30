@@ -1,4 +1,4 @@
-# thaz-util config setup
+# thazstack config setup
 
 This is a collection of config items in oxc to get some of my tools up and running
 
