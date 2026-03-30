@@ -1,10 +1,9 @@
 {
-  "name": "@thaz-util/config",
+  "name": "@thaz-util/oxlint-config",
   "version": "0.1.0",
-  "description": "Configuration for applications in my thaz namespace",
+  "description": "Oxlint configuration for applications in my thaz namespace",
   "keywords": [
     "config",
-    "oxfmt",
     "oxlint"
   ],
   "homepage": "https://github.com/thazlett16/thaz-utils#readme",
@@ -22,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/thazlett16/thaz-utils.git",
-    "directory": "tooling/config"
+    "directory": "tooling/oxlint-config"
   },
   "files": [
     "dist",
@@ -30,13 +29,9 @@
   ],
   "type": "module",
   "exports": {
-    "./oxfmt": {
-      "types": "./dist/oxfmt.d.mts",
-      "import": "./dist/oxfmt.mjs"
-    },
-    "./oxlint": {
-      "types": "./dist/oxlint.d.mts",
-      "import": "./dist/oxlint.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -44,10 +39,6 @@
     "check": "vp check",
     "check:fix": "vp check --fix",
     "prepack": "vp pack"
-  },
-  "dependencies": {
-    "@thaz-util/oxfmt-config": "workspace:",
-    "@thaz-util/oxlint-config": "workspace:"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
@@ -58,7 +49,6 @@
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",
     "eslint-plugin-react-web-api": "catalog:",
-    "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
@@ -70,7 +60,6 @@
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",
     "eslint-plugin-react-web-api": "catalog:",
-    "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:"
   },

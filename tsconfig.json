@@ -1,4 +1,4 @@
 {
-  "extends": ["@thaz-util/config/bundler-no-dom"],
+  "extends": ["@thaz-util/typescript-config/bundler-no-dom"],
   "include": ["vite.config.ts"]
 }

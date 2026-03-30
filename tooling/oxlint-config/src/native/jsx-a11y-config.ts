@@ -1,17 +1,15 @@
 import { defineConfig } from 'oxlint';
 
-import { baseConfig } from '../base-config';
+import { baseConfig } from '#src/base-config';
 
-export const nodeConfig = defineConfig({
+export const jsxA11yConfig = defineConfig({
   ...baseConfig,
-  plugins: ['node'],
+  plugins: ['jsx-a11y'],
   rules: {
     // Correctness Rules
     // Suspicious Rules
     // Perf Rules
     // Restriction Rules
-    'node/no-process-env': 'error',
-
     // Pedantic Rules
     // Style Rules
   },

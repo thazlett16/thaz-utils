@@ -60,6 +60,9 @@ importers:
       '@thaz-util/config':
         specifier: 'workspace:'
         version: link:tooling/config
+      '@thaz-util/typescript-config':
+        specifier: 'workspace:'
+        version: link:tooling/typescript-config
       eslint-plugin-react-hooks-extra:
         specifier: 'catalog:'
         version: 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
@@ -81,6 +84,15 @@ importers:
       '@tanstack/eslint-plugin-router':
         specifier: 'catalog:'
         version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      '@thaz-util/oxfmt-config':
+        specifier: 'workspace:'
+        version: link:../oxfmt-config
+      '@thaz-util/oxlint-config':
+        specifier: 'workspace:'
+        version: link:../oxlint-config
+      '@thaz-util/typescript-config':
+        specifier: 'workspace:'
+        version: link:../typescript-config
       '@types/node':
         specifier: 'catalog:'
         version: 24.12.0
@@ -105,6 +117,81 @@ importers:
       oxlint-tsgolint:
         specifier: 'catalog:'
         version: 0.17.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.1.14(@types/node@24.12.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.2(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
+
+  tooling/oxfmt-config:
+    devDependencies:
+      '@thaz-util/typescript-config':
+        specifier: 'workspace:'
+        version: link:../typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.12.0
+      bumpp:
+        specifier: 'catalog:'
+        version: 11.0.1
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.41.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.1.14(@types/node@24.12.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.2(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
+
+  tooling/oxlint-config:
+    devDependencies:
+      '@tanstack/eslint-plugin-query':
+        specifier: 'catalog:'
+        version: 5.95.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      '@tanstack/eslint-plugin-router':
+        specifier: 'catalog:'
+        version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      '@thaz-util/typescript-config':
+        specifier: 'workspace:'
+        version: link:../typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.12.0
+      bumpp:
+        specifier: 'catalog:'
+        version: 11.0.1
+      eslint-plugin-react-hooks-extra:
+        specifier: 'catalog:'
+        version: 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-naming-convention:
+        specifier: 'catalog:'
+        version: 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-web-api:
+        specifier: 'catalog:'
+        version: 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      oxlint:
+        specifier: 'catalog:'
+        version: 1.56.0(oxlint-tsgolint@0.17.1)
+      oxlint-tsgolint:
+        specifier: 'catalog:'
+        version: 0.17.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.1.14(@types/node@24.12.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.2(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
+
+  tooling/typescript-config:
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.12.0
+      bumpp:
+        specifier: 'catalog:'
+        version: 11.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

@@ -1,0 +1,54 @@
+{
+  "name": "@thaz-util/oxfmt-config",
+  "version": "0.1.0",
+  "description": "Oxfmt configuration for applications in my thaz namespace",
+  "keywords": [
+    "config",
+    "oxfmt"
+  ],
+  "homepage": "https://github.com/thazlett16/thaz-utils#readme",
+  "bugs": {
+    "url": "https://github.com/thazlett16/thaz-utils/issues"
+  },
+  "license": "MIT",
+  "author": "Tim Hazlett",
+  "contributors": [
+    {
+      "name": "Tim Hazlett",
+      "email": "timhazlett2016@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thazlett16/thaz-utils.git",
+    "directory": "tooling/oxfmt-config"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "check": "vp check",
+    "check:fix": "vp check --fix",
+    "prepack": "vp pack"
+  },
+  "devDependencies": {
+    "@thaz-util/typescript-config": "workspace:",
+    "@types/node": "catalog:",
+    "bumpp": "catalog:",
+    "oxfmt": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "oxfmt": "catalog:"
+  }
+}

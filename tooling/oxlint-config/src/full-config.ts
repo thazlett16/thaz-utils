@@ -20,35 +20,45 @@ import { unicornConfig } from './native/unicorn-config';
 import { vitestConfig } from './native/vitest-config';
 
 export const fullConfig = defineConfig({
-  extends: [
-    baseConfig,
-
-    eslintConfig,
-    importConfig,
-    jsdocConfig,
-    jsxA11yConfig,
-    nodeConfig,
-    oxcConfig,
-    promiseConfig,
-    reactConfig,
-    typescriptConfig,
-    unicornConfig,
-    vitestConfig,
-
-    jsPluginReactHooksExtraConfig,
-    jsPluginReactNamingConventionConfig,
-    jsPluginReactWebAPIConfig,
-    jsPluginTanStackQueryConfig,
-    jsPluginTanStackRouterConfig,
-
-    configFileConfig,
+  ...baseConfig,
+  plugins: [
+    ...eslintConfig.plugins,
+    ...importConfig.plugins,
+    ...jsdocConfig.plugins,
+    ...jsxA11yConfig.plugins,
+    ...nodeConfig.plugins,
+    ...oxcConfig.plugins,
+    ...promiseConfig.plugins,
+    ...reactConfig.plugins,
+    ...typescriptConfig.plugins,
+    ...unicornConfig.plugins,
+    ...vitestConfig.plugins,
+  ],
+  jsPlugins: [
+    ...jsPluginReactHooksExtraConfig.jsPlugins,
+    ...jsPluginReactNamingConventionConfig.jsPlugins,
+    ...jsPluginReactWebAPIConfig.jsPlugins,
+    ...jsPluginTanStackQueryConfig.jsPlugins,
+    ...jsPluginTanStackRouterConfig.jsPlugins,
   ],
   rules: {
-    // Correctness Rules
-    // Suspicious Rules
-    // Perf Rules
-    // Restriction Rules
-    // Pedantic Rules
-    // Style Rules
+    ...eslintConfig.rules,
+    ...importConfig.rules,
+    ...jsdocConfig.rules,
+    ...jsxA11yConfig.rules,
+    ...nodeConfig.rules,
+    ...oxcConfig.rules,
+    ...promiseConfig.rules,
+    ...reactConfig.rules,
+    ...typescriptConfig.rules,
+    ...unicornConfig.rules,
+    ...vitestConfig.rules,
+
+    ...jsPluginReactHooksExtraConfig.rules,
+    ...jsPluginReactNamingConventionConfig.rules,
+    ...jsPluginReactWebAPIConfig.rules,
+    ...jsPluginTanStackQueryConfig.rules,
+    ...jsPluginTanStackRouterConfig.rules,
   },
+  extends: [configFileConfig],
 });

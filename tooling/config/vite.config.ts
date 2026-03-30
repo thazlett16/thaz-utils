@@ -5,6 +5,7 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp pack',
+        dependsOn: ['@thaz-util/oxfmt-config#build', '@thaz-util/oxlint-config#build'],
       },
     },
   },
@@ -16,9 +17,6 @@ export default defineConfig({
     },
     exports: {
       customExports: {
-        './bundler-dom': './typescript-configs/bundler-dom.json',
-        './bundler-dom-react': './typescript-configs/bundler-dom-react.json',
-        './bundler-no-dom': './typescript-configs/bundler-no-dom.json',
         './oxfmt': {
           types: './dist/oxfmt.d.mts',
           import: './dist/oxfmt.mjs',
