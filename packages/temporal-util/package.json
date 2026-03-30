@@ -1,6 +1,6 @@
 {
   "name": "@thazstack/temporal-util",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Temporal Utils for thazstack applications",
   "keywords": [
     "temporal"
