@@ -1,0 +1,50 @@
+{
+  "name": "@thazstack/typescript-config",
+  "version": "0.1.0",
+  "description": "TypeScript configuration for applications in my thaz namespace",
+  "keywords": [
+    "config",
+    "typescript"
+  ],
+  "homepage": "https://github.com/thazlett16/thaz-utils#readme",
+  "bugs": {
+    "url": "https://github.com/thazlett16/thaz-utils/issues"
+  },
+  "license": "MIT",
+  "author": "Tim Hazlett",
+  "contributors": [
+    {
+      "name": "Tim Hazlett",
+      "email": "timhazlett2016@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thazlett16/thaz-utils.git",
+    "directory": "tooling/typescript-config"
+  },
+  "files": [
+    "configs"
+  ],
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./bundler-dom": "./configs/bundler-dom.json",
+    "./bundler-dom-react": "./configs/bundler-dom-react.json",
+    "./bundler-no-dom": "./configs/bundler-no-dom.json"
+  },
+  "scripts": {
+    "check": "vp check",
+    "check:fix": "vp check --fix",
+    "prepack": "vp pack"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "bumpp": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "typescript": "catalog:"
+  }
+}

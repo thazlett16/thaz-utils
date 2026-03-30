@@ -1,0 +1,4 @@
+{
+  "extends": ["@thazstack/typescript-config/bundler-no-dom"],
+  "include": ["vite.config.ts"]
+}

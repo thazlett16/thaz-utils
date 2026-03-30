@@ -1,0 +1,94 @@
+{
+  "name": "@thazstack/config",
+  "version": "0.1.0",
+  "description": "Configuration for applications in my thaz namespace",
+  "keywords": [
+    "config",
+    "oxfmt",
+    "oxlint"
+  ],
+  "homepage": "https://github.com/thazlett16/thaz-utils#readme",
+  "bugs": {
+    "url": "https://github.com/thazlett16/thaz-utils/issues"
+  },
+  "license": "MIT",
+  "author": "Tim Hazlett",
+  "contributors": [
+    {
+      "name": "Tim Hazlett",
+      "email": "timhazlett2016@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thazlett16/thaz-utils.git",
+    "directory": "tooling/config"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    "./oxfmt": {
+      "types": "./dist/oxfmt.d.mts",
+      "import": "./dist/oxfmt.mjs"
+    },
+    "./oxlint": {
+      "types": "./dist/oxlint.d.mts",
+      "import": "./dist/oxlint.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "check": "vp check",
+    "check:fix": "vp check --fix",
+    "prepack": "vp pack"
+  },
+  "dependencies": {
+    "@thazstack/oxfmt-config": "workspace:",
+    "@thazstack/oxlint-config": "workspace:"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@tanstack/eslint-plugin-router": "catalog:",
+    "@thazstack/typescript-config": "workspace:",
+    "@types/node": "catalog:",
+    "bumpp": "catalog:",
+    "eslint-plugin-react-hooks-extra": "catalog:",
+    "eslint-plugin-react-naming-convention": "catalog:",
+    "eslint-plugin-react-web-api": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@tanstack/eslint-plugin-router": "catalog:",
+    "eslint-plugin-react-hooks-extra": "catalog:",
+    "eslint-plugin-react-naming-convention": "catalog:",
+    "eslint-plugin-react-web-api": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/eslint-plugin-query": {
+      "optional": true
+    },
+    "@tanstack/eslint-plugin-router": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks-extra": {
+      "optional": true
+    },
+    "eslint-plugin-react-naming-convention": {
+      "optional": true
+    },
+    "eslint-plugin-react-web-api": {
+      "optional": true
+    }
+  }
+}
