@@ -57,7 +57,7 @@ importers:
       '@tanstack/eslint-plugin-router':
         specifier: 'catalog:'
         version: 1.161.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      '@thazstack/config':
+      '@thaz-util/config':
         specifier: 'workspace:'
         version: link:tooling/config
       eslint-plugin-react-hooks-extra:

@@ -11,7 +11,7 @@
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
     "@tanstack/eslint-plugin-router": "catalog:",
-    "@thazstack/config": "workspace:",
+    "@thaz-util/config": "workspace:",
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",
     "eslint-plugin-react-web-api": "catalog:",

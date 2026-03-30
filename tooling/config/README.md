@@ -1,4 +1,4 @@
-# thazstack config setup
+# thaz-util config setup
 
 This is a collection of config items to get some of my tools up and running
 

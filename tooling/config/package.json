@@ -1,7 +1,7 @@
 {
-  "name": "@thazstack/config",
+  "name": "@thaz-util/config",
   "version": "1.0.0",
-  "description": "Configuration for thazstack applications",
+  "description": "Configuration for applications in my thaz namespace",
   "keywords": [
     "config",
     "oxfmt",

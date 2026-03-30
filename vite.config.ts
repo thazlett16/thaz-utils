@@ -1,5 +1,5 @@
-import { oxfmtConfig } from '@thazstack/config/oxfmt';
-import { fullConfig } from '@thazstack/config/oxlint';
+import { oxfmtConfig } from '@thaz-util/config/oxfmt';
+import { fullConfig } from '@thaz-util/config/oxlint';
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
