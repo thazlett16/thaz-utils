@@ -1,0 +1,32 @@
+packages:
+  - tooling/*
+
+catalog:
+  '@tanstack/eslint-plugin-query': ^5.94.5
+  '@tanstack/eslint-plugin-router': ^1.161.6
+  '@types/node': ^24
+  bumpp: ^11.0.1
+  eslint-plugin-react-hooks-extra: ^2.13.0
+  eslint-plugin-react-naming-convention: ^2.13.0
+  eslint-plugin-react-web-api: ^2.13.0
+  oxfmt: ^0.41.0
+  oxlint: ^1.56.0
+  oxlint-tsgolint: ^0.17.1
+  typescript: ^5.9.3
+  vite: npm:@voidzero-dev/vite-plus-core@latest
+  vite-plus: latest
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
+
+catalogMode: prefer
+
+overrides:
+  vite: 'catalog:'
+  vitest: 'catalog:'
+
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'

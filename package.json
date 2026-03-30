@@ -1,0 +1,24 @@
+{
+  "name": "thaz-stack-utils",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp run build -r",
+    "build:no-cache": "vp run build -r --no-cache",
+    "ready": "vp fmt && vp lint && vp run build -r"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@tanstack/eslint-plugin-router": "catalog:",
+    "@thazstack/config": "workspace:",
+    "eslint-plugin-react-hooks-extra": "catalog:",
+    "eslint-plugin-react-naming-convention": "catalog:",
+    "eslint-plugin-react-web-api": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.32.1"
+}
