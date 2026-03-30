@@ -1,7 +1,9 @@
 packages:
+  - packages/*
   - tooling/*
 
 catalog:
+  '@js-temporal/polyfill': ^0.5.1
   '@tanstack/eslint-plugin-query': ^5.94.5
   '@tanstack/eslint-plugin-router': ^1.161.6
   '@types/node': ^24
