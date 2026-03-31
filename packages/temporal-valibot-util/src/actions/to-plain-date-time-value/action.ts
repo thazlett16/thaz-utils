@@ -45,10 +45,10 @@ export function toPlainDateTime(
     async: false,
     message,
     '~run'(dataset, config) {
-      try {
-        if (typeof dataset.value === 'string') {
-          const { value } = dataset;
+      const { value } = dataset;
 
+      try {
+        if (typeof value === 'string') {
           try {
             dataset.value = Temporal.ZonedDateTime.from(value).toPlainDateTime();
           } catch {
@@ -60,9 +60,9 @@ export function toPlainDateTime(
               dataset.typed = false;
             }
           }
-        } else if (dataset.value instanceof Temporal.ZonedDateTime) {
-          dataset.value = dataset.value.toPlainDateTime();
-        } else if (!(dataset.value instanceof Temporal.PlainDateTime)) {
+        } else if (value instanceof Temporal.ZonedDateTime) {
+          dataset.value = value.toPlainDateTime();
+        } else if (!(value instanceof Temporal.PlainDateTime)) {
           v._addIssue(this, 'plainDateTime', dataset, config, {
             received: '"Invalid conversion option"',
           });

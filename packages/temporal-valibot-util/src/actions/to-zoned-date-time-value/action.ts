@@ -1,5 +1,4 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { getDefaultTimeZone } from '@thazstack/temporal-util';
 import * as v from 'valibot';
 
 export interface ToZonedDateTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.ZonedDateTime> {
@@ -17,31 +16,16 @@ export interface ToZonedDateTimeAction<
   message: TMessage;
 }
 
-export interface ToZonedDateTimeOptions {
-  timeZone?: string;
-}
-
-export type ResolvedToZonedDateTimeOptions = Required<ToZonedDateTimeOptions>;
-
-export function resolveToZonedDateTimeOptions(options: ToZonedDateTimeOptions) {
-  return {
-    timeZone: options.timeZone ?? getDefaultTimeZone(),
-  } satisfies ResolvedToZonedDateTimeOptions;
-}
-
 /**
  * Convert value to a Temporal.ZonedDateTime.
- *
- * @param options Options to convert values to a ZonedDateTime
  *
  * @returns Temporal.ZonedDateTime value.
  */
-export function toZonedDateTime<TInput>(options?: ToZonedDateTimeOptions): ToZonedDateTimeAction<TInput, undefined>;
+export function toZonedDateTime<TInput>(): ToZonedDateTimeAction<TInput, undefined>;
 
 /**
  * Convert value to a Temporal.ZonedDateTime.
  *
- * @param options Options to convert values to a ZonedDateTime
  * @param message The error message.
  *
  * @returns Temporal.ZonedDateTime value.
@@ -49,15 +33,11 @@ export function toZonedDateTime<TInput>(options?: ToZonedDateTimeOptions): ToZon
 export function toZonedDateTime<
   TInput,
   const TMessage extends v.ErrorMessage<ToZonedDateTimeIssue<TInput>> | undefined,
->(options: ToZonedDateTimeOptions, message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
+>(message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
 
 export function toZonedDateTime(
-  options: ToZonedDateTimeOptions = {},
   message?: v.ErrorMessage<ToZonedDateTimeIssue<unknown>>,
 ): ToZonedDateTimeAction<unknown, v.ErrorMessage<ToZonedDateTimeIssue<unknown>> | undefined> {
-  const resolvedOptions = resolveToZonedDateTimeOptions(options);
-  const { timeZone } = resolvedOptions;
-
   return {
     kind: 'transformation',
     type: 'to_zoned_date_time',
@@ -65,30 +45,18 @@ export function toZonedDateTime(
     async: false,
     message,
     '~run'(dataset, config) {
-      try {
-        if (typeof dataset.value === 'string') {
-          const { value } = dataset;
+      const { value } = dataset;
 
+      try {
+        if (typeof value === 'string') {
           try {
             dataset.value = Temporal.ZonedDateTime.from(value);
           } catch {
-            try {
-              dataset.value = Temporal.Instant.from(value).toZonedDateTimeISO(timeZone);
-            } catch {
-              v._addIssue(this, 'zonedDateTime', dataset, config);
-              // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-              dataset.typed = false;
-            }
+            v._addIssue(this, 'zonedDateTime', dataset, config);
+            // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
+            dataset.typed = false;
           }
-        } else if (typeof dataset.value === 'number') {
-          dataset.value = Temporal.Instant.fromEpochMilliseconds(dataset.value).toZonedDateTimeISO(timeZone);
-        } else if (typeof dataset.value === 'bigint') {
-          dataset.value = Temporal.Instant.fromEpochNanoseconds(dataset.value).toZonedDateTimeISO(timeZone);
-        } else if (dataset.value instanceof Date) {
-          dataset.value = Temporal.Instant.fromEpochMilliseconds(dataset.value.getTime()).toZonedDateTimeISO(timeZone);
-        } else if (dataset.value instanceof Temporal.Instant) {
-          dataset.value = dataset.value.toZonedDateTimeISO(timeZone);
-        } else if (!(dataset.value instanceof Temporal.ZonedDateTime)) {
+        } else if (!(value instanceof Temporal.ZonedDateTime)) {
           v._addIssue(this, 'zonedDateTime', dataset, config, {
             received: '"Invalid conversion option"',
           });

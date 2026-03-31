@@ -44,10 +44,10 @@ export function toInstant(
     async: false,
     message,
     '~run'(dataset, config) {
-      try {
-        if (typeof dataset.value === 'string') {
-          const { value } = dataset;
+      const { value } = dataset;
 
+      try {
+        if (typeof value === 'string') {
           try {
             dataset.value = Temporal.ZonedDateTime.from(value).toInstant();
           } catch {
@@ -59,15 +59,15 @@ export function toInstant(
               dataset.typed = false;
             }
           }
-        } else if (typeof dataset.value === 'number') {
-          dataset.value = Temporal.Instant.fromEpochMilliseconds(dataset.value);
-        } else if (typeof dataset.value === 'bigint') {
-          dataset.value = Temporal.Instant.fromEpochNanoseconds(dataset.value);
-        } else if (dataset.value instanceof Date) {
-          dataset.value = Temporal.Instant.fromEpochMilliseconds(dataset.value.getTime());
-        } else if (dataset.value instanceof Temporal.ZonedDateTime) {
-          dataset.value = dataset.value.toInstant();
-        } else if (!(dataset.value instanceof Temporal.Instant)) {
+        } else if (typeof value === 'number') {
+          dataset.value = Temporal.Instant.fromEpochMilliseconds(value);
+        } else if (typeof value === 'bigint') {
+          dataset.value = Temporal.Instant.fromEpochNanoseconds(value);
+        } else if (value instanceof Date) {
+          dataset.value = Temporal.Instant.fromEpochMilliseconds(value.getTime());
+        } else if (value instanceof Temporal.ZonedDateTime) {
+          dataset.value = value.toInstant();
+        } else if (!(value instanceof Temporal.Instant)) {
           v._addIssue(this, 'instant', dataset, config, {
             received: '"Invalid conversion option"',
           });

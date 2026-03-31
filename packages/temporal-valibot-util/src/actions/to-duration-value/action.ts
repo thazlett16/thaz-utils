@@ -64,12 +64,14 @@ export function toDuration(
     async: false,
     message,
     '~run'(dataset, config) {
+      const { value } = dataset;
+
       try {
-        if (typeof dataset.value === 'number') {
+        if (typeof value === 'number') {
           dataset.value = Temporal.Duration.from({
-            [durationType]: dataset.value,
+            [durationType]: value,
           });
-        } else if (!(dataset.value instanceof Temporal.Duration)) {
+        } else if (!(value instanceof Temporal.Duration)) {
           v._addIssue(this, 'duration', dataset, config, {
             received: '"Invalid conversion option"',
           });
