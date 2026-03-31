@@ -1,11 +1,10 @@
+import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
+import type { ToZonedDateTimeIssue } from '@thazstack/temporal-valibot-util';
+
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
-export interface ToZonedDateTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.ZonedDateTime> {
-  kind: 'transformation';
-  type: 'to_zoned_date_time';
-  expected: null;
-}
+import { dayJS } from '#src/dayjs.config';
 
 export interface ToZonedDateTimeAction<
   TInput,
@@ -21,11 +20,12 @@ export interface ToZonedDateTimeAction<
  *
  * @returns Temporal.ZonedDateTime value.
  */
-export function toZonedDateTime<TInput>(): ToZonedDateTimeAction<TInput, undefined>;
+export function toZonedDateTime<TInput>(options: ResolvedTimeZoneOptions): ToZonedDateTimeAction<TInput, undefined>;
 
 /**
  * Convert value to a Temporal.ZonedDateTime.
  *
+ * @param options Options to convert to a ZonedDateTime
  * @param message The error message.
  *
  * @returns Temporal.ZonedDateTime value.
@@ -33,9 +33,10 @@ export function toZonedDateTime<TInput>(): ToZonedDateTimeAction<TInput, undefin
 export function toZonedDateTime<
   TInput,
   const TMessage extends v.ErrorMessage<ToZonedDateTimeIssue<TInput>> | undefined,
->(message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
+>(options: ResolvedTimeZoneOptions, message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
 
 export function toZonedDateTime(
+  options: ResolvedTimeZoneOptions,
   message?: v.ErrorMessage<ToZonedDateTimeIssue<unknown>>,
 ): ToZonedDateTimeAction<unknown, v.ErrorMessage<ToZonedDateTimeIssue<unknown>> | undefined> {
   return {
@@ -48,14 +49,8 @@ export function toZonedDateTime(
       const { value } = dataset;
 
       try {
-        if (typeof value === 'string') {
-          try {
-            dataset.value = Temporal.ZonedDateTime.from(value);
-          } catch {
-            v._addIssue(this, 'zonedDateTime', dataset, config);
-            // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-            dataset.typed = false;
-          }
+        if (dayJS.isDayjs(value)) {
+          dataset.value = Temporal.Instant.from(value.toISOString()).toZonedDateTimeISO(options.timeZone);
         } else if (!(value instanceof Temporal.ZonedDateTime)) {
           v._addIssue(this, 'zonedDateTime', dataset, config, {
             received: '"Invalid conversion option"',

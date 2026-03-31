@@ -1,19 +1,15 @@
+import type { ToPlainDateIssue, ToPlainDateAction as BaseToPlainDateAction } from '@thazstack/temporal-valibot-util';
+
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
-export interface ToPlainDateIssue<TInput> extends v.BaseIssue<TInput | Temporal.PlainDate> {
-  kind: 'transformation';
-  type: 'to_plain_date';
-  expected: null;
-}
+import { dayJS } from '#src/dayjs.config';
 
 export interface ToPlainDateAction<
   TInput,
   TMessage extends v.ErrorMessage<ToPlainDateIssue<TInput>> | undefined,
-> extends v.BaseTransformation<TInput, Temporal.PlainDate, ToPlainDateIssue<TInput>> {
-  type: 'to_plain_date';
+> extends BaseToPlainDateAction<TInput, TMessage> {
   reference: typeof toPlainDate;
-  message: TMessage;
 }
 
 /**
@@ -47,26 +43,8 @@ export function toPlainDate(
       const { value } = dataset;
 
       try {
-        if (typeof value === 'string') {
-          try {
-            dataset.value = Temporal.ZonedDateTime.from(value).toPlainDate();
-          } catch {
-            try {
-              dataset.value = Temporal.PlainDateTime.from(value).toPlainDate();
-            } catch {
-              try {
-                dataset.value = Temporal.PlainDate.from(value);
-              } catch {
-                v._addIssue(this, 'plainDate', dataset, config);
-                // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-                dataset.typed = false;
-              }
-            }
-          }
-        } else if (value instanceof Temporal.ZonedDateTime) {
-          dataset.value = value.toPlainDate();
-        } else if (value instanceof Temporal.PlainDateTime) {
-          dataset.value = value.toPlainDate();
+        if (dayJS.isDayjs(value)) {
+          dataset.value = new Temporal.PlainDate(value.year(), value.month() + 1, value.date());
         } else if (!(value instanceof Temporal.PlainDate)) {
           v._addIssue(this, 'plainDate', dataset, config, {
             received: '"Invalid conversion option"',

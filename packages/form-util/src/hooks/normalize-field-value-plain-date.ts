@@ -4,7 +4,12 @@ import { useMemo } from 'react';
 
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export type FieldValuePlainDate = Temporal.ZonedDateTime | Temporal.PlainDate | null | undefined;
+export type FieldValuePlainDate =
+  | Temporal.ZonedDateTime
+  | Temporal.PlainDateTime
+  | Temporal.PlainDate
+  | null
+  | undefined;
 
 export function useNormalizeFieldValuePlainDate() {
   const field = useFieldContext<FieldValuePlainDate>();
@@ -14,6 +19,8 @@ export function useNormalizeFieldValuePlainDate() {
   return useMemo<null | Temporal.PlainDate>(() => {
     try {
       if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+        return baseFieldValue.toPlainDate();
+      } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
         return baseFieldValue.toPlainDate();
       } else if (baseFieldValue instanceof Temporal.PlainDate) {
         return baseFieldValue;

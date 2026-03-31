@@ -24,7 +24,7 @@ export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...action
             v.literal(''),
             v.transform(() => null),
           ),
-          v.pipe(v.string(), t.toZonedDateTime({}, messages.wrongTypeMessage), v.pipe(t.zonedDateTime(), ...actions)),
+          v.pipe(v.string(), t.toZonedDateTime(messages.wrongTypeMessage), v.pipe(t.zonedDateTime(), ...actions)),
         ]),
       ),
     ],

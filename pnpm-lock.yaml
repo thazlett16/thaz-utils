@@ -36,6 +36,9 @@ catalogs:
     bumpp:
       specifier: ^11.0.1
       version: 11.0.1
+    dayjs:
+      specifier: ^1.11.20
+      version: 1.11.20
     eslint-plugin-react-hooks-extra:
       specifier: ^2.13.0
       version: 2.13.0
@@ -108,6 +111,58 @@ importers:
       vite-plus:
         specifier: 'catalog:'
         version: 0.1.15(@types/node@24.12.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
+
+  packages/form-dayjs-util:
+    dependencies:
+      '@thazstack/form-util':
+        specifier: 'workspace:'
+        version: link:../form-util
+    devDependencies:
+      '@js-temporal/polyfill':
+        specifier: 'catalog:'
+        version: 0.5.1
+      '@tanstack/react-form':
+        specifier: 'catalog:'
+        version: 1.28.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@thazstack/config':
+        specifier: 'workspace:'
+        version: link:../../tooling/config
+      '@thazstack/temporal-util':
+        specifier: 'workspace:'
+        version: link:../temporal-util
+      '@thazstack/temporal-valibot-util':
+        specifier: 'workspace:'
+        version: link:../temporal-valibot-util
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.12.0
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.3(@types/react@19.2.14)
+      bumpp:
+        specifier: 'catalog:'
+        version: 11.0.1
+      dayjs:
+        specifier: 'catalog:'
+        version: 1.11.20
+      react:
+        specifier: 'catalog:'
+        version: 19.2.4
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.4(react@19.2.4)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      valibot:
+        specifier: 'catalog:'
+        version: 1.3.1(typescript@5.9.3)
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.1.15(@types/node@24.12.0)(jiti@2.6.1)(typescript@5.9.3)(vite@8.0.2(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.8.3))(yaml@2.8.3)
 
   packages/form-util:
     devDependencies:
@@ -1369,6 +1424,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  dayjs@1.11.20:
+    resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -2682,6 +2740,8 @@ snapshots:
       which: 2.0.2
 
   csstype@3.2.3: {}
+
+  dayjs@1.11.20: {}
 
   debug@4.4.3:
     dependencies:
