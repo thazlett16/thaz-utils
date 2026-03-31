@@ -3,6 +3,7 @@ packages:
   - tooling/*
 
 catalog:
+  '@internationalized/date': ^3.12.0
   '@js-temporal/polyfill': ^0.5.1
   '@tanstack/eslint-plugin-query': ^5.96.0
   '@tanstack/eslint-plugin-router': ^1.161.6
