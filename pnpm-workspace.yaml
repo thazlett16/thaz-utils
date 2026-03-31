@@ -13,6 +13,7 @@ catalog:
   '@types/react': ^19
   '@types/react-dom': ^19
   bumpp: ^11.0.1
+  dayjs: ^1.11.20
   eslint-plugin-react-hooks-extra: ^2.13.0
   eslint-plugin-react-naming-convention: ^2.13.0
   eslint-plugin-react-web-api: ^2.13.0

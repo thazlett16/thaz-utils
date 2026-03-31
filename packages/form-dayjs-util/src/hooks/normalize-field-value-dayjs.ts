@@ -1,0 +1,61 @@
+import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
+import type { Dayjs } from 'dayjs';
+
+import { Temporal } from '@js-temporal/polyfill';
+import { useStore } from '@tanstack/react-form';
+import { useFieldContext } from '@thazstack/form-util';
+import { useMemo } from 'react';
+
+import { dayJS } from '#src/dayjs.config';
+
+export type FieldValueZonedDateTime =
+  | Temporal.ZonedDateTime
+  | Temporal.Instant
+  | Temporal.PlainDateTime
+  | Temporal.PlainDate
+  | Temporal.PlainTime
+  | null
+  | undefined;
+
+export function useNormalizeFieldValueZonedDateTime(options: ResolvedTimeZoneOptions) {
+  const field = useFieldContext<FieldValueZonedDateTime>();
+
+  const baseFieldValue = useStore(field.store, (state) => state.value);
+
+  return useMemo<null | Dayjs>(() => {
+    try {
+      if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+        return dayJS.utc(baseFieldValue.toInstant().toString()).tz(options.timeZone);
+      } else if (baseFieldValue instanceof Temporal.Instant) {
+        return dayJS.utc(baseFieldValue.toString()).tz(options.timeZone);
+      } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
+        return dayJS({
+          years: baseFieldValue.year,
+          months: baseFieldValue.month - 1,
+          dates: baseFieldValue.day,
+          hours: baseFieldValue.hour,
+          minutes: baseFieldValue.minute,
+          seconds: baseFieldValue.second,
+          milliseconds: baseFieldValue.millisecond,
+        }).tz(options.timeZone);
+      } else if (baseFieldValue instanceof Temporal.PlainDate) {
+        return dayJS({
+          years: baseFieldValue.year,
+          months: baseFieldValue.month - 1,
+          dates: baseFieldValue.day,
+        }).tz(options.timeZone);
+      } else if (baseFieldValue instanceof Temporal.PlainTime) {
+        return dayJS({
+          hours: baseFieldValue.hour,
+          minutes: baseFieldValue.minute,
+          seconds: baseFieldValue.second,
+          milliseconds: baseFieldValue.millisecond,
+        }).tz(options.timeZone);
+      }
+    } catch (error: unknown) {
+      console.error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', error);
+    }
+
+    return null;
+  }, [baseFieldValue, options]);
+}

@@ -1,19 +1,15 @@
+import type { ToPlainTimeIssue, ToPlainTimeAction as BaseToPlainTimeAction } from '@thazstack/temporal-valibot-util';
+
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
-export interface ToPlainTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.PlainTime> {
-  kind: 'transformation';
-  type: 'to_plain_time';
-  expected: null;
-}
+import { dayJS } from '#src/dayjs.config';
 
 export interface ToPlainTimeAction<
   TInput,
   TMessage extends v.ErrorMessage<ToPlainTimeIssue<TInput>> | undefined,
-> extends v.BaseTransformation<TInput, Temporal.PlainTime, ToPlainTimeIssue<TInput>> {
-  type: 'to_plain_time';
+> extends BaseToPlainTimeAction<TInput, TMessage> {
   reference: typeof toPlainTime;
-  message: TMessage;
 }
 
 /**
@@ -47,26 +43,8 @@ export function toPlainTime(
       const { value } = dataset;
 
       try {
-        if (typeof value === 'string') {
-          try {
-            dataset.value = Temporal.ZonedDateTime.from(value).toPlainTime();
-          } catch {
-            try {
-              dataset.value = Temporal.PlainDateTime.from(value).toPlainTime();
-            } catch {
-              try {
-                dataset.value = Temporal.PlainTime.from(value);
-              } catch {
-                v._addIssue(this, 'plainTime', dataset, config);
-                // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-                dataset.typed = false;
-              }
-            }
-          }
-        } else if (value instanceof Temporal.ZonedDateTime) {
-          dataset.value = value.toPlainTime();
-        } else if (value instanceof Temporal.PlainDateTime) {
-          dataset.value = value.toPlainTime();
+        if (dayJS.isDayjs(value)) {
+          dataset.value = new Temporal.PlainTime(value.hour(), value.minute(), value.second(), value.millisecond());
         } else if (!(value instanceof Temporal.PlainTime)) {
           v._addIssue(this, 'plainTime', dataset, config, {
             received: '"Invalid conversion option"',

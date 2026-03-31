@@ -1,19 +1,18 @@
+import type {
+  ToPlainDateTimeIssue,
+  ToPlainDateTimeAction as BaseToPlainDateTimeAction,
+} from '@thazstack/temporal-valibot-util';
+
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
-export interface ToPlainDateTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.PlainDateTime> {
-  kind: 'transformation';
-  type: 'to_plain_date_time';
-  expected: null;
-}
+import { dayJS } from '#src/dayjs.config';
 
 export interface ToPlainDateTimeAction<
   TInput,
   TMessage extends v.ErrorMessage<ToPlainDateTimeIssue<TInput>> | undefined,
-> extends v.BaseTransformation<TInput, Temporal.PlainDateTime, ToPlainDateTimeIssue<TInput>> {
-  type: 'to_plain_date_time';
+> extends BaseToPlainDateTimeAction<TInput, TMessage> {
   reference: typeof toPlainDateTime;
-  message: TMessage;
 }
 
 /**
@@ -48,29 +47,25 @@ export function toPlainDateTime(
       const { value } = dataset;
 
       try {
-        if (typeof value === 'string') {
-          try {
-            dataset.value = Temporal.ZonedDateTime.from(value).toPlainDateTime();
-          } catch {
-            try {
-              dataset.value = Temporal.PlainDateTime.from(value);
-            } catch {
-              v._addIssue(this, 'plainDateTime', dataset, config);
-              // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-              dataset.typed = false;
-            }
-          }
-        } else if (value instanceof Temporal.ZonedDateTime) {
-          dataset.value = value.toPlainDateTime();
+        if (dayJS.isDayjs(value)) {
+          dataset.value = new Temporal.PlainDateTime(
+            value.year(),
+            value.month() + 1,
+            value.date(),
+            value.hour(),
+            value.minute(),
+            value.second(),
+            value.millisecond(),
+          );
         } else if (!(value instanceof Temporal.PlainDateTime)) {
-          v._addIssue(this, 'plainDateTime', dataset, config, {
+          v._addIssue(this, 'plainDate', dataset, config, {
             received: '"Invalid conversion option"',
           });
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
         }
       } catch {
-        v._addIssue(this, 'plainDateTime', dataset, config);
+        v._addIssue(this, 'plainDate', dataset, config);
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }
