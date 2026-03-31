@@ -3,18 +3,16 @@ import { useMemo } from 'react';
 
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export type FieldValueString = string | number | null | undefined;
+export type FieldValueNumber = number | null | undefined;
 
-export function useNormalizeFieldValueString() {
-  const field = useFieldContext<FieldValueString>();
+export function useNormalizeFieldValueNumber() {
+  const field = useFieldContext<FieldValueNumber>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   return useMemo(() => {
-    if (typeof baseFieldValue === 'string') {
+    if (typeof baseFieldValue === 'number') {
       return baseFieldValue;
-    } else if (typeof baseFieldValue === 'number') {
-      return baseFieldValue.toString();
     }
 
     return null;
