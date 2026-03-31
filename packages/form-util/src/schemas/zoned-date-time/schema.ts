@@ -5,7 +5,11 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
-export type ZonedDateTimeAction = v.BaseValidation<Temporal.ZonedDateTime, Temporal.ZonedDateTime, v.BaseIssue<unknown>>;
+export type ZonedDateTimeAction = v.BaseValidation<
+  Temporal.ZonedDateTime,
+  Temporal.ZonedDateTime,
+  v.BaseIssue<unknown>
+>;
 
 export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...actions: ZonedDateTimeAction[]) {
   return v.union(
