@@ -1,6 +1,6 @@
 {
   "name": "@thazstack/oxfmt-config",
-  "version": "0.1.0",
+  "version": "0.1.0-rc.1",
   "description": "Oxfmt configuration for applications in my thaz namespace",
   "keywords": [
     "config",

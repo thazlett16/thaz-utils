@@ -11,13 +11,19 @@ export function useNormalizeFieldValueZonedDateTime() {
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<null | Temporal.ZonedDateTime>(() => {
+  return useMemo<Temporal.ZonedDateTime | null>(() => {
     try {
       if (baseFieldValue instanceof Temporal.ZonedDateTime) {
         return baseFieldValue;
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', error);
+      throw new Error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', { cause: error });
+    }
+
+    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
+      console.error('useNormalizeFieldValueZonedDateTime - Invalid type in context:', baseFieldValue);
+      throw new Error('useNormalizeFieldValueZonedDateTime - Invalid type in context');
     }
 
     return null;

@@ -1,6 +1,6 @@
 {
   "name": "@thazstack/form-util",
-  "version": "1.0.0",
+  "version": "0.1.0-rc.1",
   "description": "Valibot Utils for form state in thazstack applications",
   "keywords": [
     "form",

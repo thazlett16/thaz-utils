@@ -14,10 +14,11 @@ export type FieldValueZonedDateTime =
   | Temporal.PlainDateTime
   | Temporal.PlainDate
   | Temporal.PlainTime
+  | Dayjs
   | null
   | undefined;
 
-export function useNormalizeFieldValueZonedDateTime(options: ResolvedTimeZoneOptions) {
+export function useNormalizeFieldValueDayJS(options: ResolvedTimeZoneOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
@@ -51,9 +52,17 @@ export function useNormalizeFieldValueZonedDateTime(options: ResolvedTimeZoneOpt
           seconds: baseFieldValue.second,
           milliseconds: baseFieldValue.millisecond,
         }).tz(options.timeZone);
+      } else if (dayJS.isDayjs(baseFieldValue)) {
+        return baseFieldValue;
       }
     } catch (error: unknown) {
-      console.error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', error);
+      console.error('useNormalizeFieldValueDayJS - Failed to normalize value', error);
+      throw new Error('useNormalizeFieldValueDayJS - Failed to normalize value', { cause: error });
+    }
+
+    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
+      console.error('useNormalizeFieldValueDayJS - Invalid type in context:', baseFieldValue);
+      throw new Error('useNormalizeFieldValueDayJS - Invalid type in context');
     }
 
     return null;

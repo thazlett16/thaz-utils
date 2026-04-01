@@ -18,6 +18,11 @@ export function _plainTimeNullable(messages: FormWrongTypeMessage, ...actions: P
         v.pipe(t.plainTime(), ...actions),
       ),
       v.pipe(
+        t.plainDateTime(),
+        v.transform((val) => val.toPlainTime()),
+        v.pipe(t.plainTime(), ...actions),
+      ),
+      v.pipe(
         v.string(),
         v.trim(),
         v.union([

@@ -1,0 +1,21 @@
+import type { FieldValueString } from '@thazstack/form-util';
+
+import { useStore } from '@tanstack/react-form';
+import { useFieldContext } from '@thazstack/form-util';
+import { useMemo } from 'react';
+
+export function useNormalizeFieldValueString() {
+  const field = useFieldContext<FieldValueString>();
+
+  const baseFieldValue = useStore(field.store, (state) => state.value);
+
+  return useMemo<string | undefined>(() => {
+    if (typeof baseFieldValue === 'string') {
+      return baseFieldValue;
+    } else if (typeof baseFieldValue === 'number') {
+      return baseFieldValue.toString();
+    }
+
+    return undefined;
+  }, [baseFieldValue]);
+}
