@@ -58,14 +58,14 @@ export function toPlainDateTime(
             value.millisecond(),
           );
         } else if (!(value instanceof Temporal.PlainDateTime)) {
-          v._addIssue(this, 'plainDate', dataset, config, {
+          v._addIssue(this, 'plainDateTime', dataset, config, {
             received: '"Invalid conversion option"',
           });
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
         }
       } catch {
-        v._addIssue(this, 'plainDate', dataset, config);
+        v._addIssue(this, 'plainDateTime', dataset, config);
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }

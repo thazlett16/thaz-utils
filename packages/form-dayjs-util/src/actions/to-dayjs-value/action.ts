@@ -23,7 +23,7 @@ export interface ToDayJSAction<
 /**
  * Convert value to a DayJS.
  *
- * @returns A DayJS value.
+ * @returns DayJS value.
  */
 export function toDayJS<TInput>(): ToDayJSAction<TInput, undefined>;
 
@@ -32,7 +32,7 @@ export function toDayJS<TInput>(): ToDayJSAction<TInput, undefined>;
  *
  * @param message The error message.
  *
- * @returns A DayJS value.
+ * @returns DayJS value.
  */
 export function toDayJS<TInput, const TMessage extends v.ErrorMessage<ToDayJSIssue<TInput>> | undefined>(
   message: TMessage,
@@ -51,11 +51,7 @@ export function toDayJS(
       const { value } = dataset;
 
       try {
-        if (typeof value === 'string') {
-          dataset.value = dayJS(value);
-        } else if (value instanceof Date) {
-          dataset.value = dayJS(value);
-        } else if (value instanceof Temporal.ZonedDateTime) {
+        if (value instanceof Temporal.ZonedDateTime) {
           dataset.value = dayJS.utc(value.toInstant().toString()).tz(value.timeZoneId);
         } else if (value instanceof Temporal.Instant) {
           dataset.value = dayJS.utc(value.toString());

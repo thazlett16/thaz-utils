@@ -21,7 +21,7 @@ export interface IsDayJSValidAction<
 /**
  * Checks if Dayjs value is valid
  *
- * @returns A dayjs is valid check action.
+ * @returns Dayjs is valid check action.
  */
 export function isDayJSValid<TInput extends Dayjs>(): IsDayJSValidAction<TInput, undefined>;
 
@@ -30,7 +30,7 @@ export function isDayJSValid<TInput extends Dayjs>(): IsDayJSValidAction<TInput,
  *
  * @param message The error message.
  *
- * @returns A dayjs is valid check action.
+ * @returns Dayjs is valid check action.
  */
 export function isDayJSValid<TInput extends Dayjs, const TMessage extends v.ErrorMessage<IsDayJSValidIssue<TInput>>>(
   message: TMessage,
