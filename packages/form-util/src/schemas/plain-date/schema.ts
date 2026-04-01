@@ -18,6 +18,11 @@ export function _plainDateNullable(messages: FormWrongTypeMessage, ...actions: P
         v.pipe(t.plainDate(), ...actions),
       ),
       v.pipe(
+        t.plainDateTime(),
+        v.transform((val) => val.toPlainDate()),
+        v.pipe(t.plainDate(), ...actions),
+      ),
+      v.pipe(
         v.string(),
         v.trim(),
         v.union([

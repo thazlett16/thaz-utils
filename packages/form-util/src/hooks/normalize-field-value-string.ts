@@ -10,7 +10,7 @@ export function useNormalizeFieldValueString() {
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo(() => {
+  return useMemo<string | null>(() => {
     if (typeof baseFieldValue === 'string') {
       return baseFieldValue;
     } else if (typeof baseFieldValue === 'number') {

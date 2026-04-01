@@ -11,7 +11,7 @@ export function useNormalizeFieldValuePlainDateTime() {
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<null | Temporal.PlainDateTime>(() => {
+  return useMemo<Temporal.PlainDateTime | null>(() => {
     try {
       if (baseFieldValue instanceof Temporal.ZonedDateTime) {
         return baseFieldValue.toPlainDateTime();
@@ -20,6 +20,12 @@ export function useNormalizeFieldValuePlainDateTime() {
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValuePlainDateTime - Failed to normalize value', error);
+      throw new Error('useNormalizeFieldValuePlainDateTime - Failed to normalize value', { cause: error });
+    }
+
+    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
+      console.error('useNormalizeFieldValuePlainDateTime - Invalid type in context:', baseFieldValue);
+      throw new Error('useNormalizeFieldValuePlainDateTime - Invalid type in context');
     }
 
     return null;
