@@ -1,8 +1,26 @@
-import { oxfmtConfig } from '@thazstack/config/oxfmt';
-import { fullConfig } from '@thazstack/config/oxlint';
+import { oxfmtConfig } from '@thazstack/oxfmt-config';
+import { fullConfig } from '@thazstack/oxlint-config';
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
+  run: {
+    tasks: {
+      build: {
+        command: 'vp run build -r',
+      },
+      'build:no-cache': {
+        command: 'vp run build -r --no-cache',
+      },
+      check: {
+        command: 'vp check',
+        // dependsOn: ['@thazstack/config'],
+      },
+      'check:fix': {
+        command: 'vp check --fix',
+        // dependsOn: ['@thazstack/config'],
+      },
+    },
+  },
   lint: {
     extends: [fullConfig],
     options: { typeAware: true, typeCheck: true },

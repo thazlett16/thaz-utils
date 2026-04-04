@@ -48,7 +48,8 @@
     "bumpp": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",

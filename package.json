@@ -4,10 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vp run build -r",
-    "build:no-cache": "vp run build -r --no-cache",
-    "check": "vp check",
-    "check:fix": "vp check --fix",
     "taze": "vpx taze@latest -Ilwr",
     "taze:major": "vpx taze@latest major -Ilwr",
     "ready": "vp fmt && vp lint && vp run build -r"
@@ -15,7 +11,8 @@
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
     "@tanstack/eslint-plugin-router": "catalog:",
-    "@thazstack/config": "workspace:",
+    "@thazstack/oxfmt-config": "workspace:",
+    "@thazstack/oxlint-config": "workspace:",
     "@thazstack/typescript-config": "workspace:",
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",

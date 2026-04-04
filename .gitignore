@@ -13,6 +13,7 @@ build/
 dist/
 dist-ssr/
 .output/
+.tanstack/
 *.tgz
 
 # Test Outputs
@@ -22,7 +23,7 @@ playwright-report/
 blob-report/
 playwright/.cache/
 
-# Debug
+# Logs
 *.log*
 pnpm-debug.log*
 
