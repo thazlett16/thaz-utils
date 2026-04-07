@@ -1,3 +1,4 @@
+import type { FieldValuePlainDate } from '@thazstack/form-util';
 import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import {
@@ -10,19 +11,15 @@ import {
 } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
 export type FieldValueCalendarDate =
-  | Temporal.ZonedDateTime
+  | FieldValuePlainDate
   | Temporal.Instant
-  | Temporal.PlainDateTime
-  | Temporal.PlainDate
   | ZonedDateTime
   | CalendarDateTime
-  | CalendarDate
-  | null
-  | undefined;
+  | CalendarDate;
 
 export function useNormalizeFieldValueCalendarDate(options: ResolvedTimeZoneOptions) {
   const field = useFieldContext<FieldValueCalendarDate>();
@@ -48,7 +45,17 @@ export function useNormalizeFieldValueCalendarDate(options: ResolvedTimeZoneOpti
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValueCalendarDate - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValueCalendarDate - Failed to normalize value', { cause: error });
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDate - Failed to normalize value',
+      });
+    }
+
+    if (typeof baseFieldValue === 'string') {
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDate - Convert from string before passing into form',
+      });
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {

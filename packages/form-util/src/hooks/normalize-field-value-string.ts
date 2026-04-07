@@ -10,7 +10,7 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 type SchemaType = v.InferInput<ReturnType<typeof _stringNullable>>;
 
-export type FieldValueString = Exclude<SchemaType, string>;
+export type FieldValueString = SchemaType;
 
 export function useNormalizeFieldValueString() {
   const field = useFieldContext<SchemaType>();

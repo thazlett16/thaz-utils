@@ -1,3 +1,4 @@
+import type { FieldValuePlainDateTime } from '@thazstack/form-util';
 import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import {
@@ -9,17 +10,10 @@ import {
 } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
-export type FieldValueCalendarDateTime =
-  | Temporal.ZonedDateTime
-  | Temporal.Instant
-  | Temporal.PlainDateTime
-  | ZonedDateTime
-  | CalendarDateTime
-  | null
-  | undefined;
+export type FieldValueCalendarDateTime = FieldValuePlainDateTime | Temporal.Instant | ZonedDateTime | CalendarDateTime;
 
 export function useNormalizeFieldValueCalendarDateTime(options: ResolvedTimeZoneOptions) {
   const field = useFieldContext<FieldValueCalendarDateTime>();
@@ -41,12 +35,24 @@ export function useNormalizeFieldValueCalendarDateTime(options: ResolvedTimeZone
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValueCalendarDateTime - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValueCalendarDateTime - Failed to normalize value', { cause: error });
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDateTime - Failed to normalize value',
+      });
+    }
+
+    if (typeof baseFieldValue === 'string') {
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDateTime - Convert from string before passing into form',
+      });
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValueCalendarDateTime - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValueCalendarDateTime - Invalid type in context');
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDateTime - Invalid type in context',
+      });
     }
 
     return undefined;

@@ -12,8 +12,6 @@ export function useNormalizeFieldValueString() {
   return useMemo<string | undefined>(() => {
     if (typeof baseFieldValue === 'string') {
       return baseFieldValue;
-    } else if (typeof baseFieldValue === 'number') {
-      return baseFieldValue.toString();
     }
 
     return undefined;

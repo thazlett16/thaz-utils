@@ -6,8 +6,8 @@ import { useFormContext } from '#src/tanstack-form.config';
 
 export type FormShellProps = ComponentProps<'form'>;
 
-export function FormShell(props: FormShellProps) {
-  const { children, onSubmit, onReset, autoComplete = 'off', ...rest } = props;
+export function FormShell(props: Readonly<FormShellProps>) {
+  const { children, onSubmit, onReset, autoComplete, ...rest } = props;
 
   const formContext = useFormContext();
 
@@ -34,7 +34,7 @@ export function FormShell(props: FormShellProps) {
   return (
     <form
       {...rest}
-      autoComplete={autoComplete}
+      autoComplete={autoComplete ?? 'off'}
       onSubmit={onSubmit ?? defaultOnSubmit}
       onReset={onReset ?? defaultOnReset}
     >
