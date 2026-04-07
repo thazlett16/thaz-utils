@@ -2,6 +2,7 @@ import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 
 import type { TanStackRouterContext } from '#src/configs/tanstack-router';
 
+import { Devtools } from '#src/components/devtools';
 import * as m from '#src/paraglide/messages';
 
 export const Route = createRootRouteWithContext<TanStackRouterContext>()({
@@ -18,6 +19,7 @@ function RootComponent() {
         !
       </div>
       <Outlet />
+      <Devtools />
     </>
   );
 }

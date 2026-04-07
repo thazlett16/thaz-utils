@@ -1,4 +1,5 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
+import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 import viteJSPluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
@@ -26,7 +27,7 @@ export default defineConfig({
   // },
   base: '/playground-ui',
   plugins: [
-    // devtools(),
+    devtools(),
     // Eventually won't need this anymore. Doesn't work in dev though. Eventually should use `outputOptions.preserveModules`
     // https://github.com/vitejs/vite/issues/22047
     viteTSConfigPaths({ projects: ['./tsconfig.json'] }),
