@@ -48,6 +48,7 @@
     "bumpp": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
+    "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:",
     "vite-tsconfig-paths": "catalog:"
   },

@@ -52,6 +52,7 @@
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
+    "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:",
     "vite-tsconfig-paths": "catalog:"
   },
