@@ -2,6 +2,6 @@
 src/route-tree.gen.ts
 
 # paraglide
-project.inlang/
+project.inlang/*
 !project.inlang/settings.json
 paraglide/
