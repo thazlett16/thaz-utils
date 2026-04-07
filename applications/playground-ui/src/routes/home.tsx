@@ -5,5 +5,5 @@ export const Route = createFileRoute('/home')({
 });
 
 function RouteComponent() {
-  return <div>Hello &ldquo/home&rquo!</div>;
+  return <div>/home</div>;
 }

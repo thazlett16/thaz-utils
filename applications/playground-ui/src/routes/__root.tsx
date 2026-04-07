@@ -16,7 +16,6 @@ function RootComponent() {
         {m.example_message({
           userName: 'asdf',
         })}
-        !
       </div>
       <Outlet />
       <Devtools />
