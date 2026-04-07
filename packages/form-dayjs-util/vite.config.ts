@@ -1,3 +1,4 @@
+import vitePluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import viteTSConfigPaths from 'vite-tsconfig-paths';
 
@@ -21,14 +22,22 @@ export default defineConfig({
     // Eventually won't need this anymore. Doesn't work in dev though. Eventually should use `outputOptions.preserveModules`
     // https://github.com/vitejs/vite/issues/22047
     viteTSConfigPaths(),
-    // Don't think we need this one but should double-check.
-    // externalizeDeps(),
-    // Do I want this one/need? Not sure
-    // rollupPluginPreserveDirectives(),
-    // Don't think we need this one anymore? I'm getting the .d.mts files
-    // vitePluginDTS(),
-    // vitePluginReact(),
+    vitePluginReact(),
   ],
+  build: {
+    rolldownOptions: {
+      external: [
+        '@thazstack/form-util',
+        '@js-temporal/polyfill',
+        '@tanstack/react-form',
+        '@thazstack/temporal-util',
+        '@thazstack/temporal-valibot-util',
+        'dayjs',
+        'react',
+        'valibot',
+      ],
+    },
+  },
   pack: {
     dts: true,
     outputOptions: {

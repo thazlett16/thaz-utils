@@ -20,6 +20,9 @@ export function createRouter() {
     search: {
       strict: true,
     },
+    context: {
+      queryClient,
+    },
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
     defaultPendingMs: 700,
@@ -37,4 +40,10 @@ export function createRouter() {
       return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
     },
   });
+}
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: ReturnType<typeof createRouter>;
+  }
 }

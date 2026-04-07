@@ -55,10 +55,9 @@
     "@ts-rest/core": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "bumpp": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
     "vite-plus": "catalog:",
@@ -69,7 +68,6 @@
     "@thazstack/temporal-valibot-util": "workspace:",
     "@ts-rest/core": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:",
     "valibot": "catalog:"
   }
 }
