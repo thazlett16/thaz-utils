@@ -8,7 +8,7 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp pack',
-        dependsOn: ['@thazstack/temporal-util#build'],
+        dependsOn: ['@thazstack/temporal-valibot-util#build'],
       },
     },
   },
