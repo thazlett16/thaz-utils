@@ -1,4 +1,4 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "module_1example_message": "Hello world {userName}"
+  "module_1example_message": "Module1: Hello world {userName}"
 }
