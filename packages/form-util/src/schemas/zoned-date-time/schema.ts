@@ -15,6 +15,10 @@ export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...action
   return v.union(
     [
       v.null(),
+      v.pipe(
+        v.undefined(),
+        v.transform(() => null),
+      ),
       v.pipe(t.zonedDateTime(), ...actions),
       v.pipe(
         v.string(),

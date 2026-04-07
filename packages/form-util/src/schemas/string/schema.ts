@@ -9,6 +9,10 @@ export function _stringNullable(messages: FormWrongTypeMessage, ...actions: Stri
     [
       v.null(),
       v.pipe(
+        v.undefined(),
+        v.transform(() => null),
+      ),
+      v.pipe(
         v.string(),
         v.trim(),
         v.union([

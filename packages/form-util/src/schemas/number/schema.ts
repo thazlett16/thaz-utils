@@ -8,6 +8,10 @@ export function _numberNullable(messages: FormWrongTypeMessage, ...actions: Numb
   return v.union(
     [
       v.null(),
+      v.pipe(
+        v.undefined(),
+        v.transform(() => null),
+      ),
       v.pipe(v.number(), ...actions),
       v.pipe(
         v.string(),

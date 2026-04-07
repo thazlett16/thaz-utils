@@ -11,6 +11,10 @@ export function _instantNullable(messages: FormWrongTypeMessage, ...actions: Ins
   return v.union(
     [
       v.null(),
+      v.pipe(
+        v.undefined(),
+        v.transform(() => null),
+      ),
       v.pipe(t.instant(), ...actions),
       v.pipe(
         t.zonedDateTime(),
