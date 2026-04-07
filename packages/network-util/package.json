@@ -50,25 +50,24 @@
   },
   "devDependencies": {
     "@tanstack/react-query": "catalog:",
-    "@thazstack/config": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
+    "@thazstack/typescript-config": "workspace:",
     "@ts-rest/core": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "bumpp": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
   },
   "peerDependencies": {
     "@tanstack/react-query": "catalog:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "@ts-rest/core": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:",
     "valibot": "catalog:"
   }
 }

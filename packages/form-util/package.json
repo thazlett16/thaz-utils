@@ -44,18 +44,19 @@
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
     "@tanstack/react-form": "catalog:",
-    "@thazstack/config": "workspace:",
     "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
+    "@thazstack/typescript-config": "workspace:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "bumpp": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:",
+    "rollup-plugin-preserve-directives": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
@@ -63,7 +64,6 @@
     "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "react": "catalog:",
-    "react-dom": "catalog:",
     "valibot": "catalog:"
   }
 }
