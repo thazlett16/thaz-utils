@@ -48,6 +48,7 @@
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
     "@tanstack/react-form": "catalog:",
+    "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "@thazstack/typescript-config": "workspace:",
@@ -66,6 +67,7 @@
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
     "@tanstack/react-form": "catalog:",
+    "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "dayjs": "catalog:",

@@ -1,18 +1,20 @@
+import type * as v from 'valibot';
+
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
 import { useMemo } from 'react';
 
+import type { _plainTimeNullable } from '#src/schemas/plain-time/schema';
+
+import { FormConversionError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export type FieldValuePlainTime =
-  | Temporal.ZonedDateTime
-  | Temporal.PlainDateTime
-  | Temporal.PlainTime
-  | null
-  | undefined;
+type SchemaType = v.InferInput<ReturnType<typeof _plainTimeNullable>>;
+
+export type FieldValuePlainTime = Exclude<SchemaType, string>;
 
 export function useNormalizeFieldValuePlainTime() {
-  const field = useFieldContext<FieldValuePlainTime>();
+  const field = useFieldContext<SchemaType>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
@@ -27,12 +29,24 @@ export function useNormalizeFieldValuePlainTime() {
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValuePlainTime - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValuePlainTime - Failed to normalize value', { cause: error });
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValuePlainTime - Failed to normalize value',
+      });
+    }
+
+    if (typeof baseFieldValue === 'string') {
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValuePlainTime - Convert from string before passing into form',
+      });
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValuePlainTime - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValuePlainTime - Invalid type in context');
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValuePlainTime - Invalid type in context',
+      });
     }
 
     return null;

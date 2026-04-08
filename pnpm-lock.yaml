@@ -278,6 +278,9 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.28.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@tanstack/react-router':
+        specifier: 'catalog:'
+        version: 1.168.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@thazstack/temporal-util':
         specifier: 'workspace:'
         version: link:../temporal-util
@@ -336,6 +339,9 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.28.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@tanstack/react-router':
+        specifier: 'catalog:'
+        version: 1.168.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@thazstack/temporal-util':
         specifier: 'workspace:'
         version: link:../temporal-util
@@ -384,6 +390,9 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.28.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@tanstack/react-router':
+        specifier: 'catalog:'
+        version: 1.168.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@thazstack/temporal-util':
         specifier: 'workspace:'
         version: link:../temporal-util

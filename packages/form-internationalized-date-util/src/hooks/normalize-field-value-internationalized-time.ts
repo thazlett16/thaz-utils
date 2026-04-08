@@ -1,21 +1,13 @@
+import type { FieldValuePlainTime } from '@thazstack/form-util';
 import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import { ZonedDateTime, parseZonedDateTime, toTime, Time, parseTime, CalendarDateTime } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
-export type FieldValueTime =
-  | Temporal.ZonedDateTime
-  | Temporal.Instant
-  | Temporal.PlainDateTime
-  | Temporal.PlainTime
-  | ZonedDateTime
-  | CalendarDateTime
-  | Time
-  | null
-  | undefined;
+export type FieldValueTime = FieldValuePlainTime | Temporal.Instant | ZonedDateTime | CalendarDateTime | Time;
 
 export function useNormalizeFieldValueTime(options: ResolvedTimeZoneOptions) {
   const field = useFieldContext<FieldValueTime>();
@@ -41,12 +33,24 @@ export function useNormalizeFieldValueTime(options: ResolvedTimeZoneOptions) {
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValueTime - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValueTime - Failed to normalize value', { cause: error });
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueTime - Failed to normalize value',
+      });
+    }
+
+    if (typeof baseFieldValue === 'string') {
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueTime - Convert from string before passing into form',
+      });
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValueTime - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValueTime - Invalid type in context');
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueTime - Invalid type in context',
+      });
     }
 
     return undefined;

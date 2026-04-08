@@ -1,5 +1,6 @@
 export * from './can-submit';
 export * from './field-error-message';
+export * from './prompt-unsaved';
 export * from './time-zone-options';
 
 export * from './normalize-field-value-instant';

@@ -1,12 +1,13 @@
+import type { FieldValueInstant } from '@thazstack/form-util';
 import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import { ZonedDateTime, parseZonedDateTime } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
-export type FieldValueZonedDateTime = Temporal.ZonedDateTime | Temporal.Instant | ZonedDateTime | null | undefined;
+export type FieldValueZonedDateTime = FieldValueInstant | ZonedDateTime | null | undefined;
 
 export function useNormalizeFieldValueZonedDateTime(options: ResolvedTimeZoneOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
@@ -24,12 +25,24 @@ export function useNormalizeFieldValueZonedDateTime(options: ResolvedTimeZoneOpt
       }
     } catch (error: unknown) {
       console.error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValueZonedDateTime - Failed to normalize value', { cause: error });
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueZonedDateTime - Failed to normalize value',
+      });
+    }
+
+    if (typeof baseFieldValue === 'string') {
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueZonedDateTime - Convert from string before passing into form',
+      });
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValueZonedDateTime - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValueZonedDateTime - Invalid type in context');
+      throw new FormConversionError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueZonedDateTime - Invalid type in context',
+      });
     }
 
     return undefined;

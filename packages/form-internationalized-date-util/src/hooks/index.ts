@@ -3,8 +3,9 @@ export type {
   ResolvedCanSubmitOptions,
   FieldValueNumber,
   FieldValueString,
+  PromptUnsavedProps,
 } from '@thazstack/form-util';
-export { useCanSubmit, useFieldErrorMessageList, useTimeZoneOptions } from '@thazstack/form-util';
+export { useCanSubmit, useFieldErrorMessageList, usePromptUnsaved, useTimeZoneOptions } from '@thazstack/form-util';
 
 export * from './normalize-field-value-internationalized-calendar-date';
 export * from './normalize-field-value-internationalized-calendar-date-time';

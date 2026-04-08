@@ -15,6 +15,10 @@ export function _plainDateTimeNullable(messages: FormWrongTypeMessage, ...action
   return v.union(
     [
       v.null(),
+      v.pipe(
+        v.undefined(),
+        v.transform(() => null),
+      ),
       v.pipe(t.plainDateTime(), ...actions),
       v.pipe(
         t.zonedDateTime(),
