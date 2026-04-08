@@ -1,4 +1,4 @@
-import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
+import type { TimeZoneOptions } from '@thazstack/temporal-util';
 
 import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
@@ -8,8 +8,10 @@ import { isDayJSValid } from '#src/actions/is-dayjs-valid/action';
 import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value/action';
 import { dayjs } from '#src/schemas/dayjs/schema';
 
+export type ZonedDateTimeOptions = Required<TimeZoneOptions>;
+
 export function _zonedDateTimeNullable(
-  options: ResolvedTimeZoneOptions,
+  options: ZonedDateTimeOptions,
   messages: f.FormWrongTypeMessage,
   ...actions: f.ZonedDateTimeAction[]
 ) {
@@ -28,7 +30,7 @@ export function _zonedDateTimeNullable(
 }
 
 export function _zonedDateTimeRequired(
-  options: ResolvedTimeZoneOptions,
+  options: ZonedDateTimeOptions,
   messages: f.FormRequiredMessage,
   ...actions: f.ZonedDateTimeAction[]
 ) {
@@ -39,7 +41,7 @@ export function _zonedDateTimeRequired(
  *
  */
 export function zonedDateTime(
-  options: ResolvedTimeZoneOptions,
+  options: ZonedDateTimeOptions,
   messages: f.FormWrongTypeMessage,
   ...actions: f.ZonedDateTimeAction[]
 ): ReturnType<typeof _zonedDateTimeNullable>;
@@ -48,13 +50,13 @@ export function zonedDateTime(
  *
  */
 export function zonedDateTime(
-  options: ResolvedTimeZoneOptions,
+  options: ZonedDateTimeOptions,
   messages: f.FormRequiredMessage,
   ...actions: f.ZonedDateTimeAction[]
 ): ReturnType<typeof _zonedDateTimeRequired>;
 
 export function zonedDateTime(
-  options: ResolvedTimeZoneOptions,
+  options: ZonedDateTimeOptions,
   messages: f.FormWrongTypeMessage | f.FormRequiredMessage,
   ...actions: f.ZonedDateTimeAction[]
 ) {

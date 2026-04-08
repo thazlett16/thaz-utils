@@ -1,15 +1,14 @@
 import type { FieldValuePlainTime } from '@thazstack/form-util';
-import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import { ZonedDateTime, parseZonedDateTime, toTime, Time, parseTime, CalendarDateTime } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext, FormConversionError } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
 export type FieldValueTime = FieldValuePlainTime | Temporal.Instant | ZonedDateTime | CalendarDateTime | Time;
 
-export function useNormalizeFieldValueTime(options: ResolvedTimeZoneOptions) {
+export function useNormalizeFieldValueTime() {
   const field = useFieldContext<FieldValueTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
@@ -18,8 +17,6 @@ export function useNormalizeFieldValueTime(options: ResolvedTimeZoneOptions) {
     try {
       if (baseFieldValue instanceof Temporal.ZonedDateTime) {
         return toTime(parseZonedDateTime(baseFieldValue.toString()));
-      } else if (baseFieldValue instanceof Temporal.Instant) {
-        return toTime(parseZonedDateTime(baseFieldValue.toZonedDateTimeISO(options.timeZone).toString()));
       } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
         return parseTime(baseFieldValue.toPlainTime().toString());
       } else if (baseFieldValue instanceof Temporal.PlainTime) {
@@ -32,27 +29,23 @@ export function useNormalizeFieldValueTime(options: ResolvedTimeZoneOptions) {
         return baseFieldValue;
       }
     } catch (error: unknown) {
-      console.error('useNormalizeFieldValueTime - Failed to normalize value', error);
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueTime - Failed to normalize value',
-      });
-    }
-
-    if (typeof baseFieldValue === 'string') {
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueTime - Convert from string before passing into form',
-      });
+      throw new FormConversionError(
+        {
+          message: 'useNormalizeFieldValueTime - Failed to normalize value',
+        },
+        {
+          cause: error,
+        },
+      );
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormConversionError({
+      throw new FormTypeError({
         data: baseFieldValue,
         message: 'useNormalizeFieldValueTime - Invalid type in context',
       });
     }
 
     return undefined;
-  }, [baseFieldValue, options]);
+  }, [baseFieldValue]);
 }

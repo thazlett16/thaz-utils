@@ -1,5 +1,4 @@
 import type { FieldValuePlainDate } from '@thazstack/form-util';
-import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
 
 import {
   ZonedDateTime,
@@ -11,17 +10,12 @@ import {
 } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext, FormConversionError } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
-export type FieldValueCalendarDate =
-  | FieldValuePlainDate
-  | Temporal.Instant
-  | ZonedDateTime
-  | CalendarDateTime
-  | CalendarDate;
+export type FieldValueCalendarDate = FieldValuePlainDate | ZonedDateTime | CalendarDateTime | CalendarDate;
 
-export function useNormalizeFieldValueCalendarDate(options: ResolvedTimeZoneOptions) {
+export function useNormalizeFieldValueCalendarDate() {
   const field = useFieldContext<FieldValueCalendarDate>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
@@ -30,8 +24,6 @@ export function useNormalizeFieldValueCalendarDate(options: ResolvedTimeZoneOpti
     try {
       if (baseFieldValue instanceof Temporal.ZonedDateTime) {
         return toCalendarDate(parseZonedDateTime(baseFieldValue.toString()));
-      } else if (baseFieldValue instanceof Temporal.Instant) {
-        return toCalendarDate(parseZonedDateTime(baseFieldValue.toZonedDateTimeISO(options.timeZone).toString()));
       } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
         return parseDate(baseFieldValue.toPlainDate().toString());
       } else if (baseFieldValue instanceof Temporal.PlainDate) {
@@ -44,25 +36,23 @@ export function useNormalizeFieldValueCalendarDate(options: ResolvedTimeZoneOpti
         return baseFieldValue;
       }
     } catch (error: unknown) {
-      console.error('useNormalizeFieldValueCalendarDate - Failed to normalize value', error);
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueCalendarDate - Failed to normalize value',
-      });
-    }
-
-    if (typeof baseFieldValue === 'string') {
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueCalendarDate - Convert from string before passing into form',
-      });
+      throw new FormConversionError(
+        {
+          message: 'useNormalizeFieldValueCalendarDate - Failed to normalize value',
+        },
+        {
+          cause: error,
+        },
+      );
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValueCalendarDate - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValueCalendarDate - Invalid type in context');
+      throw new FormTypeError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueCalendarDate - Invalid type in context',
+      });
     }
 
     return undefined;
-  }, [baseFieldValue, options]);
+  }, [baseFieldValue]);
 }

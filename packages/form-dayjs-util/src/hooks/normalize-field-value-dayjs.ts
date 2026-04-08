@@ -1,9 +1,9 @@
-import type { ResolvedTimeZoneOptions } from '@thazstack/temporal-util';
+import type { TimeZoneOptions } from '@thazstack/temporal-util';
 import type { Dayjs } from 'dayjs';
 
 import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@thazstack/form-util';
+import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
 import { useMemo } from 'react';
 
 import { dayJS } from '#src/dayjs.config';
@@ -18,7 +18,9 @@ export type FieldValueZonedDateTime =
   | null
   | undefined;
 
-export function useNormalizeFieldValueDayJS(options: ResolvedTimeZoneOptions) {
+export type NormalizeFieldValueDayJSOptions = Required<TimeZoneOptions>;
+
+export function useNormalizeFieldValueDayJS(options: NormalizeFieldValueDayJSOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
@@ -56,13 +58,21 @@ export function useNormalizeFieldValueDayJS(options: ResolvedTimeZoneOptions) {
         return baseFieldValue;
       }
     } catch (error: unknown) {
-      console.error('useNormalizeFieldValueDayJS - Failed to normalize value', error);
-      throw new Error('useNormalizeFieldValueDayJS - Failed to normalize value', { cause: error });
+      throw new FormConversionError(
+        {
+          message: 'useNormalizeFieldValueDayJS - Failed to normalize value',
+        },
+        {
+          cause: error,
+        },
+      );
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      console.error('useNormalizeFieldValueDayJS - Invalid type in context:', baseFieldValue);
-      throw new Error('useNormalizeFieldValueDayJS - Invalid type in context');
+      throw new FormTypeError({
+        data: baseFieldValue,
+        message: 'useNormalizeFieldValueDayJS - Invalid type in context',
+      });
     }
 
     return null;
