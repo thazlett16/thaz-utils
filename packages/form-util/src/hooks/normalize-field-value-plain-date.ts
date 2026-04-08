@@ -6,15 +6,13 @@ import { useMemo } from 'react';
 
 import type { _plainDateNullable } from '#src/schemas/plain-date/schema';
 
-import { FormConversionError } from '#src/error';
+import { FormConversionError, FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-type SchemaType = v.InferInput<ReturnType<typeof _plainDateNullable>>;
-
-export type FieldValuePlainDate = Exclude<SchemaType, string>;
+export type FieldValuePlainDate = v.InferInput<ReturnType<typeof _plainDateNullable>>;
 
 export function useNormalizeFieldValuePlainDate() {
-  const field = useFieldContext<SchemaType>();
+  const field = useFieldContext<FieldValuePlainDate>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
@@ -28,22 +26,16 @@ export function useNormalizeFieldValuePlainDate() {
         return baseFieldValue;
       }
     } catch (error: unknown) {
-      console.error('useNormalizeFieldValuePlainDate - Failed to normalize value', error);
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValuePlainDate - Failed to normalize value',
-      });
-    }
-
-    if (typeof baseFieldValue === 'string') {
-      throw new FormConversionError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValuePlainDate - Convert from string before passing into form',
-      });
+      throw new FormConversionError(
+        {
+          message: 'useNormalizeFieldValuePlainDate - Failed to normalize value',
+        },
+        { cause: error },
+      );
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormConversionError({
+      throw new FormTypeError({
         data: baseFieldValue,
         message: 'useNormalizeFieldValuePlainDate - Invalid type in context',
       });

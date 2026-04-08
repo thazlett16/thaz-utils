@@ -25,17 +25,6 @@ export function _plainDateTimeNullable(messages: FormWrongTypeMessage, ...action
         v.transform((val) => val.toPlainDateTime()),
         v.pipe(t.plainDateTime(), ...actions),
       ),
-      v.pipe(
-        v.string(),
-        v.trim(),
-        v.union([
-          v.pipe(
-            v.literal(''),
-            v.transform(() => null),
-          ),
-          v.pipe(v.string(), t.toPlainDateTime(messages.wrongTypeMessage), v.pipe(t.plainDateTime(), ...actions)),
-        ]),
-      ),
     ],
     messages.wrongTypeMessage,
   );

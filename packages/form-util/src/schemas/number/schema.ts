@@ -12,23 +12,7 @@ export function _numberNullable(messages: FormWrongTypeMessage, ...actions: Numb
         v.undefined(),
         v.transform(() => null),
       ),
-      v.pipe(v.number(), ...actions),
-      v.pipe(
-        v.string(),
-        v.trim(),
-        v.union([
-          v.pipe(
-            v.literal(''),
-            v.transform(() => null),
-          ),
-          v.pipe(
-            v.string(),
-            v.decimal(messages.wrongTypeMessage),
-            v.toNumber(messages.wrongTypeMessage),
-            v.pipe(v.number(), ...actions),
-          ),
-        ]),
-      ),
+      v.pipe(v.number(), v.finite(messages.wrongTypeMessage), ...actions),
     ],
     messages.wrongTypeMessage,
   );
