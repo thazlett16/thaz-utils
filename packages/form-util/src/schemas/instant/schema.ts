@@ -21,17 +21,6 @@ export function _instantNullable(messages: FormWrongTypeMessage, ...actions: Ins
         v.transform((val) => val.toInstant()),
         v.pipe(t.instant(), ...actions),
       ),
-      v.pipe(
-        v.string(),
-        v.trim(),
-        v.union([
-          v.pipe(
-            v.literal(''),
-            v.transform(() => null),
-          ),
-          v.pipe(v.string(), t.toInstant(messages.wrongTypeMessage), v.pipe(t.instant(), ...actions)),
-        ]),
-      ),
     ],
     messages.wrongTypeMessage,
   );

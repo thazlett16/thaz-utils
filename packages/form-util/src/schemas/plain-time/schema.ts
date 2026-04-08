@@ -26,17 +26,6 @@ export function _plainTimeNullable(messages: FormWrongTypeMessage, ...actions: P
         v.transform((val) => val.toPlainTime()),
         v.pipe(t.plainTime(), ...actions),
       ),
-      v.pipe(
-        v.string(),
-        v.trim(),
-        v.union([
-          v.pipe(
-            v.literal(''),
-            v.transform(() => null),
-          ),
-          v.pipe(v.string(), t.toPlainTime(messages.wrongTypeMessage), v.pipe(t.plainTime(), ...actions)),
-        ]),
-      ),
     ],
     messages.wrongTypeMessage,
   );

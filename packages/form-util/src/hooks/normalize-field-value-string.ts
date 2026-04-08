@@ -5,15 +5,13 @@ import { useMemo } from 'react';
 
 import type { _stringNullable } from '#src/schemas/string/schema';
 
-import { FormConversionError } from '#src/error';
+import { FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-type SchemaType = v.InferInput<ReturnType<typeof _stringNullable>>;
-
-export type FieldValueString = SchemaType;
+export type FieldValueString = v.InferInput<ReturnType<typeof _stringNullable>>;
 
 export function useNormalizeFieldValueString() {
-  const field = useFieldContext<SchemaType>();
+  const field = useFieldContext<FieldValueString>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
@@ -23,7 +21,7 @@ export function useNormalizeFieldValueString() {
     }
 
     if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormConversionError({
+      throw new FormTypeError({
         data: baseFieldValue,
         message: 'useNormalizeFieldValueString - Invalid type in context',
       });

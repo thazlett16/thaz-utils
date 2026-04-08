@@ -7,10 +7,8 @@ export interface CanSubmitOptions {
   allowSubmitWhenInvalid?: boolean;
 }
 
-export type ResolvedCanSubmitOptions = Required<CanSubmitOptions>;
-
-export function useCanSubmit(options?: CanSubmitOptions) {
-  const resolvedCanSubmitOptions = useMemo<ResolvedCanSubmitOptions>(() => {
+export function useCanSubmit(options?: Readonly<CanSubmitOptions>) {
+  const resolvedCanSubmitOptions = useMemo<Required<CanSubmitOptions>>(() => {
     return {
       allowSubmitWhenInvalid: options?.allowSubmitWhenInvalid ?? false,
     };
