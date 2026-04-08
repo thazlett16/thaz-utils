@@ -15,7 +15,7 @@ export function createRouter() {
 
   return tanStackCreateRouter({
     routeTree,
-    basepath: '/playground-ui',
+    basepath: '/playground-base-ui',
     routeMasks: [],
     search: {
       strict: true,
