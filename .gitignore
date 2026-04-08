@@ -1,0 +1,41 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules/
+
+# Local env files
+.env*
+!.env.example
+*.local
+
+# Build Outputs
+build/
+dist/
+dist-ssr/
+.output/
+.vinxi/
+.nx/
+*.tgz
+
+# Test Outputs
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Debug
+*.log*
+npm-debug.log*
+pnpm-debug.log*
+
+# Extra Folders
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

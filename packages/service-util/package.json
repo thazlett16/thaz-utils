@@ -1,0 +1,72 @@
+{
+    "name": "@thazstack/service-util",
+    "version": "1.0.0",
+    "description": "Service utils for fetching data in thazstack applications",
+    "keywords": [
+        "fetch",
+        "service",
+        "temporal",
+        "valibot"
+    ],
+    "homepage": "https://github.com/thazlett16/thaz-utils#readme",
+    "bugs": {
+        "url": "https://github.com/thazlett16/thaz-utils/issues"
+    },
+    "license": "MIT",
+    "author": "Tim Hazlett",
+    "contributors": [
+        {
+            "name": "Tim Hazlett",
+            "email": "timhazlett2016@gmail.com"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thazlett16/thaz-utils.git",
+        "directory": "packages/service-util"
+    },
+    "files": [
+        "dist",
+        "src"
+    ],
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.mts",
+            "import": "./dist/index.mjs"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "check": "vp check",
+        "check:fix": "vp check --fix",
+        "prepack": "vp pack"
+    },
+    "dependencies": {
+        "spin-delay": "catalog:",
+        "use-deep-compare": "catalog:"
+    },
+    "devDependencies": {
+        "@tanstack/react-query": "catalog:",
+        "@thazstack/config": "workspace:",
+        "@thazstack/temporal-valibot-util": "workspace:",
+        "@ts-rest/core": "catalog:",
+        "@types/node": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "catalog:",
+        "bumpp": "catalog:",
+        "react": "catalog:",
+        "react-dom": "catalog:",
+        "typescript": "catalog:",
+        "valibot": "catalog:",
+        "vite-plus": "catalog:"
+    },
+    "peerDependencies": {
+        "@tanstack/react-query": "catalog:",
+        "@thazstack/temporal-valibot-util": "workspace:",
+        "@ts-rest/core": "catalog:",
+        "react": "catalog:",
+        "react-dom": "catalog:",
+        "valibot": "catalog:"
+    }
+}

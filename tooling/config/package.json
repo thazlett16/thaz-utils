@@ -1,0 +1,104 @@
+{
+    "name": "@thazstack/config",
+    "version": "1.0.0",
+    "description": "Configuration for thazstack applications",
+    "keywords": [
+        "config",
+        "oxfmt",
+        "oxlint",
+        "typescript"
+    ],
+    "homepage": "https://github.com/thazlett16/thaz-utils#readme",
+    "bugs": {
+        "url": "https://github.com/thazlett16/thaz-utils/issues"
+    },
+    "license": "MIT",
+    "author": "Tim Hazlett",
+    "contributors": [
+        {
+            "name": "Tim Hazlett",
+            "email": "timhazlett2016@gmail.com"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thazlett16/thaz-utils.git",
+        "directory": "tooling/config"
+    },
+    "files": [
+        "typescript-configs",
+        "dist",
+        "src"
+    ],
+    "type": "module",
+    "exports": {
+        "./oxfmt": {
+            "types": "./dist/oxfmt.d.mts",
+            "import": "./dist/oxfmt.mjs"
+        },
+        "./oxlint": {
+            "types": "./dist/oxlint.d.mts",
+            "import": "./dist/oxlint.mjs"
+        },
+        "./package.json": "./package.json",
+        "./bundler-dom": "./typescript-configs/bundler-dom.json",
+        "./bundler-dom-react": "./typescript-configs/bundler-dom-react.json",
+        "./bundler-no-dom": "./typescript-configs/bundler-no-dom.json"
+    },
+    "scripts": {
+        "check": "vp check",
+        "check:fix": "vp check --fix",
+        "prepack": "vp pack"
+    },
+    "devDependencies": {
+        "@tanstack/eslint-plugin-query": "catalog:",
+        "@tanstack/eslint-plugin-router": "catalog:",
+        "@types/node": "catalog:",
+        "bumpp": "catalog:",
+        "eslint-plugin-react-hooks-extra": "catalog:",
+        "eslint-plugin-react-naming-convention": "catalog:",
+        "eslint-plugin-react-web-api": "catalog:",
+        "oxfmt": "catalog:",
+        "oxlint": "catalog:",
+        "oxlint-tsgolint": "catalog:",
+        "typescript": "catalog:",
+        "vite-plus": "catalog:"
+    },
+    "peerDependencies": {
+        "@tanstack/eslint-plugin-query": "catalog:",
+        "@tanstack/eslint-plugin-router": "catalog:",
+        "eslint-plugin-react-hooks-extra": "catalog:",
+        "eslint-plugin-react-naming-convention": "catalog:",
+        "eslint-plugin-react-web-api": "catalog:",
+        "oxfmt": "catalog:",
+        "oxlint": "catalog:",
+        "oxlint-tsgolint": "catalog:",
+        "typescript": "catalog:"
+    },
+    "peerDependenciesMeta": {
+        "@tanstack/eslint-plugin-query": {
+            "optional": true
+        },
+        "@tanstack/eslint-plugin-router": {
+            "optional": true
+        },
+        "eslint-plugin-react-hooks-extra": {
+            "optional": true
+        },
+        "eslint-plugin-react-naming-convention": {
+            "optional": true
+        },
+        "eslint-plugin-react-web-api": {
+            "optional": true
+        },
+        "oxfmt": {
+            "optional": true
+        },
+        "oxlint": {
+            "optional": true
+        },
+        "oxlint-tsgolint": {
+            "optional": true
+        }
+    }
+}
