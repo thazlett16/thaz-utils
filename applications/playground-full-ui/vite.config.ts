@@ -36,7 +36,6 @@ export default defineConfig({
       outdir: './src/paraglide',
       emitTsDeclarations: true,
       emitPrettierIgnore: false,
-      emitGitIgnore: false,
       strategy: ['cookie', 'preferredLanguage', 'localStorage', 'baseLocale'],
     }),
     tanStackRouterPluginVite({
