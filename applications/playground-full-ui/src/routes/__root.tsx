@@ -12,16 +12,19 @@ export const Route = createRootRouteWithContext<TanStackRouterContext>()({
 function RootComponent() {
   return (
     <>
+      <div>/__root</div>
+      <Outlet />
+      <Devtools />
       <div>
         {m.example_message({
           userName: 'asdf',
         })}
+      </div>
+      <div>
         {m.module_1example_message({
           userName: 'asdf',
         })}
       </div>
-      <Outlet />
-      <Devtools />
     </>
   );
 }
