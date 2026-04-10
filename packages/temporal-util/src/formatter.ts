@@ -44,12 +44,15 @@ export function resolveDateFormatterOptions(options?: Partial<DateFormatterOptio
 }
 
 /**
- * Preferred entry point for date-only formatting with Temporal objects.
+ * Use when you need to display only the date portion of a Temporal value.
  * Uses `@js-temporal/polyfill`'s `Intl` rather than native `Intl` because only
- * the polyfill's formatter understands `Temporal.PlainDate` and related types.
+ * the polyfill's formatter understands Temporal types.
+ *
+ * Compatible with `Temporal.PlainDate`, `Temporal.PlainDateTime`, and
+ * `Temporal.ZonedDateTime` (date portion only).
  *
  * @param options - Optional date and locale format options.
- * @returns A `TemporalIntl.DateTimeFormat` instance configured for date output.
+ * @returns A `TemporalIntl.DateTimeFormat` instance configured for date-only output.
  * @see {@link buildTimeFormatter}
  * @see {@link buildDateTimeFormatter}
  */
@@ -62,18 +65,22 @@ export function buildDateFormatter(options?: Partial<DateFormatterOptions> & Par
   });
 }
 
-/** Time portion of `Intl.DateTimeFormatOptions`, all fields required. */
+/**
+ * Time portion of `Intl.DateTimeFormatOptions`, scoped to the three display fields.
+ * `timeZoneName` is intentionally excluded so formatters built from this interface
+ * are always safe to use with `Temporal.PlainTime`, which throws if any time zone
+ * option is present.
+ */
 export interface TimeFormatterOptions {
   hour: NonNullable<Intl.DateTimeFormatOptions['hour']>;
   minute: NonNullable<Intl.DateTimeFormatOptions['minute']>;
   second: NonNullable<Intl.DateTimeFormatOptions['second']>;
-  timeZoneName: NonNullable<Intl.DateTimeFormatOptions['timeZoneName']>;
 }
 
 /**
  * Provides opinionated time display defaults.
  *
- * Defaults: `hour: "2-digit"`, `minute: "2-digit"`, `second: "2-digit"`, `timeZoneName: "short"`.
+ * Defaults: `hour: "2-digit"`, `minute: "2-digit"`, `second: "2-digit"`.
  *
  * @param options - Partial time format options to resolve.
  * @returns Resolved {@link TimeFormatterOptions} with all fields populated.
@@ -83,17 +90,20 @@ export function resolveTimeFormatterOptions(options?: Partial<TimeFormatterOptio
     hour: options?.hour ?? '2-digit',
     minute: options?.minute ?? '2-digit',
     second: options?.second ?? '2-digit',
-    timeZoneName: options?.timeZoneName ?? 'short',
   } satisfies TimeFormatterOptions;
 }
 
 /**
- * Preferred entry point for time-only formatting with Temporal objects.
- * Uses `@js-temporal/polyfill`'s `Intl` rather than native `Intl` because only
- * the polyfill's formatter understands `Temporal.PlainTime` and related types.
+ * Use when you need to display only the time portion of a Temporal value without
+ * any timezone context. Uses `@js-temporal/polyfill`'s `Intl` rather than native
+ * `Intl` because only the polyfill's formatter understands Temporal types.
+ *
+ * Compatible with `Temporal.PlainTime` and `Temporal.PlainDateTime`. Do **not**
+ * use for `Temporal.ZonedDateTime` when the zone should be visible — use
+ * {@link buildDateTimeFormatter} instead.
  *
  * @param options - Optional time and locale format options.
- * @returns A `TemporalIntl.DateTimeFormat` instance configured for time output.
+ * @returns A `TemporalIntl.DateTimeFormat` instance configured for time-only output.
  * @see {@link buildDateFormatter}
  * @see {@link buildDateTimeFormatter}
  */
@@ -107,24 +117,55 @@ export function buildTimeFormatter(options?: Partial<TimeFormatterOptions> & Par
 }
 
 /**
- * Preferred entry point for combined date+time formatting with Temporal objects.
- * Uses `@js-temporal/polyfill`'s `Intl` rather than native `Intl` because only
- * the polyfill's formatter understands `Temporal.ZonedDateTime` and related types.
+ * Controls how the IANA time zone abbreviation is rendered in
+ * {@link TemporalIntl.DateTimeFormat} output. Required by {@link buildDateTimeFormatter}
+ * to guarantee the zone is always visible when formatting a `Temporal.ZonedDateTime`.
+ */
+export interface TimeZoneNameFormatterOptions {
+  timeZoneName: NonNullable<Intl.DateTimeFormatOptions['timeZoneName']>;
+}
+
+/**
+ * Provides an opinionated default for time zone name display.
  *
- * @param options - Optional date, time, and locale format options.
- * @returns A `TemporalIntl.DateTimeFormat` instance configured for date+time output.
+ * Default: `timeZoneName: "short"` (e.g. `"EST"`, `"PDT"`).
+ *
+ * @param options - Partial time zone name options to resolve.
+ * @returns Resolved {@link TimeZoneNameFormatterOptions} with a guaranteed `timeZoneName` value.
+ */
+export function resolveTimeZoneNameFormatterOptions(options?: Partial<TimeZoneNameFormatterOptions>) {
+  return {
+    timeZoneName: options?.timeZoneName ?? 'short',
+  } satisfies TimeZoneNameFormatterOptions;
+}
+
+/**
+ * Use when you need to display both date and time alongside the time zone for a
+ * `Temporal.ZonedDateTime`. Uses `@js-temporal/polyfill`'s `Intl` rather than
+ * native `Intl` because only the polyfill's formatter understands Temporal types.
+ *
+ * **Important:** because `timeZoneName` is always included (defaulting to `"short"`
+ * via {@link resolveTimeZoneNameFormatterOptions}), this formatter is **only** compatible
+ * with `Temporal.ZonedDateTime`. Passing a plain type such as `Temporal.PlainDateTime`
+ * will throw a `TypeError` at format time. Use {@link buildDateFormatter} or
+ * {@link buildTimeFormatter} for plain types.
+ *
+ * @param options - Optional date, time, time zone name, and locale format options.
+ * @returns A `TemporalIntl.DateTimeFormat` instance configured for date+time+zone output.
  * @see {@link buildDateFormatter}
  * @see {@link buildTimeFormatter}
  */
 export function buildDateTimeFormatter(
-  options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<LocaleOptions>,
+  options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<TimeZoneNameFormatterOptions> & Partial<LocaleOptions>,
 ) {
   const localeOptions = resolveLocaleOption(options);
   const dateOptions = resolveDateFormatterOptions(options);
   const timeOptions = resolveTimeFormatterOptions(options);
+  const timeZoneNameOptions = resolveTimeZoneNameFormatterOptions(options);
 
   return new TemporalIntl.DateTimeFormat(localeOptions.locale, {
     ...dateOptions,
     ...timeOptions,
+    ...timeZoneNameOptions,
   });
 }
