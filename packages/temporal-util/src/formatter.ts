@@ -8,7 +8,7 @@ export interface LocaleOptions {
 
 export function resolveLocaleOption(option?: Partial<LocaleOptions>) {
   return {
-    locale: option?.locale ?? getDefaultLocale()
+    locale: option?.locale ?? getDefaultLocale(),
   } satisfies LocaleOptions;
 }
 
@@ -60,7 +60,9 @@ export function buildTimeFormatter(options?: Partial<TimeFormatterOptions> & Par
   });
 }
 
-export function buildDateTimeFormatter(options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<LocaleOptions>) {
+export function buildDateTimeFormatter(
+  options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<LocaleOptions>,
+) {
   const localeOptions = resolveLocaleOption(options);
   const dateOptions = resolveDateFormatterOptions(options);
   const timeOptions = resolveTimeFormatterOptions(options);
