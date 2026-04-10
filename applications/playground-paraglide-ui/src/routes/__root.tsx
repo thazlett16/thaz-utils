@@ -1,11 +1,9 @@
-import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
-
-import type { TanStackRouterContext } from '#src/configs/tanstack-router';
+import { Outlet, createRootRoute } from '@tanstack/react-router';
 
 import { Devtools } from '#src/components/devtools';
 import * as m from '#src/paraglide/messages';
 
-export const Route = createRootRouteWithContext<TanStackRouterContext>()({
+export const Route = createRootRoute({
   component: RootComponent,
 });
 

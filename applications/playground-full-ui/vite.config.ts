@@ -9,7 +9,7 @@ export default defineConfig({
   run: {
     tasks: {
       build: {
-        command: 'tsc && vp build',
+        command: 'vp build',
       },
       check: {
         command: 'vp check',

@@ -2,9 +2,6 @@ import { createRouter as tanStackCreateRouter, ErrorComponent } from '@tanstack/
 
 import { routeTree } from '#src/route-tree.gen';
 
-export interface TanStackRouterContext {
-}
-
 export function createRouter() {
   return tanStackCreateRouter({
     routeTree,
