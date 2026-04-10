@@ -13,11 +13,11 @@ export default defineConfig({
       },
       check: {
         command: 'vp check',
-        // dependsOn: ['@thazstack/config'],
+        dependsOn: ['@thazstack/oxfmt-config#build', '@thazstack/oxlint-config#build'],
       },
       'check:fix': {
         command: 'vp check --fix',
-        // dependsOn: ['@thazstack/config'],
+        dependsOn: ['@thazstack/oxfmt-config#build', '@thazstack/oxlint-config#build'],
       },
     },
   },
