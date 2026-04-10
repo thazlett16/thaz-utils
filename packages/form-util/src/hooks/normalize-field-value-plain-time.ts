@@ -4,7 +4,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
 import { useMemo } from 'react';
 
-import type { _plainTimeNullable } from '#src/schemas/plain-time/schema';
+import type { _plainTimeNullable } from '#src/schemas/plain-time/plain-time';
 
 import { FormConversionError, FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';

@@ -2,17 +2,27 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { isDayJSValid } from '#src/actions/is-dayjs-valid/action';
-import { toPlainDate } from '#src/actions/to-plain-date-value/action';
-import { dayjs } from '#src/schemas/dayjs/schema';
+import { toPlainDate } from '#src/actions/to-plain-date-value';
+import { internationalizedCalendarDateTime } from '#src/schemas/intl-calendar-date-time';
+import { internationalizedCalendarDate } from '#src/schemas/intl-calendar-date';
+import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 export function _plainDateNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainDateAction[]) {
   return v.union(
     [
       f._plainDateNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
-        isDayJSValid(messages.wrongTypeMessage),
+        internationalizedZonedDateTime(),
+        toPlainDate(messages.wrongTypeMessage),
+        v.pipe(t.plainDate(), ...actions),
+      ),
+      v.pipe(
+        internationalizedCalendarDateTime(),
+        toPlainDate(messages.wrongTypeMessage),
+        v.pipe(t.plainDate(), ...actions),
+      ),
+      v.pipe(
+        internationalizedCalendarDate(),
         toPlainDate(messages.wrongTypeMessage),
         v.pipe(t.plainDate(), ...actions),
       ),
@@ -50,20 +60,20 @@ export function plainDate(messages: f.FormWrongTypeMessage | f.FormRequiredMessa
 }
 
 // const plainDateExample = v.object({
-//     testRequired: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//     }),
-//     testRequiredWithActions: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.plainDateISO())),
-//     testNullableWithActions: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//     }, v.check((val) => val === Temporal.Now.plainDateISO())),
+//   testRequired: plainDate({
+//     wrongTypeMessage: 'Not a PlainDate',
+//     requiredMessage: 'Field is Required',
+//   }),
+//   testNullable: plainDate({
+//     wrongTypeMessage: 'Not a PlainDate',
+//   }),
+//   testRequiredWithActions: plainDate({
+//     wrongTypeMessage: 'Not a PlainDate',
+//     requiredMessage: 'Field is Required',
+//   }, v.check((val) => val === Temporal.Now.plainDateISO())),
+//   testNullableWithActions: plainDate({
+//     wrongTypeMessage: 'Not a PlainDate',
+//   }, v.check((val) => val === Temporal.Now.plainDateISO())),
 // });
 // type InputPlainDateExample = v.InferInput<typeof plainDateExample>
 // type OutputPlainDateExample = v.InferOutput<typeof plainDateExample>

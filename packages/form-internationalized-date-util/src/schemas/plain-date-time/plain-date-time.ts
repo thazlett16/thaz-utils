@@ -2,9 +2,9 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { toPlainDateTime } from '#src/actions/to-plain-date-time-value/action';
-import { internationalizedCalendarDateTime } from '#src/schemas/intl-calendar-date-time/schema';
-import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time/schema';
+import { toPlainDateTime } from '#src/actions/to-plain-date-time-value';
+import { internationalizedCalendarDateTime } from '#src/schemas/intl-calendar-date-time';
+import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 export function _plainDateTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainDateTimeAction[]) {
   return v.union(

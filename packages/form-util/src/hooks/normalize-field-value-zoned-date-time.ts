@@ -4,7 +4,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import { useStore } from '@tanstack/react-form';
 import { useMemo } from 'react';
 
-import type { _zonedDateTimeNullable } from '#src/schemas/zoned-date-time/schema';
+import type { _zonedDateTimeNullable } from '#src/schemas/zoned-date-time/zoned-date-time';
 
 import { FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';

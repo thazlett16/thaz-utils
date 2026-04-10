@@ -2,10 +2,10 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { toPlainTime } from '#src/actions/to-plain-time-value/action';
-import { internationalizedCalendarDateTime } from '#src/schemas/intl-calendar-date-time/schema';
-import { internationalizedTime } from '#src/schemas/intl-time/schema';
-import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time/schema';
+import { toPlainTime } from '#src/actions/to-plain-time-value';
+import { internationalizedCalendarDateTime } from '#src/schemas/intl-calendar-date-time';
+import { internationalizedTime } from '#src/schemas/intl-time';
+import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 export function _plainTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainTimeAction[]) {
   return v.union(

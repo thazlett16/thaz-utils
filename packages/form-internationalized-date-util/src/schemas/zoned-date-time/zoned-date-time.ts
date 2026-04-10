@@ -2,8 +2,8 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value/action';
-import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time/schema';
+import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value';
+import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 export function _zonedDateTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.ZonedDateTimeAction[]) {
   return v.union(

@@ -2,8 +2,8 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { toInstant } from '#src/actions/to-instant-value/action';
-import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time/schema';
+import { toInstant } from '#src/actions/to-instant-value';
+import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 export function _instantNullable(messages: f.FormWrongTypeMessage, ...actions: f.InstantAction[]) {
   return v.union(

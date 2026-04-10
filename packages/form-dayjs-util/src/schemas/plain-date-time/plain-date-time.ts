@@ -2,9 +2,9 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { isDayJSValid } from '#src/actions/is-dayjs-valid/action';
-import { toPlainDateTime } from '#src/actions/to-plain-date-time-value/action';
-import { dayjs } from '#src/schemas/dayjs/schema';
+import { isDayJSValid } from '#src/actions/is-dayjs-valid/is-dayjs-valid';
+import { toPlainDateTime } from '#src/actions/to-plain-date-time-value/to-plain-date-time-value';
+import { dayjs } from '#src/schemas/dayjs/dayjs';
 
 export function _plainDateTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainDateTimeAction[]) {
   return v.union(

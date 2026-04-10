@@ -4,9 +4,9 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { isDayJSValid } from '#src/actions/is-dayjs-valid/action';
-import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value/action';
-import { dayjs } from '#src/schemas/dayjs/schema';
+import { isDayJSValid } from '#src/actions/is-dayjs-valid/is-dayjs-valid';
+import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value/to-zoned-date-time-value';
+import { dayjs } from '#src/schemas/dayjs/dayjs';
 
 export type ZonedDateTimeOptions = Required<TimeZoneOptions>;
 

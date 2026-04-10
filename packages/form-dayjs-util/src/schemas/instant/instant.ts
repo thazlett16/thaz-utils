@@ -2,9 +2,9 @@ import * as f from '@thazstack/form-util';
 import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
-import { isDayJSValid } from '#src/actions/is-dayjs-valid/action';
-import { toInstant } from '#src/actions/to-instant-value/action';
-import { dayjs } from '#src/schemas/dayjs/schema';
+import { isDayJSValid } from '#src/actions/is-dayjs-valid/is-dayjs-valid';
+import { toInstant } from '#src/actions/to-instant-value/to-instant-value';
+import { dayjs } from '#src/schemas/dayjs/dayjs';
 
 export function _instantNullable(messages: f.FormWrongTypeMessage, ...actions: f.InstantAction[]) {
   return v.union(
