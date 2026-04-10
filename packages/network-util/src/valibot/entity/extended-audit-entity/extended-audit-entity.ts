@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { responseNullable } from '#src/valibot/schema/nullable/schema';
+import { responseNullable } from '#src/valibot/schema/nullable/nullable';
 
 export const extendedAuditEntity = v.object({
   created_by_process: responseNullable(v.string()),

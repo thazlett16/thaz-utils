@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { messageType } from '#src/valibot/response-message/message-type/schema';
+import { messageType } from '#src/valibot/response-message/message-type/message-type';
 
 export const message = v.object({
   type: messageType,

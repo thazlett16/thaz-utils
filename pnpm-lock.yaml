@@ -678,6 +678,9 @@ importers:
       vite-tsconfig-paths:
         specifier: 'catalog:'
         version: 6.1.1(typescript@5.9.3)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.2)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
+      vitest:
+        specifier: npm:@voidzero-dev/vite-plus-test@latest
+        version: '@voidzero-dev/vite-plus-test@0.1.16(@types/node@24.12.2)(jiti@2.6.1)(tsx@4.21.0)(typescript@5.9.3)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.2)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))(yaml@2.8.3)'
 
   tooling/oxfmt-config:
     devDependencies:

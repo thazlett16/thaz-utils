@@ -1,11 +1,11 @@
 import { getDefaultTimeZone } from '#src/defaults';
 
 export interface TimeZoneOptions {
-  timeZone?: string;
+  timeZone: string;
 }
 
-export function resolveTimeZoneOptions(options?: TimeZoneOptions): Required<TimeZoneOptions> {
+export function resolveTimeZoneOptions(options?: Partial<TimeZoneOptions>) {
   return {
     timeZone: options?.timeZone ?? getDefaultTimeZone(),
-  };
+  } satisfies TimeZoneOptions;
 }

@@ -1,7 +1,7 @@
 import * as v from 'valibot';
 
-import { instant } from '#src/valibot/schema/instant/schema';
-import { responseNullable } from '#src/valibot/schema/nullable/schema';
+import { instant } from '#src/valibot/schema/instant/instant';
+import { responseNullable } from '#src/valibot/schema/nullable/nullable';
 
 export const activeEntity = v.object({
   active_at_timestamp: instant,

@@ -1,6 +1,6 @@
 import type * as v from 'valibot';
 
-import type { response } from '#src/valibot/response-message/response/schema';
+import type { response } from '#src/valibot/response-message/response/response';
 
 import type { NetworkErrorConstructor } from './network-error';
 

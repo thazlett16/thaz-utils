@@ -38,7 +38,9 @@
   "scripts": {
     "check": "vp check",
     "check:fix": "vp check --fix",
-    "prepack": "vp pack"
+    "prepack": "vp pack",
+    "test": "vp test",
+    "test:watch": "vp test --watch"
   },
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
@@ -50,7 +52,8 @@
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",

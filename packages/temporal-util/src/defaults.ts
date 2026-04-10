@@ -1,17 +1,11 @@
-const {
-  calendar: defaultCalendar,
-  timeZone: defaultTimeZone,
-  locale: defaultLocale,
-} = new Intl.DateTimeFormat().resolvedOptions();
-
 export function getDefaultCalendar() {
-  return defaultCalendar;
+  return new Intl.DateTimeFormat().resolvedOptions().calendar;
 }
 
 export function getDefaultTimeZone() {
-  return defaultTimeZone;
+  return new Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 export function getDefaultLocale() {
-  return defaultLocale;
+  return new Intl.DateTimeFormat().resolvedOptions().locale;
 }

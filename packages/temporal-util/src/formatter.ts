@@ -2,68 +2,70 @@ import { Intl as TemporalIntl } from '@js-temporal/polyfill';
 
 import { getDefaultLocale } from '#src/defaults';
 
-export interface LocaleOption {
-  locale?: string | string[];
-}
-export type DateFormatterOptions = Pick<Intl.DateTimeFormatOptions, 'year' | 'month' | 'day'> & LocaleOption;
-export type TimeFormatterOptions = Pick<Intl.DateTimeFormatOptions, 'hour' | 'minute' | 'second' | 'timeZoneName'> &
-  LocaleOption;
-export type DateTimeFormatterOptions = DateFormatterOptions & TimeFormatterOptions;
-
-export function resolvedLocaleOption(option: LocaleOption) {
-  return option.locale ?? getDefaultLocale();
+export interface LocaleOptions {
+  locale: string | string[];
 }
 
-export function resolvedDateFormatterOptions(options: DateFormatterOptions) {
-  const year = options.year ?? 'numeric';
-  const month = options.year ?? '2-digit';
-  const day = options.year ?? '2-digit';
-
+export function resolveLocaleOption(option?: Partial<LocaleOptions>) {
   return {
-    year,
-    month,
-    day,
-  };
+    locale: option?.locale ?? getDefaultLocale()
+  } satisfies LocaleOptions;
 }
 
-export function resolvedTimeFormatterOptions(options: TimeFormatterOptions) {
-  const hour = options.hour ?? '2-digit';
-  const minute = options.minute ?? '2-digit';
-  const second = options.second ?? '2-digit';
-  const timeZoneName = options.timeZoneName ?? 'short';
+export interface DateFormatterOptions {
+  year: NonNullable<Intl.DateTimeFormatOptions['year']>;
+  month: NonNullable<Intl.DateTimeFormatOptions['month']>;
+  day: NonNullable<Intl.DateTimeFormatOptions['day']>;
+}
 
+export function resolveDateFormatterOptions(options?: Partial<DateFormatterOptions>) {
   return {
-    hour,
-    minute,
-    second,
-    timeZoneName,
-  };
+    year: options?.year ?? 'numeric',
+    month: options?.month ?? '2-digit',
+    day: options?.day ?? '2-digit',
+  } satisfies DateFormatterOptions;
 }
 
-export function buildDateFormatter(options: DateFormatterOptions = {}) {
-  const locale = resolvedLocaleOption(options);
-  const dateOptions = resolvedDateFormatterOptions(options);
+export function buildDateFormatter(options?: Partial<DateFormatterOptions> & Partial<LocaleOptions>) {
+  const localeOptions = resolveLocaleOption(options);
+  const dateOptions = resolveDateFormatterOptions(options);
 
-  return new TemporalIntl.DateTimeFormat(locale, {
+  return new TemporalIntl.DateTimeFormat(localeOptions.locale, {
     ...dateOptions,
   });
 }
 
-export function buildTimeFormatter(options: TimeFormatterOptions = {}) {
-  const locale = resolvedLocaleOption(options);
-  const timeOptions = resolvedTimeFormatterOptions(options);
+export interface TimeFormatterOptions {
+  hour: NonNullable<Intl.DateTimeFormatOptions['hour']>;
+  minute: NonNullable<Intl.DateTimeFormatOptions['minute']>;
+  second: NonNullable<Intl.DateTimeFormatOptions['second']>;
+  timeZoneName: NonNullable<Intl.DateTimeFormatOptions['timeZoneName']>;
+}
 
-  return new TemporalIntl.DateTimeFormat(locale, {
+export function resolveTimeFormatterOptions(options?: Partial<TimeFormatterOptions>) {
+  return {
+    hour: options?.hour ?? '2-digit',
+    minute: options?.minute ?? '2-digit',
+    second: options?.second ?? '2-digit',
+    timeZoneName: options?.timeZoneName ?? 'short',
+  } satisfies TimeFormatterOptions;
+}
+
+export function buildTimeFormatter(options?: Partial<TimeFormatterOptions> & Partial<LocaleOptions>) {
+  const localeOptions = resolveLocaleOption(options);
+  const timeOptions = resolveTimeFormatterOptions(options);
+
+  return new TemporalIntl.DateTimeFormat(localeOptions.locale, {
     ...timeOptions,
   });
 }
 
-export function buildDateTimeFormatter(options: DateTimeFormatterOptions = {}) {
-  const locale = resolvedLocaleOption(options);
-  const dateOptions = resolvedDateFormatterOptions(options);
-  const timeOptions = resolvedTimeFormatterOptions(options);
+export function buildDateTimeFormatter(options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<LocaleOptions>) {
+  const localeOptions = resolveLocaleOption(options);
+  const dateOptions = resolveDateFormatterOptions(options);
+  const timeOptions = resolveTimeFormatterOptions(options);
 
-  return new TemporalIntl.DateTimeFormat(locale, {
+  return new TemporalIntl.DateTimeFormat(localeOptions.locale, {
     ...dateOptions,
     ...timeOptions,
   });
