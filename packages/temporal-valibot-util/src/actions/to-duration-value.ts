@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when a value cannot be converted to a `Temporal.Duration`.
+ */
 export interface ToDurationIssue<TInput> extends v.BaseIssue<TInput | Temporal.Duration> {
   kind: 'transformation';
   type: 'to_duration';
   expected: null;
 }
 
+/**
+ * Transformation action that converts a value to a `Temporal.Duration`.
+ */
 export interface ToDurationAction<
   TInput,
   TMessage extends v.ErrorMessage<ToDurationIssue<TInput>> | undefined,
@@ -16,7 +22,16 @@ export interface ToDurationAction<
   message: TMessage;
 }
 
+/**
+ * Options for the `toDuration` transformation action.
+ */
 export interface ToDurationOptions {
+  /**
+   * The duration component field to populate when the input is a number.
+   *
+   * For example, `{ durationType: 'hours' }` maps the number `2` to
+   * `Temporal.Duration.from({ hours: 2 })`.
+   */
   durationType:
     | 'years'
     | 'months'
@@ -30,21 +45,27 @@ export interface ToDurationOptions {
 }
 
 /**
- * Convert value to a Temporal.Duration.
+ * Creates a transformation action that converts a number or `Temporal.Duration` to a
+ * `Temporal.Duration`. Numbers are mapped to the duration component specified by
+ * `options.durationType`. Existing `Temporal.Duration` values pass through unchanged.
+ * All other input types produce a validation issue.
  *
- * @param options Options to convert values to a Duration
+ * @param options Specifies which duration component to use when converting a number.
  *
- * @returns Temporal.Duration value.
+ * @returns A `toDuration` transformation action.
  */
 export function toDuration<TInput>(options: ToDurationOptions): ToDurationAction<TInput, undefined>;
 
 /**
- * Convert value to a Temporal.Duration.
+ * Creates a transformation action that converts a number or `Temporal.Duration` to a
+ * `Temporal.Duration`. Numbers are mapped to the duration component specified by
+ * `options.durationType`. Existing `Temporal.Duration` values pass through unchanged.
+ * All other input types produce a validation issue.
  *
- * @param options Options to convert values to a Duration
- * @param message The error message.
+ * @param options Specifies which duration component to use when converting a number.
+ * @param message The error message used when conversion fails.
  *
- * @returns Temporal.Duration value.
+ * @returns A `toDuration` transformation action.
  */
 export function toDuration<TInput, const TMessage extends v.ErrorMessage<ToDurationIssue<TInput>> | undefined>(
   options: ToDurationOptions,

@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when a value cannot be converted to a `Temporal.Instant`.
+ */
 export interface ToInstantIssue<TInput> extends v.BaseIssue<TInput | Temporal.Instant> {
   kind: 'transformation';
   type: 'to_instant';
   expected: null;
 }
 
+/**
+ * Transformation action that converts a value to a `Temporal.Instant`.
+ */
 export interface ToInstantAction<
   TInput,
   TMessage extends v.ErrorMessage<ToInstantIssue<TInput>> | undefined,
@@ -17,18 +23,38 @@ export interface ToInstantAction<
 }
 
 /**
- * Convert value to a Temporal.Instant.
+ * Creates a transformation action that converts a value to a `Temporal.Instant`.
  *
- * @returns Temporal.Instant value.
+ * Accepted input types and their conversions:
+ * - `string` — parsed first as a `ZonedDateTime` then as an `Instant` ISO string.
+ * - `number` — interpreted as epoch milliseconds.
+ * - `bigint` — interpreted as epoch nanoseconds.
+ * - `Date` — converted via `Date.getTime()` (epoch milliseconds).
+ * - `Temporal.ZonedDateTime` — `.toInstant()` is called.
+ * - `Temporal.Instant` — passed through unchanged.
+ *
+ * All other input types produce a validation issue.
+ *
+ * @returns A `toInstant` transformation action.
  */
 export function toInstant<TInput>(): ToInstantAction<TInput, undefined>;
 
 /**
- * Convert value to a Temporal.Instant.
+ * Creates a transformation action that converts a value to a `Temporal.Instant`.
  *
- * @param message The error message.
+ * Accepted input types and their conversions:
+ * - `string` — parsed first as a `ZonedDateTime` then as an `Instant` ISO string.
+ * - `number` — interpreted as epoch milliseconds.
+ * - `bigint` — interpreted as epoch nanoseconds.
+ * - `Date` — converted via `Date.getTime()` (epoch milliseconds).
+ * - `Temporal.ZonedDateTime` — `.toInstant()` is called.
+ * - `Temporal.Instant` — passed through unchanged.
  *
- * @returns Temporal.Instant value.
+ * All other input types produce a validation issue.
+ *
+ * @param message The error message used when conversion fails.
+ *
+ * @returns A `toInstant` transformation action.
  */
 export function toInstant<TInput, const TMessage extends v.ErrorMessage<ToInstantIssue<TInput>> | undefined>(
   message: TMessage,

@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when the input is not a `Temporal.PlainDateTime` instance.
+ */
 export interface PlainDateTimeIssue extends v.BaseIssue<unknown> {
   kind: 'schema';
   type: 'plain_date_time';
   expected: 'Temporal.PlainDateTime';
 }
 
+/**
+ * Schema that accepts only `Temporal.PlainDateTime` instances.
+ */
 export interface PlainDateTimeSchema<
   TMessage extends v.ErrorMessage<PlainDateTimeIssue> | undefined,
 > extends v.BaseSchema<Temporal.PlainDateTime, Temporal.PlainDateTime, PlainDateTimeIssue> {
@@ -17,20 +23,22 @@ export interface PlainDateTimeSchema<
 }
 
 /**
- * Creates a Temporal.PlainDateTime schema.
+ * Creates a schema that validates `Temporal.PlainDateTime` instances. Any other value type
+ * produces a `PlainDateTimeIssue`.
  *
- * @returns Temporal.PlainDateTime schema.
+ * @returns A `plainDateTime` schema.
  */
 export function plainDateTime(): PlainDateTimeSchema<undefined>;
 
 /**
- * Creates a Temporal.PlainDateTime schema.
+ * Creates a schema that validates `Temporal.PlainDateTime` instances. Any other value type
+ * produces a `PlainDateTimeIssue`.
  *
- * @param message The error message.
+ * @param message The error message used when validation fails.
  *
- * @returns Temporal.PlainDateTime schema.
+ * @returns A `plainDateTime` schema.
  */
-export function plainDateTime<const TMessage extends v.ErrorMessage<PlainDateTimeIssue>>(
+export function plainDateTime<const TMessage extends v.ErrorMessage<PlainDateTimeIssue> | undefined>(
   message: TMessage,
 ): PlainDateTimeSchema<TMessage>;
 

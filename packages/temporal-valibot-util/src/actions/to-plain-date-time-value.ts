@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when a value cannot be converted to a `Temporal.PlainDateTime`.
+ */
 export interface ToPlainDateTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.PlainDateTime> {
   kind: 'transformation';
   type: 'to_plain_date_time';
   expected: null;
 }
 
+/**
+ * Transformation action that converts a value to a `Temporal.PlainDateTime`.
+ */
 export interface ToPlainDateTimeAction<
   TInput,
   TMessage extends v.ErrorMessage<ToPlainDateTimeIssue<TInput>> | undefined,
@@ -17,18 +23,32 @@ export interface ToPlainDateTimeAction<
 }
 
 /**
- * Convert value to a Temporal.PlainDateTime.
+ * Creates a transformation action that converts a value to a `Temporal.PlainDateTime`.
  *
- * @returns Temporal.PlainDateTime value.
+ * Accepted input types and their conversions:
+ * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` ISO string.
+ * - `Temporal.ZonedDateTime` — `.toPlainDateTime()` is called.
+ * - `Temporal.PlainDateTime` — passed through unchanged.
+ *
+ * All other input types produce a validation issue.
+ *
+ * @returns A `toPlainDateTime` transformation action.
  */
 export function toPlainDateTime<TInput>(): ToPlainDateTimeAction<TInput, undefined>;
 
 /**
- * Convert value to a Temporal.PlainDateTime.
+ * Creates a transformation action that converts a value to a `Temporal.PlainDateTime`.
  *
- * @param message The error message.
+ * Accepted input types and their conversions:
+ * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` ISO string.
+ * - `Temporal.ZonedDateTime` — `.toPlainDateTime()` is called.
+ * - `Temporal.PlainDateTime` — passed through unchanged.
  *
- * @returns Temporal.PlainDateTime value.
+ * All other input types produce a validation issue.
+ *
+ * @param message The error message used when conversion fails.
+ *
+ * @returns A `toPlainDateTime` transformation action.
  */
 export function toPlainDateTime<
   TInput,

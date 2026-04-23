@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when the input is not a `Temporal.ZonedDateTime` instance.
+ */
 export interface ZonedDateTimeIssue extends v.BaseIssue<unknown> {
   kind: 'schema';
   type: 'zoned_date_time';
   expected: 'Temporal.ZonedDateTime';
 }
 
+/**
+ * Schema that accepts only `Temporal.ZonedDateTime` instances.
+ */
 export interface ZonedDateTimeSchema<
   TMessage extends v.ErrorMessage<ZonedDateTimeIssue> | undefined,
 > extends v.BaseSchema<Temporal.ZonedDateTime, Temporal.ZonedDateTime, ZonedDateTimeIssue> {
@@ -17,20 +23,22 @@ export interface ZonedDateTimeSchema<
 }
 
 /**
- * Creates a Temporal.ZonedDateTime schema.
+ * Creates a schema that validates `Temporal.ZonedDateTime` instances. Any other value type
+ * produces a `ZonedDateTimeIssue`.
  *
- * @returns Temporal.ZonedDateTime schema.
+ * @returns A `zonedDateTime` schema.
  */
 export function zonedDateTime(): ZonedDateTimeSchema<undefined>;
 
 /**
- * Creates a Temporal.ZonedDateTime schema.
+ * Creates a schema that validates `Temporal.ZonedDateTime` instances. Any other value type
+ * produces a `ZonedDateTimeIssue`.
  *
- * @param message The error message.
+ * @param message The error message used when validation fails.
  *
- * @returns Temporal.ZonedDateTime schema.
+ * @returns A `zonedDateTime` schema.
  */
-export function zonedDateTime<const TMessage extends v.ErrorMessage<ZonedDateTimeIssue>>(
+export function zonedDateTime<const TMessage extends v.ErrorMessage<ZonedDateTimeIssue> | undefined>(
   message: TMessage,
 ): ZonedDateTimeSchema<TMessage>;
 

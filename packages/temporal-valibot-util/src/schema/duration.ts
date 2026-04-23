@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when the input is not a `Temporal.Duration` instance.
+ */
 export interface DurationIssue extends v.BaseIssue<unknown> {
   kind: 'schema';
   type: 'duration';
   expected: 'Temporal.Duration';
 }
 
+/**
+ * Schema that accepts only `Temporal.Duration` instances.
+ */
 export interface DurationSchema<TMessage extends v.ErrorMessage<DurationIssue> | undefined> extends v.BaseSchema<
   Temporal.Duration,
   Temporal.Duration,
@@ -19,20 +25,22 @@ export interface DurationSchema<TMessage extends v.ErrorMessage<DurationIssue> |
 }
 
 /**
- * Creates a Temporal.Duration schema.
+ * Creates a schema that validates `Temporal.Duration` instances. Any other value type
+ * produces a `DurationIssue`.
  *
- * @returns Temporal.Duration schema.
+ * @returns A `duration` schema.
  */
 export function duration(): DurationSchema<undefined>;
 
 /**
- * Creates a Temporal.Duration schema.
+ * Creates a schema that validates `Temporal.Duration` instances. Any other value type
+ * produces a `DurationIssue`.
  *
- * @param message The error message.
+ * @param message The error message used when validation fails.
  *
- * @returns Temporal.Duration schema.
+ * @returns A `duration` schema.
  */
-export function duration<const TMessage extends v.ErrorMessage<DurationIssue>>(
+export function duration<const TMessage extends v.ErrorMessage<DurationIssue> | undefined>(
   message: TMessage,
 ): DurationSchema<TMessage>;
 

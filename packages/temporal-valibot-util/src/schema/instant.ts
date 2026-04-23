@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when the input is not a `Temporal.Instant` instance.
+ */
 export interface InstantIssue extends v.BaseIssue<unknown> {
   kind: 'schema';
   type: 'instant';
   expected: 'Temporal.Instant';
 }
 
+/**
+ * Schema that accepts only `Temporal.Instant` instances.
+ */
 export interface InstantSchema<TMessage extends v.ErrorMessage<InstantIssue> | undefined> extends v.BaseSchema<
   Temporal.Instant,
   Temporal.Instant,
@@ -19,20 +25,22 @@ export interface InstantSchema<TMessage extends v.ErrorMessage<InstantIssue> | u
 }
 
 /**
- * Creates a Temporal.Instant schema.
+ * Creates a schema that validates `Temporal.Instant` instances. Any other value type
+ * produces an `InstantIssue`.
  *
- * @returns Temporal.Instant schema.
+ * @returns An `instant` schema.
  */
 export function instant(): InstantSchema<undefined>;
 
 /**
- * Creates a Temporal.Instant schema.
+ * Creates a schema that validates `Temporal.Instant` instances. Any other value type
+ * produces an `InstantIssue`.
  *
- * @param message The error message.
+ * @param message The error message used when validation fails.
  *
- * @returns Temporal.Instant schema.
+ * @returns An `instant` schema.
  */
-export function instant<const TMessage extends v.ErrorMessage<InstantIssue>>(
+export function instant<const TMessage extends v.ErrorMessage<InstantIssue> | undefined>(
   message: TMessage,
 ): InstantSchema<TMessage>;
 

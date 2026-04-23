@@ -1,7 +1,11 @@
+import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
 import type { TemporalValueInput } from './types';
 
+/**
+ * Issue raised when a Temporal value exceeds the allowed maximum.
+ */
 export interface TemporalMaxValueIssue<
   TInput extends TemporalValueInput,
   TRequirement extends TemporalValueInput,
@@ -14,6 +18,13 @@ export interface TemporalMaxValueIssue<
   requirement: TRequirement;
 }
 
+/**
+ * Validation action that enforces an upper bound on a Temporal value.
+ *
+ * Comparison uses the appropriate `Temporal.X.compare()` static method dispatched
+ * by runtime type. `Duration.compare` requires neither duration to have non-zero
+ * years, months, or weeks (no `relativeTo` is provided).
+ */
 export interface TemporalMaxValueAction<
   TInput extends TemporalValueInput,
   TRequirement extends TemporalValueInput,
@@ -70,10 +81,47 @@ export function temporalMaxValue(
     requirement,
     message,
     '~run'(dataset, config) {
-      if (dataset.typed && !(dataset.value <= this.requirement)) {
-        v._addIssue(this, 'value', dataset, config, {
-          received: dataset.value.toJSON(),
-        });
+      if (dataset.typed) {
+        const { value } = dataset;
+        const req = this.requirement;
+
+        if (value instanceof Temporal.Duration) {
+          if (req instanceof Temporal.Duration && Temporal.Duration.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        } else if (value instanceof Temporal.Instant) {
+          if (req instanceof Temporal.Instant && Temporal.Instant.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        } else if (value instanceof Temporal.PlainDateTime) {
+          if (req instanceof Temporal.PlainDateTime && Temporal.PlainDateTime.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        } else if (value instanceof Temporal.PlainDate) {
+          if (req instanceof Temporal.PlainDate && Temporal.PlainDate.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        } else if (value instanceof Temporal.PlainTime) {
+          if (req instanceof Temporal.PlainTime && Temporal.PlainTime.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        } else {
+          if (req instanceof Temporal.ZonedDateTime && Temporal.ZonedDateTime.compare(value, req) > 0) {
+            v._addIssue(this, 'value', dataset, config, {
+              received: dataset.value.toJSON(),
+            });
+          }
+        }
       }
 
       return dataset;

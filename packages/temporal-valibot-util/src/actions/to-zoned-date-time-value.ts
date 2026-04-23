@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when a value cannot be converted to a `Temporal.ZonedDateTime`.
+ */
 export interface ToZonedDateTimeIssue<TInput> extends v.BaseIssue<TInput | Temporal.ZonedDateTime> {
   kind: 'transformation';
   type: 'to_zoned_date_time';
   expected: null;
 }
 
+/**
+ * Transformation action that converts a value to a `Temporal.ZonedDateTime`.
+ */
 export interface ToZonedDateTimeAction<
   TInput,
   TMessage extends v.ErrorMessage<ToZonedDateTimeIssue<TInput>> | undefined,
@@ -17,18 +23,32 @@ export interface ToZonedDateTimeAction<
 }
 
 /**
- * Convert value to a Temporal.ZonedDateTime.
+ * Creates a transformation action that converts a value to a `Temporal.ZonedDateTime`.
  *
- * @returns Temporal.ZonedDateTime value.
+ * Accepted input types and their conversions:
+ * - `string` — parsed as a `ZonedDateTime` ISO 8601 string (must include timezone annotation,
+ *   e.g. `'2024-01-01T00:00:00+00:00[UTC]'`).
+ * - `Temporal.ZonedDateTime` — passed through unchanged.
+ *
+ * All other input types produce a validation issue.
+ *
+ * @returns A `toZonedDateTime` transformation action.
  */
 export function toZonedDateTime<TInput>(): ToZonedDateTimeAction<TInput, undefined>;
 
 /**
- * Convert value to a Temporal.ZonedDateTime.
+ * Creates a transformation action that converts a value to a `Temporal.ZonedDateTime`.
  *
- * @param message The error message.
+ * Accepted input types and their conversions:
+ * - `string` — parsed as a `ZonedDateTime` ISO 8601 string (must include timezone annotation,
+ *   e.g. `'2024-01-01T00:00:00+00:00[UTC]'`).
+ * - `Temporal.ZonedDateTime` — passed through unchanged.
  *
- * @returns Temporal.ZonedDateTime value.
+ * All other input types produce a validation issue.
+ *
+ * @param message The error message used when conversion fails.
+ *
+ * @returns A `toZonedDateTime` transformation action.
  */
 export function toZonedDateTime<
   TInput,

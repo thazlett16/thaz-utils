@@ -1,12 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
 
+/**
+ * Issue raised when a value cannot be converted to a `Temporal.PlainDate`.
+ */
 export interface ToPlainDateIssue<TInput> extends v.BaseIssue<TInput | Temporal.PlainDate> {
   kind: 'transformation';
   type: 'to_plain_date';
   expected: null;
 }
 
+/**
+ * Transformation action that converts a value to a `Temporal.PlainDate`.
+ */
 export interface ToPlainDateAction<
   TInput,
   TMessage extends v.ErrorMessage<ToPlainDateIssue<TInput>> | undefined,
@@ -17,18 +23,34 @@ export interface ToPlainDateAction<
 }
 
 /**
- * Convert value to a Temporal.PlainDate.
+ * Creates a transformation action that converts a value to a `Temporal.PlainDate`.
  *
- * @returns Temporal.PlainDate value.
+ * Accepted input types and their conversions:
+ * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainDate` ISO string.
+ * - `Temporal.ZonedDateTime` — `.toPlainDate()` is called.
+ * - `Temporal.PlainDateTime` — `.toPlainDate()` is called.
+ * - `Temporal.PlainDate` — passed through unchanged.
+ *
+ * All other input types produce a validation issue.
+ *
+ * @returns A `toPlainDate` transformation action.
  */
 export function toPlainDate<TInput>(): ToPlainDateAction<TInput, undefined>;
 
 /**
- * Convert value to a Temporal.PlainDate.
+ * Creates a transformation action that converts a value to a `Temporal.PlainDate`.
  *
- * @param message The error message.
+ * Accepted input types and their conversions:
+ * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainDate` ISO string.
+ * - `Temporal.ZonedDateTime` — `.toPlainDate()` is called.
+ * - `Temporal.PlainDateTime` — `.toPlainDate()` is called.
+ * - `Temporal.PlainDate` — passed through unchanged.
  *
- * @returns Temporal.PlainDate value.
+ * All other input types produce a validation issue.
+ *
+ * @param message The error message used when conversion fails.
+ *
+ * @returns A `toPlainDate` transformation action.
  */
 export function toPlainDate<TInput, const TMessage extends v.ErrorMessage<ToPlainDateIssue<TInput>> | undefined>(
   message: TMessage,
