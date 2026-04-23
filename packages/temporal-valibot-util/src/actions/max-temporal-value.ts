@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import type { TemporalValueInput } from '../types';
+import type { TemporalValueInput } from './types';
 
 export interface TemporalMaxValueIssue<
   TInput extends TemporalValueInput,
