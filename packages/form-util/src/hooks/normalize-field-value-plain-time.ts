@@ -6,7 +6,7 @@ import type * as v from 'valibot';
 
 import { Temporal } from '@js-temporal/polyfill';
 
-import type { _plainTimeNullable } from '#src/schemas/plain-time/plain-time';
+import type { _plainTimeNullable } from '#src/schemas/plain-time';
 
 import { FormConversionError, FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';

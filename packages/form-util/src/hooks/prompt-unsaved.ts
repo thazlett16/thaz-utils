@@ -4,8 +4,8 @@ import { useBlocker } from '@tanstack/react-router';
 import { useFormContext } from '#src/tanstack-form.config';
 
 export interface PromptUnsavedOptions {
-  forceShow?: boolean;
-  forceHide?: boolean;
+  forceShow: boolean;
+  forceHide: boolean;
 }
 
 /**
@@ -15,7 +15,7 @@ export interface PromptUnsavedOptions {
  *
  * @param options
  */
-export function usePromptUnsaved(options?: Readonly<PromptUnsavedOptions>) {
+export function usePromptUnsaved(options?: Partial<Readonly<PromptUnsavedOptions>>) {
   const formContext = useFormContext();
 
   const isDirty = useStore(formContext.store, (state) => state.isDirty);

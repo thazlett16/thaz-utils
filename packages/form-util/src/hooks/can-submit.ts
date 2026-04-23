@@ -1,19 +1,15 @@
-import { useMemo } from 'react';
-
 import { useStore } from '@tanstack/react-form';
 
 import { useFormContext } from '#src/tanstack-form.config';
 
 export interface CanSubmitOptions {
-  allowSubmitWhenInvalid?: boolean;
+  allowSubmitWhenInvalid: boolean;
 }
 
-export function useCanSubmit(options?: Readonly<CanSubmitOptions>) {
-  const resolvedCanSubmitOptions = useMemo<Required<CanSubmitOptions>>(() => {
-    return {
-      allowSubmitWhenInvalid: options?.allowSubmitWhenInvalid ?? false,
-    };
-  }, [options]);
+export function useCanSubmit(options?: Partial<Readonly<CanSubmitOptions>>) {
+  const resolvedCanSubmitOptions: CanSubmitOptions = {
+    allowSubmitWhenInvalid: options?.allowSubmitWhenInvalid ?? false,
+  };
 
   const form = useFormContext();
 

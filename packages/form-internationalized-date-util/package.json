@@ -48,6 +48,7 @@
   "devDependencies": {
     "@internationalized/date": "catalog:",
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",
@@ -67,6 +68,7 @@
   "peerDependencies": {
     "@internationalized/date": "catalog:",
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",

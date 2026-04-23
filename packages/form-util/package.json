@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",
@@ -58,10 +59,12 @@
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",

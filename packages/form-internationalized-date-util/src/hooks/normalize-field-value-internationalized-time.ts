@@ -8,7 +8,7 @@ import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/
 import { ZonedDateTime, parseZonedDateTime, toTime, Time, parseTime, CalendarDateTime } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
 
-export type FieldValueTime = FieldValuePlainTime | Temporal.Instant | ZonedDateTime | CalendarDateTime | Time;
+export type FieldValueTime = FieldValuePlainTime | ZonedDateTime | CalendarDateTime | Time;
 
 export function useNormalizeFieldValueTime() {
   const field = useFieldContext<FieldValueTime>();

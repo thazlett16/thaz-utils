@@ -6,8 +6,6 @@ import * as v from 'valibot';
 
 import { dayJS } from '#src/dayjs.config';
 
-export type ToZonedDateTimeOptions = Required<TimeZoneOptions>;
-
 export interface ToZonedDateTimeAction<
   TInput,
   TMessage extends v.ErrorMessage<ToZonedDateTimeIssue<TInput>> | undefined,
@@ -22,7 +20,7 @@ export interface ToZonedDateTimeAction<
  *
  * @returns Temporal.ZonedDateTime value.
  */
-export function toZonedDateTime<TInput>(options: ToZonedDateTimeOptions): ToZonedDateTimeAction<TInput, undefined>;
+export function toZonedDateTime<TInput>(options: TimeZoneOptions): ToZonedDateTimeAction<TInput, undefined>;
 
 /**
  * Convert value to a Temporal.ZonedDateTime.
@@ -35,10 +33,10 @@ export function toZonedDateTime<TInput>(options: ToZonedDateTimeOptions): ToZone
 export function toZonedDateTime<
   TInput,
   const TMessage extends v.ErrorMessage<ToZonedDateTimeIssue<TInput>> | undefined,
->(options: ToZonedDateTimeOptions, message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
+>(options: TimeZoneOptions, message: TMessage): ToZonedDateTimeAction<TInput, TMessage>;
 
 export function toZonedDateTime(
-  options: ToZonedDateTimeOptions,
+  options: TimeZoneOptions,
   message?: v.ErrorMessage<ToZonedDateTimeIssue<unknown>>,
 ): ToZonedDateTimeAction<unknown, v.ErrorMessage<ToZonedDateTimeIssue<unknown>> | undefined> {
   return {

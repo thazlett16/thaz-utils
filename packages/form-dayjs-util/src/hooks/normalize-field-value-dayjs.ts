@@ -21,9 +21,7 @@ export type FieldValueZonedDateTime =
   | null
   | undefined;
 
-export type NormalizeFieldValueDayJSOptions = Required<TimeZoneOptions>;
-
-export function useNormalizeFieldValueDayJS(options: NormalizeFieldValueDayJSOptions) {
+export function useNormalizeFieldValueDayJS(options: TimeZoneOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);

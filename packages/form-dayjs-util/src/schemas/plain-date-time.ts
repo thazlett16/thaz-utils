@@ -3,9 +3,9 @@ import * as t from '@thazstack/temporal-valibot-util';
 
 import * as v from 'valibot';
 
-import { isDayJSValid } from '#src/actions/is-dayjs-valid/is-dayjs-valid';
-import { toPlainDateTime } from '#src/actions/to-plain-date-time-value/to-plain-date-time-value';
-import { dayjs } from '#src/schemas/dayjs/dayjs';
+import { isDayJSValid } from '#src/actions/is-dayjs-valid';
+import { toPlainDateTime } from '#src/actions/to-plain-date-time-value';
+import { dayjs } from '#src/schemas/dayjs';
 
 export function _plainDateTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainDateTimeAction[]) {
   return v.union(

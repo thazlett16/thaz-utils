@@ -6,7 +6,7 @@ import type * as v from 'valibot';
 
 import { Temporal } from '@js-temporal/polyfill';
 
-import type { _zonedDateTimeNullable } from '#src/schemas/zoned-date-time/zoned-date-time';
+import type { _zonedDateTimeNullable } from '#src/schemas/zoned-date-time';
 
 import { FormTypeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';
