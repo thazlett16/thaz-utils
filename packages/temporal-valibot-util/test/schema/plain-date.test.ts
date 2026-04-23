@@ -1,9 +1,9 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import type { PlainDateIssue, PlainDateSchema } from '../../src/schema/plain-date';
+import type { PlainDateIssue, PlainDateSchema } from '#src/schema/plain-date';
 
-import { plainDate } from '../../src/schema/plain-date';
+import { plainDate } from '#src/schema/plain-date';
 
 describe('plainDate', () => {
   describe('should return schema object', () => {
@@ -21,20 +21,20 @@ describe('plainDate', () => {
       '~run': expect.any(Function),
     };
 
-    test('with undefined message', () => {
+    it('with undefined message', () => {
       const schema: PlainDateSchema<undefined> = { ...baseSchema, message: undefined };
       expect(plainDate()).toStrictEqual(schema);
       expect(plainDate(undefined)).toStrictEqual(schema);
     });
 
-    test('with string message', () => {
+    it('with string message', () => {
       expect(plainDate('message')).toStrictEqual({
         ...baseSchema,
         message: 'message',
       } satisfies PlainDateSchema<string>);
     });
 
-    test('with function message', () => {
+    it('with function message', () => {
       const message = () => 'message';
       expect(plainDate(message)).toStrictEqual({
         ...baseSchema,
@@ -46,17 +46,17 @@ describe('plainDate', () => {
   describe('should return dataset without issues', () => {
     const schema = plainDate();
 
-    test('for a plain date', () => {
+    it('for a plain date', () => {
       const value = Temporal.PlainDate.from('2024-01-01');
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    test('for a mid-year date', () => {
+    it('for a mid-year date', () => {
       const value = Temporal.PlainDate.from('2024-06-15');
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    test('for a year-end date', () => {
+    it('for a year-end date', () => {
       const value = Temporal.PlainDate.from('2024-12-31');
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -77,7 +77,7 @@ describe('plainDate', () => {
       abortPipeEarly: undefined,
     };
 
-    test('for null', () => {
+    it('for null', () => {
       expect(schema['~run']({ value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -85,7 +85,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for undefined', () => {
+    it('for undefined', () => {
       expect(schema['~run']({ value: undefined }, {})).toStrictEqual({
         typed: false,
         value: undefined,
@@ -93,7 +93,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for iso date strings', () => {
+    it('for iso date strings', () => {
       expect(schema['~run']({ value: '2024-01-01' }, {})).toStrictEqual({
         typed: false,
         value: '2024-01-01',
@@ -101,7 +101,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for numbers', () => {
+    it('for numbers', () => {
       expect(schema['~run']({ value: 20_240_101 }, {})).toStrictEqual({
         typed: false,
         value: 20_240_101,
@@ -109,7 +109,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for objects', () => {
+    it('for objects', () => {
       expect(schema['~run']({ value: {} }, {})).toStrictEqual({
         typed: false,
         value: {},
@@ -117,7 +117,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for Temporal.PlainDateTime', () => {
+    it('for Temporal.PlainDateTime', () => {
       const value = Temporal.PlainDateTime.from('2024-01-01T10:00:00');
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,
@@ -126,7 +126,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for Temporal.ZonedDateTime', () => {
+    it('for Temporal.ZonedDateTime', () => {
       const value = Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]');
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,
@@ -135,7 +135,7 @@ describe('plainDate', () => {
       });
     });
 
-    test('for Temporal.Instant', () => {
+    it('for Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(0);
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,

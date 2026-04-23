@@ -1,8 +1,9 @@
-import type { FieldValueNumber } from '@thazstack/form-util';
+import { useMemo } from 'react';
 
 import { useStore } from '@tanstack/react-form';
+
+import type { FieldValueNumber } from '@thazstack/form-util';
 import { useFieldContext, FormTypeError } from '@thazstack/form-util';
-import { useMemo } from 'react';
 
 export type { FieldValueNumber } from '@thazstack/form-util';
 

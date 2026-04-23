@@ -1,7 +1,8 @@
-import type * as v from 'valibot';
+import { useMemo } from 'react';
 
 import { useStore } from '@tanstack/react-form';
-import { useMemo } from 'react';
+
+import type * as v from 'valibot';
 
 import type { _stringNullable } from '#src/schemas/string/string';
 

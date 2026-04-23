@@ -2,6 +2,7 @@
 /// <reference types="@total-typescript/ts-reset/dom" />
 
 import { StrictMode } from 'react';
+
 import { createRoot } from 'react-dom/client';
 
 import { EntryApp } from '#src/entry-app';

@@ -6,11 +6,13 @@ export const vitestConfig = defineConfig({
   ...baseConfig,
   overrides: [
     {
-      files: ['**/.test.ts', '**/.test-d.ts'],
+      files: ['**/*.test.ts', '**/*.test-d.ts', '**/*.test.tsx', '**/*.test-d.tsx'],
       plugins: ['vitest'],
       rules: {
         // Correctness Rules
         // Suspicious Rules
+        'unicorn/consistent-function-scoping': 'off',
+
         // Perf Rules
         // Restriction Rules
         // Pedantic Rules

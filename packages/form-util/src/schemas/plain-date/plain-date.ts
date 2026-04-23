@@ -1,6 +1,7 @@
+import * as t from '@thazstack/temporal-valibot-util';
+
 import type { Temporal } from '@js-temporal/polyfill';
 
-import * as t from '@thazstack/temporal-valibot-util';
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';

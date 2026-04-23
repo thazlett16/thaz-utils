@@ -1,5 +1,6 @@
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
+
 import viteJSPluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import viteTSConfigPaths from 'vite-tsconfig-paths';

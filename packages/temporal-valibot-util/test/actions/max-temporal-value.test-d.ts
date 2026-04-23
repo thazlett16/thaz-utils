@@ -1,7 +1,7 @@
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expectTypeOf, test } from 'vitest';
+import { describe, expectTypeOf, it } from 'vitest';
 
 import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '#src/actions/max-temporal-value';
 import type { TemporalValueInput } from '#src/actions/types';
@@ -12,18 +12,18 @@ describe('temporalMaxValue', () => {
   describe('should return action object', () => {
     const requirement = Temporal.PlainDate.from('2024-12-31');
 
-    test('with undefined message', () => {
+    it('with undefined message', () => {
       type Action = TemporalMaxValueAction<TemporalValueInput, Temporal.PlainDate, undefined>;
       expectTypeOf(temporalMaxValue(requirement)).toEqualTypeOf<Action>();
     });
 
-    test('with string message', () => {
+    it('with string message', () => {
       expectTypeOf(temporalMaxValue(requirement, 'message')).toEqualTypeOf<
         TemporalMaxValueAction<TemporalValueInput, Temporal.PlainDate, 'message'>
       >();
     });
 
-    test('with function message', () => {
+    it('with function message', () => {
       expectTypeOf(temporalMaxValue(requirement, () => 'message')).toEqualTypeOf<
         TemporalMaxValueAction<TemporalValueInput, Temporal.PlainDate, () => string>
       >();
@@ -33,15 +33,15 @@ describe('temporalMaxValue', () => {
   describe('should infer correct types', () => {
     type Action = TemporalMaxValueAction<TemporalValueInput, Temporal.PlainDate, undefined>;
 
-    test('of input', () => {
+    it('of input', () => {
       expectTypeOf<InferInput<Action>>().toEqualTypeOf<TemporalValueInput>();
     });
 
-    test('of output', () => {
+    it('of output', () => {
       expectTypeOf<InferOutput<Action>>().toEqualTypeOf<TemporalValueInput>();
     });
 
-    test('of issue', () => {
+    it('of issue', () => {
       expectTypeOf<InferIssue<Action>>().toEqualTypeOf<TemporalMaxValueIssue<TemporalValueInput, Temporal.PlainDate>>();
     });
   });

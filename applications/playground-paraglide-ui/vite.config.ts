@@ -1,6 +1,7 @@
-import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
+
+import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import viteJSPluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import viteTSConfigPaths from 'vite-tsconfig-paths';

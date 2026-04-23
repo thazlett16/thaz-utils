@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vp run @thazstack/oxfmt-config#build && vp run @thazstack/oxlint-config#build && vp run @thazstack/temporal-valibot-util#build && vp run @thazstack/form-util#build && vp run @thazstack/form-dayjs-util#build && vp run @thazstack/form-internationalized-date-util#build",
+    "build": "vp run -r --no-cache build",
+    "prepare": "vp run build",
     "taze": "vpx taze@latest -Ilwr",
     "taze:major": "vpx taze@latest major -Ilwr",
     "ready": "vp fmt && vp lint && vp run build -r"

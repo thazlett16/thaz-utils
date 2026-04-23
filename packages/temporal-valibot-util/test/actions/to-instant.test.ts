@@ -1,5 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { ToInstantAction, ToInstantIssue } from '#src/actions/to-instant-value';
 
@@ -7,7 +7,7 @@ import { toInstant } from '#src/actions/to-instant-value';
 
 describe('toInstant', () => {
   describe('should return action object', () => {
-    test('with undefined message', () => {
+    it('with undefined message', () => {
       expect(toInstant()).toStrictEqual({
         kind: 'transformation',
         type: 'to_instant',
@@ -18,7 +18,7 @@ describe('toInstant', () => {
       } satisfies ToInstantAction<unknown, undefined>);
     });
 
-    test('with string message', () => {
+    it('with string message', () => {
       expect(toInstant('message')).toStrictEqual({
         kind: 'transformation',
         type: 'to_instant',
@@ -29,7 +29,7 @@ describe('toInstant', () => {
       } satisfies ToInstantAction<unknown, string>);
     });
 
-    test('with function message', () => {
+    it('with function message', () => {
       const message = () => 'message';
       expect(toInstant(message)).toStrictEqual({
         kind: 'transformation',
@@ -45,42 +45,42 @@ describe('toInstant', () => {
   describe('should transform to Temporal.Instant', () => {
     const action = toInstant();
 
-    test('converts a ZonedDateTime ISO string', () => {
+    it('converts a ZonedDateTime ISO string', () => {
       expect(action['~run']({ typed: true, value: '2024-01-01T00:00:00+00:00[UTC]' }, {})).toStrictEqual({
         typed: true,
         value: Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]').toInstant(),
       });
     });
 
-    test('converts an Instant ISO string', () => {
+    it('converts an Instant ISO string', () => {
       expect(action['~run']({ typed: true, value: '2024-01-01T00:00:00Z' }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.from('2024-01-01T00:00:00Z'),
       });
     });
 
-    test('converts epoch milliseconds as number', () => {
+    it('converts epoch milliseconds as number', () => {
       expect(action['~run']({ typed: true, value: 0 }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochMilliseconds(0),
       });
     });
 
-    test('converts positive epoch milliseconds', () => {
+    it('converts positive epoch milliseconds', () => {
       expect(action['~run']({ typed: true, value: 1_700_000_000_000 }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochMilliseconds(1_700_000_000_000),
       });
     });
 
-    test('converts epoch nanoseconds as bigint', () => {
+    it('converts epoch nanoseconds as bigint', () => {
       expect(action['~run']({ typed: true, value: 0n }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochNanoseconds(0n),
       });
     });
 
-    test('converts a Date object', () => {
+    it('converts a Date object', () => {
       const date = new Date(1_000_000);
       expect(action['~run']({ typed: true, value: date }, {})).toStrictEqual({
         typed: true,
@@ -88,7 +88,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('converts a Temporal.ZonedDateTime', () => {
+    it('converts a Temporal.ZonedDateTime', () => {
       const zdt = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
       expect(action['~run']({ typed: true, value: zdt }, {})).toStrictEqual({
         typed: true,
@@ -96,7 +96,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('passes through an existing Temporal.Instant', () => {
+    it('passes through an existing Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -117,7 +117,7 @@ describe('toInstant', () => {
       abortPipeEarly: undefined,
     };
 
-    test('for invalid strings', () => {
+    it('for invalid strings', () => {
       const value = 'not-a-datetime';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -126,7 +126,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('for plain date strings (no time or offset)', () => {
+    it('for plain date strings (no time or offset)', () => {
       const value = '2024-01-01';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -135,7 +135,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('for null', () => {
+    it('for null', () => {
       expect(action['~run']({ typed: true, value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -143,7 +143,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('for plain objects', () => {
+    it('for plain objects', () => {
       const value = {};
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -152,7 +152,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('for Temporal.PlainDate', () => {
+    it('for Temporal.PlainDate', () => {
       const value = Temporal.PlainDate.from('2024-01-01');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -161,7 +161,7 @@ describe('toInstant', () => {
       });
     });
 
-    test('for Temporal.PlainTime', () => {
+    it('for Temporal.PlainTime', () => {
       const value = Temporal.PlainTime.from('10:00:00');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,

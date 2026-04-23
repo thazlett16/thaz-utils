@@ -1,5 +1,6 @@
-import { Temporal } from '@js-temporal/polyfill';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
+
+import { Temporal } from '@js-temporal/polyfill';
 
 export function createQueryClient() {
   return new QueryClient({

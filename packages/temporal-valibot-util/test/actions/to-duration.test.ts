@@ -1,5 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { ToDurationAction, ToDurationIssue } from '#src/actions/to-duration-value';
 
@@ -7,7 +7,7 @@ import { toDuration } from '#src/actions/to-duration-value';
 
 describe('toDuration', () => {
   describe('should return action object', () => {
-    test('with undefined message', () => {
+    it('with undefined message', () => {
       expect(toDuration({ durationType: 'hours' })).toStrictEqual({
         kind: 'transformation',
         type: 'to_duration',
@@ -18,7 +18,7 @@ describe('toDuration', () => {
       } satisfies ToDurationAction<unknown, undefined>);
     });
 
-    test('with string message', () => {
+    it('with string message', () => {
       expect(toDuration({ durationType: 'hours' }, 'message')).toStrictEqual({
         kind: 'transformation',
         type: 'to_duration',
@@ -29,7 +29,7 @@ describe('toDuration', () => {
       } satisfies ToDurationAction<unknown, string>);
     });
 
-    test('with function message', () => {
+    it('with function message', () => {
       const message = () => 'message';
       expect(toDuration({ durationType: 'hours' }, message)).toStrictEqual({
         kind: 'transformation',
@@ -43,7 +43,7 @@ describe('toDuration', () => {
   });
 
   describe('should transform to Temporal.Duration', () => {
-    test('converts a number to hours duration', () => {
+    it('converts a number to hours duration', () => {
       const action = toDuration({ durationType: 'hours' });
       expect(action['~run']({ typed: true, value: 2 }, {})).toStrictEqual({
         typed: true,
@@ -51,7 +51,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('converts a number to minutes duration', () => {
+    it('converts a number to minutes duration', () => {
       const action = toDuration({ durationType: 'minutes' });
       expect(action['~run']({ typed: true, value: 30 }, {})).toStrictEqual({
         typed: true,
@@ -59,7 +59,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('converts a number to days duration', () => {
+    it('converts a number to days duration', () => {
       const action = toDuration({ durationType: 'days' });
       expect(action['~run']({ typed: true, value: 7 }, {})).toStrictEqual({
         typed: true,
@@ -67,7 +67,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('converts a number to seconds duration', () => {
+    it('converts a number to seconds duration', () => {
       const action = toDuration({ durationType: 'seconds' });
       expect(action['~run']({ typed: true, value: 60 }, {})).toStrictEqual({
         typed: true,
@@ -75,7 +75,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('converts zero to a zero duration', () => {
+    it('converts zero to a zero duration', () => {
       const action = toDuration({ durationType: 'hours' });
       expect(action['~run']({ typed: true, value: 0 }, {})).toStrictEqual({
         typed: true,
@@ -83,7 +83,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('passes through an existing Temporal.Duration', () => {
+    it('passes through an existing Temporal.Duration', () => {
       const action = toDuration({ durationType: 'hours' });
       const value = Temporal.Duration.from({ hours: 5, minutes: 30 });
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
@@ -108,7 +108,7 @@ describe('toDuration', () => {
       abortPipeEarly: undefined,
     };
 
-    test('for strings', () => {
+    it('for strings', () => {
       const value = 'PT1H';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -117,7 +117,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('for null', () => {
+    it('for null', () => {
       expect(action['~run']({ typed: true, value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -125,7 +125,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('for objects', () => {
+    it('for objects', () => {
       const value = { hours: 1 };
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -134,7 +134,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('for booleans', () => {
+    it('for booleans', () => {
       const value = true;
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -143,7 +143,7 @@ describe('toDuration', () => {
       });
     });
 
-    test('for Temporal.Instant', () => {
+    it('for Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(0);
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,

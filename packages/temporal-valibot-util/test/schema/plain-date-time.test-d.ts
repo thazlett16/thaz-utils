@@ -1,25 +1,25 @@
 import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 
-import { describe, expectTypeOf, test } from 'vitest';
+import { describe, expectTypeOf, it } from 'vitest';
 
-import type { PlainDateTimeIssue, PlainDateTimeSchema } from '../../src/schema/plain-date-time';
+import type { PlainDateTimeIssue, PlainDateTimeSchema } from '#src/schema/plain-date-time';
 
-import { plainDateTime } from '../../src/schema/plain-date-time';
+import { plainDateTime } from '#src/schema/plain-date-time';
 
 describe('plainDateTime', () => {
   describe('should return schema object', () => {
-    test('with undefined message', () => {
+    it('with undefined message', () => {
       type Schema = PlainDateTimeSchema<undefined>;
       expectTypeOf(plainDateTime()).toEqualTypeOf<Schema>();
       expectTypeOf(plainDateTime(undefined)).toEqualTypeOf<Schema>();
     });
 
-    test('with string message', () => {
+    it('with string message', () => {
       expectTypeOf(plainDateTime('message')).toEqualTypeOf<PlainDateTimeSchema<'message'>>();
     });
 
-    test('with function message', () => {
+    it('with function message', () => {
       expectTypeOf(plainDateTime(() => 'message')).toEqualTypeOf<PlainDateTimeSchema<() => string>>();
     });
   });
@@ -27,15 +27,15 @@ describe('plainDateTime', () => {
   describe('should infer correct types', () => {
     type Schema = PlainDateTimeSchema<undefined>;
 
-    test('of input', () => {
+    it('of input', () => {
       expectTypeOf<InferInput<Schema>>().toEqualTypeOf<Temporal.PlainDateTime>();
     });
 
-    test('of output', () => {
+    it('of output', () => {
       expectTypeOf<InferOutput<Schema>>().toEqualTypeOf<Temporal.PlainDateTime>();
     });
 
-    test('of issue', () => {
+    it('of issue', () => {
       expectTypeOf<InferIssue<Schema>>().toEqualTypeOf<PlainDateTimeIssue>();
     });
   });
