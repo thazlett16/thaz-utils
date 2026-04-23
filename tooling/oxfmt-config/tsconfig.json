@@ -1,5 +1,5 @@
 {
-  "extends": ["@thazstack/typescript-config/bundler-no-dom"],
+  "extends": ["@thazstack/typescript-config/no-dom", "@thazstack/typescript-config/bundler"],
   "include": ["src", "vite.config.ts"],
   "compilerOptions": {
     "paths": {

@@ -29,14 +29,17 @@
   "type": "module",
   "exports": {
     "./package.json": "./package.json",
-    "./bundler-dom": "./configs/bundler-dom.json",
-    "./bundler-dom-react": "./configs/bundler-dom-react.json",
-    "./bundler-no-dom": "./configs/bundler-no-dom.json"
+    "./dom": "./configs/dom.json",
+    "./no-dom": "./configs/no-dom.json",
+    "./react": "./configs/react.json",
+    "./bundler": "./configs/bundler.json",
+    "./transpile": "./configs/transpile.json",
+    "./transpile-library": "./configs/transpile-library.json",
+    "./transpile-library-monorepo": "./configs/transpile-library-monorepo.json"
   },
   "scripts": {
     "check": "vp check",
-    "check:fix": "vp check --fix",
-    "prepack": "vp pack"
+    "check:fix": "vp check --fix"
   },
   "devDependencies": {
     "@types/node": "catalog:",

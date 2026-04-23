@@ -14,7 +14,6 @@
     "@tanstack/eslint-plugin-router": "catalog:",
     "@thazstack/oxfmt-config": "workspace:",
     "@thazstack/oxlint-config": "workspace:",
-    "@thazstack/typescript-config": "workspace:",
     "eslint-plugin-react-hooks-extra": "catalog:",
     "eslint-plugin-react-naming-convention": "catalog:",
     "eslint-plugin-react-web-api": "catalog:",

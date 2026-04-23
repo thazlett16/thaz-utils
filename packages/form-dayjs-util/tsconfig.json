@@ -1,5 +1,9 @@
 {
-  "extends": ["@thazstack/typescript-config/bundler-dom-react"],
+  "extends": [
+    "@thazstack/typescript-config/dom",
+    "@thazstack/typescript-config/bundler",
+    "@thazstack/typescript-config/react"
+  ],
   "include": ["src", "vite.config.ts"],
   "compilerOptions": {
     "paths": {
