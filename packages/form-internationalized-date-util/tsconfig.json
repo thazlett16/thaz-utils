@@ -4,10 +4,11 @@
     "@thazstack/typescript-config/bundler",
     "@thazstack/typescript-config/react"
   ],
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "test", "vite.config.ts"],
   "compilerOptions": {
     "paths": {
-      "#src/*": ["./src/*"]
+      "#src/*": ["./src/*"],
+      "#test/*": ["./test/*"]
     }
   }
 }
