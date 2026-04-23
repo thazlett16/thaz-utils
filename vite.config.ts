@@ -4,6 +4,10 @@ import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
   run: {
+    cache: {
+      scripts: false,
+      tasks: false,
+    },
     tasks: {
       build: {
         command: 'vp run build -r',
@@ -32,6 +36,14 @@ export default defineConfig({
           'oxc/no-barrel-file': 'off',
           // In library code we need to return undefined for certain cases.
           'unicorn/no-useless-undefined': 'off',
+        },
+      },
+      {
+        files: ['**/*.test.ts', '**/*.test-d.ts'],
+        rules: {
+          'typescript/no-unsafe-argument': 'off',
+          'typescript/no-unsafe-assignment': 'off',
+          'unicorn/consistent-function-scoping': 'off',
         },
       },
     ],

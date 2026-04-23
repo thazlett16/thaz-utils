@@ -1,6 +1,1 @@
-export {
-  formContext,
-  useFormContext,
-  fieldContext,
-  useFieldContext,
-} from '@thazstack/form-util';
+export { formContext, useFormContext, fieldContext, useFieldContext } from '@thazstack/form-util';

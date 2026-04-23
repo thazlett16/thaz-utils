@@ -32,7 +32,6 @@ export const fullConfig = defineConfig({
     ...reactConfig.plugins,
     ...typescriptConfig.plugins,
     ...unicornConfig.plugins,
-    ...vitestConfig.plugins,
   ],
   jsPlugins: [
     ...jsPluginReactHooksExtraConfig.jsPlugins,
@@ -52,7 +51,6 @@ export const fullConfig = defineConfig({
     ...reactConfig.rules,
     ...typescriptConfig.rules,
     ...unicornConfig.rules,
-    ...vitestConfig.rules,
 
     ...jsPluginReactHooksExtraConfig.rules,
     ...jsPluginReactNamingConventionConfig.rules,
@@ -60,5 +58,5 @@ export const fullConfig = defineConfig({
     ...jsPluginTanStackQueryConfig.rules,
     ...jsPluginTanStackRouterConfig.rules,
   },
-  extends: [configFileConfig],
+  extends: [vitestConfig, configFileConfig],
 });

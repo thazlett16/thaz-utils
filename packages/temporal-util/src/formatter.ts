@@ -156,7 +156,10 @@ export function resolveTimeZoneNameFormatterOptions(options?: Partial<TimeZoneNa
  * @see {@link buildTimeFormatter}
  */
 export function buildDateTimeFormatter(
-  options?: Partial<DateFormatterOptions> & Partial<TimeFormatterOptions> & Partial<TimeZoneNameFormatterOptions> & Partial<LocaleOptions>,
+  options?: Partial<DateFormatterOptions> &
+    Partial<TimeFormatterOptions> &
+    Partial<TimeZoneNameFormatterOptions> &
+    Partial<LocaleOptions>,
 ) {
   const localeOptions = resolveLocaleOption(options);
   const dateOptions = resolveDateFormatterOptions(options);

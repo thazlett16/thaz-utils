@@ -4,9 +4,4 @@ export type {
   FormTypeErrorConstructor,
   FormMessageShapeErrorConstructor,
 } from '@thazstack/form-util';
-export {
-  FormErrorBase,
-  FormConversionError,
-  FormMessageShapeError,
-  FormTypeError,
-} from '@thazstack/form-util';
+export { FormErrorBase, FormConversionError, FormMessageShapeError, FormTypeError } from '@thazstack/form-util';
