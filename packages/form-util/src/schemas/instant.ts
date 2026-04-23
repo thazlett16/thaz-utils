@@ -32,7 +32,11 @@ export function _instantRequired(messages: FormRequiredMessage, ...actions: Inst
 }
 
 /**
+ * Nullable `Temporal.Instant` schema.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.Instant` (pass-through),
+ * and `Temporal.ZonedDateTime` (→ `Temporal.Instant` via `.toInstant()`).
+ * Any other type triggers `messages.wrongTypeMessage`.
  */
 export function instant(
   messages: FormWrongTypeMessage,
@@ -40,7 +44,10 @@ export function instant(
 ): ReturnType<typeof _instantNullable>;
 
 /**
+ * Required `Temporal.Instant` schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects `null` results with
+ * `messages.requiredMessage`.
  */
 export function instant(
   messages: FormRequiredMessage,

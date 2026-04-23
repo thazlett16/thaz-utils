@@ -31,7 +31,11 @@ export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions
 }
 
 /**
+ * Nullable `Temporal.ZonedDateTime` schema.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), and `Temporal.ZonedDateTime` (pass-through).
+ * Unlike other Temporal schemas, no automatic conversion from other Temporal types is performed.
+ * Any other type triggers `messages.wrongTypeMessage`.
  */
 export function zonedDateTime(
   messages: FormWrongTypeMessage,
@@ -39,7 +43,10 @@ export function zonedDateTime(
 ): ReturnType<typeof _zonedDateTimeNullable>;
 
 /**
+ * Required `Temporal.ZonedDateTime` schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects `null` results with
+ * `messages.requiredMessage`.
  */
 export function zonedDateTime(
   messages: FormRequiredMessage,

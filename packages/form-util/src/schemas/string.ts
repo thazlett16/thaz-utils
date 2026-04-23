@@ -33,12 +33,18 @@ export function _stringRequired(messages: FormRequiredMessage, ...actions: Strin
 }
 
 /**
+ * Nullable string schema. Coerces `undefined` and blank strings to `null`.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), empty or whitespace-only strings (→ `null`),
+ * and non-blank strings (trimmed). Any other type triggers `messages.wrongTypeMessage`.
  */
 export function string(messages: FormWrongTypeMessage, ...actions: StringAction[]): ReturnType<typeof _stringNullable>;
 
 /**
+ * Required string schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects empty/null results with
+ * `messages.requiredMessage`.
  */
 export function string(messages: FormRequiredMessage, ...actions: StringAction[]): ReturnType<typeof _stringRequired>;
 

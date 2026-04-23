@@ -23,12 +23,18 @@ export function _numberRequired(messages: FormRequiredMessage, ...actions: Numbe
 }
 
 /**
+ * Nullable number schema. Coerces `undefined` to `null` and validates finite numbers.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), and finite numbers.
+ * Non-finite numbers (e.g. `Infinity`, `NaN`) and non-number types trigger `messages.wrongTypeMessage`.
  */
 export function number(messages: FormWrongTypeMessage, ...actions: NumberAction[]): ReturnType<typeof _numberNullable>;
 
 /**
+ * Required number schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects `null` results with
+ * `messages.requiredMessage`.
  */
 export function number(messages: FormRequiredMessage, ...actions: NumberAction[]): ReturnType<typeof _numberRequired>;
 

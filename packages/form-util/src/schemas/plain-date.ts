@@ -37,7 +37,12 @@ export function _plainDateRequired(messages: FormRequiredMessage, ...actions: Pl
 }
 
 /**
+ * Nullable `Temporal.PlainDate` schema.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.PlainDate` (pass-through),
+ * `Temporal.ZonedDateTime` (→ `PlainDate` via `.toPlainDate()`), and
+ * `Temporal.PlainDateTime` (→ `PlainDate` via `.toPlainDate()`).
+ * Any other type triggers `messages.wrongTypeMessage`.
  */
 export function plainDate(
   messages: FormWrongTypeMessage,
@@ -45,7 +50,10 @@ export function plainDate(
 ): ReturnType<typeof _plainDateNullable>;
 
 /**
+ * Required `Temporal.PlainDate` schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects `null` results with
+ * `messages.requiredMessage`.
  */
 export function plainDate(
   messages: FormRequiredMessage,

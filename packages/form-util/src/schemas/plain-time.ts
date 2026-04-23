@@ -37,7 +37,12 @@ export function _plainTimeRequired(messages: FormRequiredMessage, ...actions: Pl
 }
 
 /**
+ * Nullable `Temporal.PlainTime` schema.
  *
+ * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.PlainTime` (pass-through),
+ * `Temporal.ZonedDateTime` (→ `PlainTime` via `.toPlainTime()`), and
+ * `Temporal.PlainDateTime` (→ `PlainTime` via `.toPlainTime()`).
+ * Any other type triggers `messages.wrongTypeMessage`.
  */
 export function plainTime(
   messages: FormWrongTypeMessage,
@@ -45,7 +50,10 @@ export function plainTime(
 ): ReturnType<typeof _plainTimeNullable>;
 
 /**
+ * Required `Temporal.PlainTime` schema. Builds on the nullable variant and rejects `null` output.
  *
+ * Accepts the same inputs as the nullable overload but rejects `null` results with
+ * `messages.requiredMessage`.
  */
 export function plainTime(
   messages: FormRequiredMessage,
