@@ -25,14 +25,14 @@ describe('zonedDateTime', () => {
   });
 
   describe('required overload', () => {
+    const schema = _zonedDateTimeRequired(requiredMessages);
+
     it('InferInput includes ZonedDateTime, null, and undefined', () => {
-      type Schema = ReturnType<typeof _zonedDateTimeRequired>;
-      expectTypeOf<v.InferInput<Schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
     });
 
     it('InferOutput is Temporal.ZonedDateTime', () => {
-      type Schema = ReturnType<typeof _zonedDateTimeRequired>;
-      expectTypeOf<v.InferOutput<Schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
   });
 });
