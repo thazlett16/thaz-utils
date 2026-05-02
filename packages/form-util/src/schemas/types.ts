@@ -9,3 +9,9 @@ export interface FormRequiredMessage extends FormWrongTypeMessage {
   /** Error message shown when the field is required but the value is empty or resolves to `null`. */
   requiredMessage: string;
 }
+
+export function isFormRequiredMessage(
+  messages: FormWrongTypeMessage | FormRequiredMessage,
+): messages is FormRequiredMessage {
+  return 'requiredMessage' in messages;
+}
