@@ -2,6 +2,8 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
+import { isFormRequiredMessage } from '#src/schemas/types';
+
 export type NumberAction = v.BaseValidation<number, number, v.BaseIssue<unknown>>;
 
 export function _numberNullable(messages: FormWrongTypeMessage, ...actions: NumberAction[]) {
@@ -12,7 +14,7 @@ export function _numberNullable(messages: FormWrongTypeMessage, ...actions: Numb
         v.undefined(),
         v.transform(() => null),
       ),
-      v.pipe(v.number(), v.finite(messages.wrongTypeMessage), ...actions),
+      v.pipe(v.number(messages.wrongTypeMessage), v.finite(messages.wrongTypeMessage), ...actions),
     ],
     messages.wrongTypeMessage,
   );
@@ -23,44 +25,25 @@ export function _numberRequired(messages: FormRequiredMessage, ...actions: Numbe
 }
 
 /**
- * Nullable number schema. Coerces `undefined` to `null` and validates finite numbers.
+ * Number schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- * Accepts `null` (pass-through), `undefined` (→ `null`), and finite numbers.
- * Non-finite numbers (e.g. `Infinity`, `NaN`) and non-number types trigger `messages.wrongTypeMessage`.
- */
-export function number(messages: FormWrongTypeMessage, ...actions: NumberAction[]): ReturnType<typeof _numberNullable>;
-
-/**
- * Required number schema. Builds on the nullable variant and rejects `null` output.
+ * Accepts:
  *
- * Accepts the same inputs as the nullable overload but rejects `null` results with
- * `messages.requiredMessage`.
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `number` must be finite (rejects `Infinity`, `NaN`)
  */
-export function number(messages: FormRequiredMessage, ...actions: NumberAction[]): ReturnType<typeof _numberRequired>;
+export function number<T extends FormWrongTypeMessage | FormRequiredMessage>(
+  messages: T,
+  ...actions: NumberAction[]
+): T extends FormRequiredMessage ? ReturnType<typeof _numberRequired> : ReturnType<typeof _numberNullable>;
 
 export function number(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: NumberAction[]) {
-  if ('requiredMessage' in messages) {
+  if (isFormRequiredMessage(messages)) {
     return _numberRequired(messages, ...actions);
   }
 
   return _numberNullable(messages, ...actions);
 }
-
-// const numberExample = v.object({
-//     testRequired: number({
-//         wrongTypeMessage: 'Not a Number',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: number({
-//         wrongTypeMessage: 'Not a Number',
-//     }),
-//     testRequiredWithActions: number({
-//         wrongTypeMessage: 'Not a Number',
-//         requiredMessage: 'Field is Required',
-//     }, v.ltValue(100), v.gtValue(5), v.check((val) => val === 20)),
-//     testNullableWithActions: number({
-//         wrongTypeMessage: 'Not a Number',
-//     }, v.ltValue(100), v.gtValue(5), v.check((val) => val === 20)),
-// });
-// type InputNumberExample = v.InferInput<typeof numberExample>
-// type OutputNumberExample = v.InferOutput<typeof numberExample>

@@ -6,6 +6,8 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
+import { isFormRequiredMessage } from '#src/schemas/types';
+
 export type ZonedDateTimeAction = v.BaseValidation<
   Temporal.ZonedDateTime,
   Temporal.ZonedDateTime,
@@ -31,51 +33,25 @@ export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions
 }
 
 /**
- * Nullable `Temporal.ZonedDateTime` schema.
+ * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- * Accepts `null` (pass-through), `undefined` (→ `null`), and `Temporal.ZonedDateTime` (pass-through).
- * Unlike other Temporal schemas, no automatic conversion from other Temporal types is performed.
- * Any other type triggers `messages.wrongTypeMessage`.
- */
-export function zonedDateTime(
-  messages: FormWrongTypeMessage,
-  ...actions: ZonedDateTimeAction[]
-): ReturnType<typeof _zonedDateTimeNullable>;
-
-/**
- * Required `Temporal.ZonedDateTime` schema. Builds on the nullable variant and rejects `null` output.
+ * Accepts:
  *
- * Accepts the same inputs as the nullable overload but rejects `null` results with
- * `messages.requiredMessage`.
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.ZonedDateTime`
  */
-export function zonedDateTime(
-  messages: FormRequiredMessage,
+export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
+  messages: T,
   ...actions: ZonedDateTimeAction[]
-): ReturnType<typeof _zonedDateTimeRequired>;
+): T extends FormRequiredMessage ? ReturnType<typeof _zonedDateTimeRequired> : ReturnType<typeof _zonedDateTimeNullable>;
 
 export function zonedDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: ZonedDateTimeAction[]) {
-  if ('requiredMessage' in messages) {
+  if (isFormRequiredMessage(messages)) {
     return _zonedDateTimeRequired(messages, ...actions);
   }
 
   return _zonedDateTimeNullable(messages, ...actions);
 }
-
-// const zonedDateTimeExample = v.object({
-//     testRequired: zonedDateTime({
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: zonedDateTime({
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//     }),
-//     testRequiredWithActions: zonedDateTime({
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.zonedDateTime())),
-//     testNullableWithActions: zonedDateTime({
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//     }, v.check((val) => val === Temporal.Now.zonedDateTime())),
-// });
-// type InputZonedDateTimeExample = v.InferInput<typeof zonedDateTimeExample>
-// type OutputZonedDateTimeExample = v.InferOutput<typeof zonedDateTimeExample>

@@ -6,6 +6,8 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
+import { isFormRequiredMessage } from '#src/schemas/types';
+
 export type PlainDateTimeAction = v.BaseValidation<
   Temporal.PlainDateTime,
   Temporal.PlainDateTime,
@@ -36,51 +38,27 @@ export function _plainDateTimeRequired(messages: FormRequiredMessage, ...actions
 }
 
 /**
- * Nullable `Temporal.PlainDateTime` schema.
+ * PlainDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.PlainDateTime` (pass-through),
- * and `Temporal.ZonedDateTime` (→ `PlainDateTime` via `.toPlainDateTime()`).
- * Any other type triggers `messages.wrongTypeMessage`.
- */
-export function plainDateTime(
-  messages: FormWrongTypeMessage,
-  ...actions: PlainDateTimeAction[]
-): ReturnType<typeof _plainDateTimeNullable>;
-
-/**
- * Required `Temporal.PlainDateTime` schema. Builds on the nullable variant and rejects `null` output.
+ * Accepts:
  *
- * Accepts the same inputs as the nullable overload but rejects `null` results with
- * `messages.requiredMessage`.
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.PlainDateTime`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.PlainDateTime` via `.toPlainDateTime()`
  */
-export function plainDateTime(
-  messages: FormRequiredMessage,
+export function plainDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
+  messages: T,
   ...actions: PlainDateTimeAction[]
-): ReturnType<typeof _plainDateTimeRequired>;
+): T extends FormRequiredMessage ? ReturnType<typeof _plainDateTimeRequired> : ReturnType<typeof _plainDateTimeNullable>;
 
 export function plainDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: PlainDateTimeAction[]) {
-  if ('requiredMessage' in messages) {
+  if (isFormRequiredMessage(messages)) {
     return _plainDateTimeRequired(messages, ...actions);
   }
 
   return _plainDateTimeNullable(messages, ...actions);
 }
-
-// const plainDateTimeExample = v.object({
-//     testRequired: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//     }),
-//     testRequiredWithActions: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.plainDateTimeISO())),
-//     testNullableWithActions: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//     }, v.check((val) => val === Temporal.Now.plainDateTimeISO())),
-// });
-// type InputPlainDateTimeExample = v.InferInput<typeof plainDateTimeExample>
-// type OutputPlainDateTimeExample = v.InferOutput<typeof plainDateTimeExample>

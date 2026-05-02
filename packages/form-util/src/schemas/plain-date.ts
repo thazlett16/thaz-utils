@@ -6,6 +6,8 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
+import { isFormRequiredMessage } from '#src/schemas/types';
+
 export type PlainDateAction = v.BaseValidation<Temporal.PlainDate, Temporal.PlainDate, v.BaseIssue<unknown>>;
 
 export function _plainDateNullable(messages: FormWrongTypeMessage, ...actions: PlainDateAction[]) {
@@ -37,52 +39,29 @@ export function _plainDateRequired(messages: FormRequiredMessage, ...actions: Pl
 }
 
 /**
- * Nullable `Temporal.PlainDate` schema.
+ * PlainDate schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.PlainDate` (pass-through),
- * `Temporal.ZonedDateTime` (→ `PlainDate` via `.toPlainDate()`), and
- * `Temporal.PlainDateTime` (→ `PlainDate` via `.toPlainDate()`).
- * Any other type triggers `messages.wrongTypeMessage`.
- */
-export function plainDate(
-  messages: FormWrongTypeMessage,
-  ...actions: PlainDateAction[]
-): ReturnType<typeof _plainDateNullable>;
-
-/**
- * Required `Temporal.PlainDate` schema. Builds on the nullable variant and rejects `null` output.
+ * Accepts:
  *
- * Accepts the same inputs as the nullable overload but rejects `null` results with
- * `messages.requiredMessage`.
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.PlainDate`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
+ *
+ * `Temporal.PlainDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
  */
-export function plainDate(
-  messages: FormRequiredMessage,
+export function plainDate<T extends FormWrongTypeMessage | FormRequiredMessage>(
+  messages: T,
   ...actions: PlainDateAction[]
-): ReturnType<typeof _plainDateRequired>;
+): T extends FormRequiredMessage ? ReturnType<typeof _plainDateRequired> : ReturnType<typeof _plainDateNullable>;
 
 export function plainDate(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: PlainDateAction[]) {
-  if ('requiredMessage' in messages) {
+  if (isFormRequiredMessage(messages)) {
     return _plainDateRequired(messages, ...actions);
   }
 
   return _plainDateNullable(messages, ...actions);
 }
-
-// const plainDateExample = v.object({
-//     testRequired: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//     }),
-//     testRequiredWithActions: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.plainDateISO())),
-//     testNullableWithActions: plainDate({
-//         wrongTypeMessage: 'Not a PlainDate',
-//     }, v.check((val) => val === Temporal.Now.plainDateISO())),
-// });
-// type InputPlainDateExample = v.InferInput<typeof plainDateExample>
-// type OutputPlainDateExample = v.InferOutput<typeof plainDateExample>

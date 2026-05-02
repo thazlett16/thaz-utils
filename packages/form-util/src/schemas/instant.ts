@@ -6,6 +6,8 @@ import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
 
+import { isFormRequiredMessage } from '#src/schemas/types';
+
 export type InstantAction = v.BaseValidation<Temporal.Instant, Temporal.Instant, v.BaseIssue<unknown>>;
 
 export function _instantNullable(messages: FormWrongTypeMessage, ...actions: InstantAction[]) {
@@ -32,51 +34,27 @@ export function _instantRequired(messages: FormRequiredMessage, ...actions: Inst
 }
 
 /**
- * Nullable `Temporal.Instant` schema.
+ * Instant schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- * Accepts `null` (pass-through), `undefined` (→ `null`), `Temporal.Instant` (pass-through),
- * and `Temporal.ZonedDateTime` (→ `Temporal.Instant` via `.toInstant()`).
- * Any other type triggers `messages.wrongTypeMessage`.
- */
-export function instant(
-  messages: FormWrongTypeMessage,
-  ...actions: InstantAction[]
-): ReturnType<typeof _instantNullable>;
-
-/**
- * Required `Temporal.Instant` schema. Builds on the nullable variant and rejects `null` output.
+ * Accepts:
  *
- * Accepts the same inputs as the nullable overload but rejects `null` results with
- * `messages.requiredMessage`.
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.Instant`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.Instant` via `.toInstant()`
  */
-export function instant(
-  messages: FormRequiredMessage,
+export function instant<T extends FormWrongTypeMessage | FormRequiredMessage>(
+  messages: T,
   ...actions: InstantAction[]
-): ReturnType<typeof _instantRequired>;
+): T extends FormRequiredMessage ? ReturnType<typeof _instantRequired> : ReturnType<typeof _instantNullable>;
 
 export function instant(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: InstantAction[]) {
-  if ('requiredMessage' in messages) {
+  if (isFormRequiredMessage(messages)) {
     return _instantRequired(messages, ...actions);
   }
 
   return _instantNullable(messages, ...actions);
 }
-
-// const instantExample = v.object({
-//     testRequired: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//     }),
-//     testRequiredWithActions: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.instant())),
-//     testNullableWithActions: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//     }, v.check((val) => val === Temporal.Now.instant())),
-// });
-// type InputInstantExample = v.InferInput<typeof instantExample>
-// type OutputInstantExample = v.InferOutput<typeof instantExample>
