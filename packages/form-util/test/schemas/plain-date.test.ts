@@ -7,92 +7,118 @@ import { plainDate } from '#src/schemas/plain-date';
 const wrongTypeMessages = { wrongTypeMessage: 'Wrong type' };
 const requiredMessages = { wrongTypeMessage: 'Wrong type', requiredMessage: 'Required' };
 
-const testDate = Temporal.PlainDate.from('2024-06-15');
-const testZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
-const testPlainDateTime = Temporal.PlainDateTime.from('2024-06-15T12:00:00');
+const aPlainDate = Temporal.PlainDate.from('2024-06-15');
+const aZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
+const aPlainDateTime = Temporal.PlainDateTime.from('2024-06-15T12:00:00');
 
-describe('plainDate (nullable)', () => {
-  const schema = plainDate(wrongTypeMessages);
+describe('plainDate', () => {
+  describe('nullable overload', () => {
+    const schema = plainDate(wrongTypeMessages);
 
-  it('passes null through', () => {
-    expect(v.safeParse(schema, null)).toMatchObject({ success: true, output: null });
+    it('passes null through', () => {
+      expect(v.safeParse(schema, null)).toMatchObject({ success: true, output: null });
+    });
+
+    it('coerces undefined to null', () => {
+      expect(v.safeParse(schema, undefined)).toMatchObject({ success: true, output: null });
+    });
+
+    it('passes a Temporal.PlainDate', () => {
+      expect(v.safeParse(schema, aPlainDate)).toMatchObject({ success: true, output: aPlainDate });
+    });
+
+    it('converts a Temporal.ZonedDateTime to Temporal.PlainDate', () => {
+      const result = v.safeParse(schema, aZonedDateTime);
+      expect(result.success).toBeTruthy();
+      expect(result.output).toEqual(aZonedDateTime.toPlainDate());
+    });
+
+    it('converts a Temporal.PlainDateTime to Temporal.PlainDate', () => {
+      const result = v.safeParse(schema, aPlainDateTime);
+      expect(result.success).toBeTruthy();
+      expect(result.output).toEqual(aPlainDateTime.toPlainDate());
+    });
+
+    it('rejects strings with wrongTypeMessage', () => {
+      const result = v.safeParse(schema, '2024-06-15');
+      expect(result.success).toBeFalsy();
+      expect(result.issues?.[0]?.message).toBe('Wrong type');
+    });
+
+    it('rejects numbers', () => {
+      expect(v.safeParse(schema, 0).success).toBeFalsy();
+    });
+
+    it('rejects objects', () => {
+      expect(v.safeParse(schema, {}).success).toBeFalsy();
+    });
+
+    it('rejects Temporal.Instant', () => {
+      expect(v.safeParse(schema, Temporal.Instant.from('2024-06-15T00:00:00Z')).success).toBeFalsy();
+    });
+
+    it('passes extra plain date actions', () => {
+      const minDate = Temporal.PlainDate.from('2024-01-01');
+      const schemaWithAction = plainDate(
+        wrongTypeMessages,
+        v.check((val) => Temporal.PlainDate.compare(val, minDate) >= 0, 'too early'),
+      );
+      expect(v.safeParse(schemaWithAction, Temporal.PlainDate.from('2023-12-31')).success).toBeFalsy();
+      expect(v.safeParse(schemaWithAction, minDate).success).toBeTruthy();
+    });
   });
 
-  it('coerces undefined to null', () => {
-    expect(v.safeParse(schema, undefined)).toMatchObject({ success: true, output: null });
-  });
+  describe('required overload', () => {
+    const schema = plainDate(requiredMessages);
 
-  it('passes a Temporal.PlainDate through', () => {
-    expect(v.safeParse(schema, testDate)).toMatchObject({ success: true, output: testDate });
-  });
+    it('passes a Temporal.PlainDate', () => {
+      expect(v.safeParse(schema, aPlainDate)).toMatchObject({ success: true, output: aPlainDate });
+    });
 
-  it('converts Temporal.ZonedDateTime to Temporal.PlainDate', () => {
-    const result = v.safeParse(schema, testZonedDateTime);
-    expect(result.success).toBe(true);
-    expect(result.output).toBeInstanceOf(Temporal.PlainDate);
-    expect((result.output as Temporal.PlainDate).toString()).toBe('2024-06-15');
-  });
+    it('converts a Temporal.ZonedDateTime to Temporal.PlainDate', () => {
+      const result = v.safeParse(schema, aZonedDateTime);
+      expect(result.success).toBeTruthy();
+      expect(result.output).toEqual(aZonedDateTime.toPlainDate());
+    });
 
-  it('converts Temporal.PlainDateTime to Temporal.PlainDate', () => {
-    const result = v.safeParse(schema, testPlainDateTime);
-    expect(result.success).toBe(true);
-    expect(result.output).toBeInstanceOf(Temporal.PlainDate);
-    expect((result.output as Temporal.PlainDate).toString()).toBe('2024-06-15');
-  });
+    it('converts a Temporal.PlainDateTime to Temporal.PlainDate', () => {
+      const result = v.safeParse(schema, aPlainDateTime);
+      expect(result.success).toBeTruthy();
+      expect(result.output).toEqual(aPlainDateTime.toPlainDate());
+    });
 
-  it('rejects ISO date strings with wrongTypeMessage', () => {
-    const result = v.safeParse(schema, '2024-06-15');
-    expect(result.success).toBe(false);
-    expect(result.issues?.[0]?.message).toBe('Wrong type');
-  });
+    it('rejects null with requiredMessage', () => {
+      const result = v.safeParse(schema, null);
+      expect(result.success).toBeFalsy();
+      expect(result.issues?.[0]?.message).toBe('Required');
+    });
 
-  it('rejects Temporal.Instant', () => {
-    expect(v.safeParse(schema, Temporal.Instant.fromEpochMilliseconds(0)).success).toBe(false);
-  });
+    it('rejects undefined with requiredMessage', () => {
+      const result = v.safeParse(schema, undefined);
+      expect(result.success).toBeFalsy();
+      expect(result.issues?.[0]?.message).toBe('Required');
+    });
 
-  it('rejects Temporal.PlainTime', () => {
-    expect(v.safeParse(schema, Temporal.PlainTime.from('10:00:00')).success).toBe(false);
-  });
+    it('rejects strings with wrongTypeMessage', () => {
+      const result = v.safeParse(schema, '2024-06-15');
+      expect(result.success).toBeFalsy();
+      expect(result.issues?.[0]?.message).toBe('Wrong type');
+    });
 
-  it('rejects numbers', () => {
-    expect(v.safeParse(schema, 20_240_615).success).toBe(false);
-  });
-});
+    it('rejects numbers with wrongTypeMessage', () => {
+      const result = v.safeParse(schema, 0);
+      expect(result.success).toBeFalsy();
+      expect(result.issues?.[0]?.message).toBe('Wrong type');
+    });
 
-describe('plainDate (required)', () => {
-  const schema = plainDate(requiredMessages);
-
-  it('passes a Temporal.PlainDate through', () => {
-    expect(v.safeParse(schema, testDate)).toMatchObject({ success: true, output: testDate });
-  });
-
-  it('converts Temporal.ZonedDateTime to Temporal.PlainDate', () => {
-    const result = v.safeParse(schema, testZonedDateTime);
-    expect(result.success).toBe(true);
-    expect(result.output).toBeInstanceOf(Temporal.PlainDate);
-  });
-
-  it('converts Temporal.PlainDateTime to Temporal.PlainDate', () => {
-    const result = v.safeParse(schema, testPlainDateTime);
-    expect(result.success).toBe(true);
-    expect(result.output).toBeInstanceOf(Temporal.PlainDate);
-  });
-
-  it('rejects null with requiredMessage', () => {
-    const result = v.safeParse(schema, null);
-    expect(result.success).toBe(false);
-    expect(result.issues?.[0]?.message).toBe('Required');
-  });
-
-  it('rejects undefined with requiredMessage', () => {
-    const result = v.safeParse(schema, undefined);
-    expect(result.success).toBe(false);
-    expect(result.issues?.[0]?.message).toBe('Required');
-  });
-
-  it('rejects strings with wrongTypeMessage', () => {
-    const result = v.safeParse(schema, '2024-06-15');
-    expect(result.success).toBe(false);
-    expect(result.issues?.[0]?.message).toBe('Wrong type');
+    it('passes extra plain date actions', () => {
+      const minDate = Temporal.PlainDate.from('2024-01-01');
+      const schemaWithAction = plainDate(
+        requiredMessages,
+        v.check((val) => Temporal.PlainDate.compare(val, minDate) >= 0, 'too early'),
+      );
+      expect(v.safeParse(schemaWithAction, Temporal.PlainDate.from('2023-12-31')).success).toBeFalsy();
+      expect(v.safeParse(schemaWithAction, minDate).success).toBeTruthy();
+    });
   });
 });

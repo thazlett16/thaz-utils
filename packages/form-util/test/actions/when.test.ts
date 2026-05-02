@@ -17,13 +17,13 @@ describe('when', () => {
 
   it('works inside a pipe — applies ifAction on true', () => {
     const schema = v.pipe(v.string(), when(true, v.minLength(3, 'too short'), v.maxLength(1, 'too long')));
-    expect(v.safeParse(schema, 'ab').success).toBe(false);
-    expect(v.safeParse(schema, 'abc').success).toBe(true);
+    expect(v.safeParse(schema, 'ab').success).toBeFalsy();
+    expect(v.safeParse(schema, 'abc').success).toBeTruthy();
   });
 
   it('works inside a pipe — applies elseAction on false', () => {
     const schema = v.pipe(v.string(), when(false, v.minLength(3, 'too short'), v.maxLength(1, 'too long')));
-    expect(v.safeParse(schema, 'ab').success).toBe(false);
-    expect(v.safeParse(schema, 'a').success).toBe(true);
+    expect(v.safeParse(schema, 'ab').success).toBeFalsy();
+    expect(v.safeParse(schema, 'a').success).toBeTruthy();
   });
 });

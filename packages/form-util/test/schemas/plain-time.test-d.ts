@@ -1,41 +1,89 @@
-import type { Temporal } from '@js-temporal/polyfill';
-import type * as v from 'valibot';
+import { Temporal } from '@js-temporal/polyfill';
+import * as v from 'valibot';
 import { describe, expectTypeOf, it } from 'vitest';
 
-import { _plainTimeNullable, _plainTimeRequired, plainTime } from '#src/schemas/plain-time';
+import type { _plainTimeNullable, _plainTimeRequired } from '#src/schemas/plain-time';
+
+import { plainTime } from '#src/schemas/plain-time';
 
 const wrongTypeMessages = { wrongTypeMessage: 'Wrong type' };
 const requiredMessages = { wrongTypeMessage: 'Wrong type', requiredMessage: 'Required' };
 
 describe('plainTime', () => {
   describe('nullable overload', () => {
+    const schema = plainTime(wrongTypeMessages);
+
     it('returns ReturnType<typeof _plainTimeNullable>', () => {
-      expectTypeOf(plainTime(wrongTypeMessages)).toEqualTypeOf<ReturnType<typeof _plainTimeNullable>>();
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _plainTimeNullable>>();
     });
 
-    it('InferInput includes PlainTime, ZonedDateTime, PlainDateTime, null, and undefined', () => {
-      type Schema = ReturnType<typeof _plainTimeNullable>;
-      expectTypeOf<v.InferInput<Schema>>().toEqualTypeOf<
-        Temporal.PlainTime | Temporal.ZonedDateTime | Temporal.PlainDateTime | null | undefined
-      >();
-    });
-
-    it('InferOutput is Temporal.PlainTime | null', () => {
-      type Schema = ReturnType<typeof _plainTimeNullable>;
-      expectTypeOf<v.InferOutput<Schema>>().toEqualTypeOf<Temporal.PlainTime | null>();
-    });
-  });
-
-  describe('required overload', () => {
-    const schema = _plainTimeRequired(requiredMessages);
-
-    it('InferInput includes PlainTime, ZonedDateTime, PlainDateTime, null, and undefined', () => {
+    it('inferInput includes Temporal.PlainTime, Temporal.ZonedDateTime, Temporal.PlainDateTime, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
         Temporal.PlainTime | Temporal.ZonedDateTime | Temporal.PlainDateTime | null | undefined
       >();
     });
 
-    it('InferOutput is Temporal.PlainTime', () => {
+    it('inferOutput is Temporal.PlainTime | null', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.PlainTime | null>();
+    });
+  });
+
+  describe('nullable overload - additional validation', () => {
+    const schema = plainTime(
+      wrongTypeMessages,
+      v.check((val) => val.hour >= 0),
+    );
+
+    it('returns ReturnType<typeof _plainTimeNullable>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _plainTimeNullable>>();
+    });
+
+    it('inferInput includes Temporal.PlainTime, Temporal.ZonedDateTime, Temporal.PlainDateTime, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
+        Temporal.PlainTime | Temporal.ZonedDateTime | Temporal.PlainDateTime | null | undefined
+      >();
+    });
+
+    it('inferOutput is Temporal.PlainTime | null', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.PlainTime | null>();
+    });
+  });
+
+  describe('required overload', () => {
+    const schema = plainTime(requiredMessages);
+
+    it('returns ReturnType<typeof _plainTimeRequired>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _plainTimeRequired>>();
+    });
+
+    it('inferInput includes Temporal.PlainTime, Temporal.ZonedDateTime, Temporal.PlainDateTime, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
+        Temporal.PlainTime | Temporal.ZonedDateTime | Temporal.PlainDateTime | null | undefined
+      >();
+    });
+
+    it('inferOutput is Temporal.PlainTime', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.PlainTime>();
+    });
+  });
+
+  describe('required overload - additional validation', () => {
+    const schema = plainTime(
+      requiredMessages,
+      v.check((val) => val.hour >= 0),
+    );
+
+    it('returns ReturnType<typeof _plainTimeRequired>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _plainTimeRequired>>();
+    });
+
+    it('inferInput includes Temporal.PlainTime, Temporal.ZonedDateTime, Temporal.PlainDateTime, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
+        Temporal.PlainTime | Temporal.ZonedDateTime | Temporal.PlainDateTime | null | undefined
+      >();
+    });
+
+    it('inferOutput is Temporal.PlainTime', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.PlainTime>();
     });
   });

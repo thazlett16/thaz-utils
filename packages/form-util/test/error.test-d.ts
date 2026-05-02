@@ -1,13 +1,8 @@
 import { describe, expectTypeOf, it } from 'vitest';
 
-import {
-  FormConversionError,
-  FormErrorBase,
-  FormMessageShapeError,
-  FormTypeError,
-} from '#src/error';
+import { FormConversionError, FormErrorBase, FormMessageShapeError, FormTypeError } from '#src/error';
 
-describe('FormErrorBase', () => {
+describe('formErrorBase', () => {
   it('isFormErrorBase is a type guard', () => {
     const error: unknown = new FormErrorBase({ message: 'test' });
     if (FormErrorBase.isFormErrorBase(error)) {
@@ -16,7 +11,7 @@ describe('FormErrorBase', () => {
   });
 });
 
-describe('FormConversionError', () => {
+describe('formConversionError', () => {
   it('isFormConversionError is a type guard', () => {
     const error: unknown = new FormConversionError({ message: 'test' });
     if (FormConversionError.isFormConversionError(error)) {
@@ -25,7 +20,7 @@ describe('FormConversionError', () => {
   });
 });
 
-describe('FormTypeError', () => {
+describe('formTypeError', () => {
   it('data is typed as unknown', () => {
     const error = new FormTypeError({ message: 'test', data: 42 });
     expectTypeOf(error.data).toEqualTypeOf<unknown>();
@@ -39,7 +34,7 @@ describe('FormTypeError', () => {
   });
 });
 
-describe('FormMessageShapeError', () => {
+describe('formMessageShapeError', () => {
   it('data is typed as unknown', () => {
     const error = new FormMessageShapeError({ message: 'test', data: {} });
     expectTypeOf(error.data).toEqualTypeOf<unknown>();

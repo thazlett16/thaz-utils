@@ -1,36 +1,82 @@
-import type * as v from 'valibot';
+import * as v from 'valibot';
 import { describe, expectTypeOf, it } from 'vitest';
 
-import { _numberNullable, _numberRequired, number } from '#src/schemas/number';
+import type { _numberNullable, _numberRequired } from '#src/schemas/number';
+
+import { number } from '#src/schemas/number';
 
 const wrongTypeMessages = { wrongTypeMessage: 'Wrong type' };
 const requiredMessages = { wrongTypeMessage: 'Wrong type', requiredMessage: 'Required' };
 
 describe('number', () => {
   describe('nullable overload', () => {
+    const schema = number(wrongTypeMessages);
+
     it('returns ReturnType<typeof _numberNullable>', () => {
-      expectTypeOf(number(wrongTypeMessages)).toEqualTypeOf<ReturnType<typeof _numberNullable>>();
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _numberNullable>>();
     });
 
-    it('InferInput includes number, null, and undefined', () => {
-      type Schema = ReturnType<typeof _numberNullable>;
-      expectTypeOf<v.InferInput<Schema>>().toEqualTypeOf<number | null | undefined>();
+    it('inferInput includes number, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<number | null | undefined>();
     });
 
-    it('InferOutput is number | null', () => {
-      type Schema = ReturnType<typeof _numberNullable>;
-      expectTypeOf<v.InferOutput<Schema>>().toEqualTypeOf<number | null>();
+    it('inferOutput is number | null', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<number | null>();
+    });
+  });
+
+  describe('nullable overload - additional validation', () => {
+    const schema = number(
+      wrongTypeMessages,
+      v.minValue(0),
+      v.maxValue(100),
+    );
+
+    it('returns ReturnType<typeof _numberNullable>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _numberNullable>>();
+    });
+
+    it('inferInput includes number, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<number | null | undefined>();
+    });
+
+    it('inferOutput is number | null', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<number | null>();
     });
   });
 
   describe('required overload', () => {
-    const schema = _numberRequired(requiredMessages);
+    const schema = number(requiredMessages);
 
-    it('InferInput includes number, null, and undefined', () => {
+    it('returns ReturnType<typeof _numberRequired>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _numberRequired>>();
+    });
+
+    it('inferInput includes number, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<number | null | undefined>();
     });
 
-    it('InferOutput is number', () => {
+    it('inferOutput is number', () => {
+      expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<number>();
+    });
+  });
+
+  describe('required overload - additional validation', () => {
+    const schema = number(
+      requiredMessages,
+      v.minValue(0),
+      v.maxValue(100),
+    );
+
+    it('returns ReturnType<typeof _numberRequired>', () => {
+      expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _numberRequired>>();
+    });
+
+    it('inferInput includes number, null, and undefined', () => {
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<number | null | undefined>();
+    });
+
+    it('inferOutput is number', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<number>();
     });
   });

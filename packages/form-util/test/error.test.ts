@@ -1,13 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  FormConversionError,
-  FormErrorBase,
-  FormMessageShapeError,
-  FormTypeError,
-} from '#src/error';
+import { FormConversionError, FormErrorBase, FormMessageShapeError, FormTypeError } from '#src/error';
 
-describe('FormErrorBase', () => {
+describe('formErrorBase', () => {
   it('sets message and name', () => {
     const error = new FormErrorBase({ message: 'base error' });
     expect(error.message).toBe('base error');
@@ -24,29 +19,29 @@ describe('FormErrorBase', () => {
 
   describe('isFormErrorBase', () => {
     it('returns true for FormErrorBase instance', () => {
-      expect(FormErrorBase.isFormErrorBase(new FormErrorBase({ message: 'test' }))).toBe(true);
+      expect(FormErrorBase.isFormErrorBase(new FormErrorBase({ message: 'test' }))).toBeTruthy();
     });
 
     it('returns true for subclass instances', () => {
-      expect(FormErrorBase.isFormErrorBase(new FormConversionError({ message: 'test' }))).toBe(true);
-      expect(FormErrorBase.isFormErrorBase(new FormTypeError({ message: 'test', data: null }))).toBe(true);
-      expect(FormErrorBase.isFormErrorBase(new FormMessageShapeError({ message: 'test', data: null }))).toBe(true);
+      expect(FormErrorBase.isFormErrorBase(new FormConversionError({ message: 'test' }))).toBeTruthy();
+      expect(FormErrorBase.isFormErrorBase(new FormTypeError({ message: 'test', data: null }))).toBeTruthy();
+      expect(FormErrorBase.isFormErrorBase(new FormMessageShapeError({ message: 'test', data: null }))).toBeTruthy();
     });
 
     it('returns false for plain Error', () => {
-      expect(FormErrorBase.isFormErrorBase(new Error('test'))).toBe(false);
+      expect(FormErrorBase.isFormErrorBase(new Error('test'))).toBeFalsy();
     });
 
     it('returns false for non-error values', () => {
-      expect(FormErrorBase.isFormErrorBase(null)).toBe(false);
-      expect(FormErrorBase.isFormErrorBase(undefined)).toBe(false);
-      expect(FormErrorBase.isFormErrorBase('string')).toBe(false);
-      expect(FormErrorBase.isFormErrorBase(42)).toBe(false);
+      expect(FormErrorBase.isFormErrorBase(null)).toBeFalsy();
+      expect(FormErrorBase.isFormErrorBase(undefined)).toBeFalsy();
+      expect(FormErrorBase.isFormErrorBase('string')).toBeFalsy();
+      expect(FormErrorBase.isFormErrorBase(42)).toBeFalsy();
     });
   });
 });
 
-describe('FormConversionError', () => {
+describe('formConversionError', () => {
   it('sets message and name', () => {
     const error = new FormConversionError({ message: 'conversion error' });
     expect(error.message).toBe('conversion error');
@@ -58,27 +53,25 @@ describe('FormConversionError', () => {
 
   describe('isFormConversionError', () => {
     it('returns true for FormConversionError instance', () => {
-      expect(FormConversionError.isFormConversionError(new FormConversionError({ message: 'test' }))).toBe(true);
+      expect(FormConversionError.isFormConversionError(new FormConversionError({ message: 'test' }))).toBeTruthy();
     });
 
     it('returns false for FormErrorBase', () => {
-      expect(FormConversionError.isFormConversionError(new FormErrorBase({ message: 'test' }))).toBe(false);
+      expect(FormConversionError.isFormConversionError(new FormErrorBase({ message: 'test' }))).toBeFalsy();
     });
 
     it('returns false for other subclasses', () => {
-      expect(
-        FormConversionError.isFormConversionError(new FormTypeError({ message: 'test', data: null })),
-      ).toBe(false);
+      expect(FormConversionError.isFormConversionError(new FormTypeError({ message: 'test', data: null }))).toBeFalsy();
     });
 
     it('returns false for non-error values', () => {
-      expect(FormConversionError.isFormConversionError(null)).toBe(false);
-      expect(FormConversionError.isFormConversionError('string')).toBe(false);
+      expect(FormConversionError.isFormConversionError(null)).toBeFalsy();
+      expect(FormConversionError.isFormConversionError('string')).toBeFalsy();
     });
   });
 });
 
-describe('FormTypeError', () => {
+describe('formTypeError', () => {
   it('sets message, name, and data', () => {
     const data = { field: 'value' };
     const error = new FormTypeError({ message: 'type error', data });
@@ -98,20 +91,20 @@ describe('FormTypeError', () => {
 
   describe('isFormTypeError', () => {
     it('returns true for FormTypeError instance', () => {
-      expect(FormTypeError.isFormTypeError(new FormTypeError({ message: 'test', data: null }))).toBe(true);
+      expect(FormTypeError.isFormTypeError(new FormTypeError({ message: 'test', data: null }))).toBeTruthy();
     });
 
     it('returns false for FormErrorBase', () => {
-      expect(FormTypeError.isFormTypeError(new FormErrorBase({ message: 'test' }))).toBe(false);
+      expect(FormTypeError.isFormTypeError(new FormErrorBase({ message: 'test' }))).toBeFalsy();
     });
 
     it('returns false for non-error values', () => {
-      expect(FormTypeError.isFormTypeError(null)).toBe(false);
+      expect(FormTypeError.isFormTypeError(null)).toBeFalsy();
     });
   });
 });
 
-describe('FormMessageShapeError', () => {
+describe('formMessageShapeError', () => {
   it('sets message, name, and data', () => {
     const data = [1, 2, 3];
     const error = new FormMessageShapeError({ message: 'shape error', data });
@@ -132,15 +125,15 @@ describe('FormMessageShapeError', () => {
     it('returns true for FormMessageShapeError instance', () => {
       expect(
         FormMessageShapeError.isFormMessageShapeError(new FormMessageShapeError({ message: 'test', data: null })),
-      ).toBe(true);
+      ).toBeTruthy();
     });
 
     it('returns false for FormErrorBase', () => {
-      expect(FormMessageShapeError.isFormMessageShapeError(new FormErrorBase({ message: 'test' }))).toBe(false);
+      expect(FormMessageShapeError.isFormMessageShapeError(new FormErrorBase({ message: 'test' }))).toBeFalsy();
     });
 
     it('returns false for non-error values', () => {
-      expect(FormMessageShapeError.isFormMessageShapeError(null)).toBe(false);
+      expect(FormMessageShapeError.isFormMessageShapeError(null)).toBeFalsy();
     });
   });
 });
