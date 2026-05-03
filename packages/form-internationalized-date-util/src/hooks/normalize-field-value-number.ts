@@ -7,23 +7,25 @@ import { useFieldContext, FormTypeError } from '@thazstack/form-util';
 
 export type { FieldValueNumber } from '@thazstack/form-util';
 
+export function normalizeFieldValueNumber(value: FieldValueNumber): number | undefined {
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  if (!(value === null || value === undefined)) {
+    throw new FormTypeError({
+      data: value,
+      message: 'useNormalizeFieldValueNumber - Invalid type in context',
+    });
+  }
+
+  return undefined;
+}
+
 export function useNormalizeFieldValueNumber() {
   const field = useFieldContext<FieldValueNumber>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<number | undefined>(() => {
-    if (typeof baseFieldValue === 'number') {
-      return baseFieldValue;
-    }
-
-    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormTypeError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueNumber - Invalid type in context',
-      });
-    }
-
-    return undefined;
-  }, [baseFieldValue]);
+  return useMemo<number | undefined>(() => normalizeFieldValueNumber(baseFieldValue), [baseFieldValue]);
 }

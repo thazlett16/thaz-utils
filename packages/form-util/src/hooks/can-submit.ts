@@ -6,23 +6,22 @@ export interface CanSubmitOptions {
   allowSubmitWhenInvalid: boolean;
 }
 
+export function computeCanSubmit(options: CanSubmitOptions, isSubmitting: boolean, canSubmit: boolean): boolean {
+  if (options.allowSubmitWhenInvalid) {
+    if (isSubmitting) {
+      return false;
+    }
+    return canSubmit;
+  }
+  return !isSubmitting;
+}
+
 export function useCanSubmit(options?: Partial<Readonly<CanSubmitOptions>>) {
   const resolvedCanSubmitOptions: CanSubmitOptions = {
     allowSubmitWhenInvalid: options?.allowSubmitWhenInvalid ?? false,
   };
-
   const form = useFormContext();
-
   const isSubmitting = useStore(form.store, (state) => state.isSubmitting);
   const canSubmit = useStore(form.store, (state) => state.canSubmit);
-
-  if (resolvedCanSubmitOptions.allowSubmitWhenInvalid) {
-    if (isSubmitting) {
-      return false;
-    }
-
-    return canSubmit;
-  }
-
-  return !isSubmitting;
+  return computeCanSubmit(resolvedCanSubmitOptions, isSubmitting, canSubmit);
 }

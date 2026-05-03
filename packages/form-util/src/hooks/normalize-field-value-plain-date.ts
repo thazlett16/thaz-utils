@@ -13,36 +13,38 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValuePlainDate = v.InferInput<ReturnType<typeof _plainDateNullable>>;
 
+export function normalizeFieldValuePlainDate(value: FieldValuePlainDate): Temporal.PlainDate | null {
+  try {
+    if (value instanceof Temporal.ZonedDateTime) {
+      return value.toPlainDate();
+    } else if (value instanceof Temporal.PlainDateTime) {
+      return value.toPlainDate();
+    } else if (value instanceof Temporal.PlainDate) {
+      return value;
+    }
+  } catch (error: unknown) {
+    throw new FormConversionError(
+      {
+        message: 'useNormalizeFieldValuePlainDate - Failed to normalize value',
+      },
+      { cause: error },
+    );
+  }
+
+  if (!(value === null || value === undefined)) {
+    throw new FormTypeError({
+      data: value,
+      message: 'useNormalizeFieldValuePlainDate - Invalid type in context',
+    });
+  }
+
+  return null;
+}
+
 export function useNormalizeFieldValuePlainDate() {
   const field = useFieldContext<FieldValuePlainDate>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<Temporal.PlainDate | null>(() => {
-    try {
-      if (baseFieldValue instanceof Temporal.ZonedDateTime) {
-        return baseFieldValue.toPlainDate();
-      } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
-        return baseFieldValue.toPlainDate();
-      } else if (baseFieldValue instanceof Temporal.PlainDate) {
-        return baseFieldValue;
-      }
-    } catch (error: unknown) {
-      throw new FormConversionError(
-        {
-          message: 'useNormalizeFieldValuePlainDate - Failed to normalize value',
-        },
-        { cause: error },
-      );
-    }
-
-    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormTypeError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValuePlainDate - Invalid type in context',
-      });
-    }
-
-    return null;
-  }, [baseFieldValue]);
+  return useMemo(() => normalizeFieldValuePlainDate(baseFieldValue), [baseFieldValue]);
 }
