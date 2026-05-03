@@ -33,44 +33,35 @@ export function _plainTimeRequired(messages: f.FormRequiredMessage, ...actions: 
 }
 
 /**
+ * PlainTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- */
-export function plainTime(
-  messages: f.FormWrongTypeMessage,
-  ...actions: f.PlainTimeAction[]
-): ReturnType<typeof _plainTimeNullable>;
-
-/**
+ * Accepts:
  *
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.PlainTime`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
+ *
+ * `Temporal.PlainDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
+ *
+ * `@internationalized/date ZonedDateTime` -> `Temporal.PlainTime`
+ *
+ * `@internationalized/date CalendarDateTime` -> `Temporal.PlainTime`
+ *
+ * `@internationalized/date Time` -> `Temporal.PlainTime`
  */
-export function plainTime(
-  messages: f.FormRequiredMessage,
+export function plainTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
+  messages: T,
   ...actions: f.PlainTimeAction[]
-): ReturnType<typeof _plainTimeRequired>;
+): T extends f.FormRequiredMessage ? ReturnType<typeof _plainTimeRequired> : ReturnType<typeof _plainTimeNullable>;
 
 export function plainTime(messages: f.FormWrongTypeMessage | f.FormRequiredMessage, ...actions: f.PlainTimeAction[]) {
-  if ('requiredMessage' in messages) {
+  if (f.isFormRequiredMessage(messages)) {
     return _plainTimeRequired(messages, ...actions);
   }
 
   return _plainTimeNullable(messages, ...actions);
 }
-
-// const plainTimeExample = v.object({
-//     testRequired: plainTime({
-//         wrongTypeMessage: 'Not a PlainTime',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: plainTime({
-//         wrongTypeMessage: 'Not a PlainTime',
-//     }),
-//     testRequiredWithActions: plainTime({
-//         wrongTypeMessage: 'Not a PlainTime',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.plainTimeISO())),
-//     testNullableWithActions: plainTime({
-//         wrongTypeMessage: 'Not a PlainTime',
-//     }, v.check((val) => val === Temporal.Now.plainTimeISO())),
-// });
-// type InputPlainTimeExample = v.InferInput<typeof plainTimeExample>
-// type OutputPlainTimeExample = v.InferOutput<typeof plainTimeExample>

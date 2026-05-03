@@ -57,7 +57,7 @@ export function internationalizedZonedDateTime(
 
       // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
       // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-      return dataset as v.OutputDataset<Dayjs, InternationalizedZonedDateTimeIssue>;
+      return dataset as v.OutputDataset<ZonedDateTime, InternationalizedZonedDateTimeIssue>;
     },
   };
 }

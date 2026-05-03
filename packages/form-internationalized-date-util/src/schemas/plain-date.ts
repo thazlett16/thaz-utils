@@ -37,44 +37,35 @@ export function _plainDateRequired(messages: f.FormRequiredMessage, ...actions: 
 }
 
 /**
+ * PlainDate schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- */
-export function plainDate(
-  messages: f.FormWrongTypeMessage,
-  ...actions: f.PlainDateAction[]
-): ReturnType<typeof _plainDateNullable>;
-
-/**
+ * Accepts:
  *
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.PlainDate`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
+ *
+ * `Temporal.PlainDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
+ *
+ * `@internationalized/date ZonedDateTime` -> `Temporal.PlainDate`
+ *
+ * `@internationalized/date CalendarDateTime` -> `Temporal.PlainDate`
+ *
+ * `@internationalized/date CalendarDate` -> `Temporal.PlainDate`
  */
-export function plainDate(
-  messages: f.FormRequiredMessage,
+export function plainDate<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
+  messages: T,
   ...actions: f.PlainDateAction[]
-): ReturnType<typeof _plainDateRequired>;
+): T extends f.FormRequiredMessage ? ReturnType<typeof _plainDateRequired> : ReturnType<typeof _plainDateNullable>;
 
 export function plainDate(messages: f.FormWrongTypeMessage | f.FormRequiredMessage, ...actions: f.PlainDateAction[]) {
-  if ('requiredMessage' in messages) {
+  if (f.isFormRequiredMessage(messages)) {
     return _plainDateRequired(messages, ...actions);
   }
 
   return _plainDateNullable(messages, ...actions);
 }
-
-// const plainDateExample = v.object({
-//   testRequired: plainDate({
-//     wrongTypeMessage: 'Not a PlainDate',
-//     requiredMessage: 'Field is Required',
-//   }),
-//   testNullable: plainDate({
-//     wrongTypeMessage: 'Not a PlainDate',
-//   }),
-//   testRequiredWithActions: plainDate({
-//     wrongTypeMessage: 'Not a PlainDate',
-//     requiredMessage: 'Field is Required',
-//   }, v.check((val) => val === Temporal.Now.plainDateISO())),
-//   testNullableWithActions: plainDate({
-//     wrongTypeMessage: 'Not a PlainDate',
-//   }, v.check((val) => val === Temporal.Now.plainDateISO())),
-// });
-// type InputPlainDateExample = v.InferInput<typeof plainDateExample>
-// type OutputPlainDateExample = v.InferOutput<typeof plainDateExample>

@@ -36,58 +36,32 @@ export function _zonedDateTimeRequired(
 }
 
 /**
+ * ZonedDateTime schema requires passing `TimeZoneOptions` and `wrongTypeMessage`, and can be marked as a required variant schema by adding `requiredMessage`
  *
- */
-export function zonedDateTime(
-  options: TimeZoneOptions,
-  messages: f.FormWrongTypeMessage,
-  ...actions: f.ZonedDateTimeAction[]
-): ReturnType<typeof _zonedDateTimeNullable>;
-
-/**
+ * Accepts:
  *
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.ZonedDateTime`
+ *
+ * `Dayjs` (valid) -> `Temporal.ZonedDateTime` via ISO string + timezone from options
  */
-export function zonedDateTime(
+export function zonedDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
   options: TimeZoneOptions,
-  messages: f.FormRequiredMessage,
+  messages: T,
   ...actions: f.ZonedDateTimeAction[]
-): ReturnType<typeof _zonedDateTimeRequired>;
+): T extends f.FormRequiredMessage ? ReturnType<typeof _zonedDateTimeRequired> : ReturnType<typeof _zonedDateTimeNullable>;
 
 export function zonedDateTime(
   options: TimeZoneOptions,
   messages: f.FormWrongTypeMessage | f.FormRequiredMessage,
   ...actions: f.ZonedDateTimeAction[]
 ) {
-  if ('requiredMessage' in messages) {
+  if (f.isFormRequiredMessage(messages)) {
     return _zonedDateTimeRequired(options, messages, ...actions);
   }
 
   return _zonedDateTimeNullable(options, messages, ...actions);
 }
-
-// const zonedDateTimeExample = v.object({
-//     testRequired: zonedDateTime({
-//       timeZone: 'America/Denver'
-//     }, {
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: zonedDateTime({
-//       timeZone: 'America/Denver'
-//     }, {
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//     }),
-//     testRequiredWithActions: zonedDateTime({
-//       timeZone: 'America/Denver'
-//     }, {
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.zonedDateTimeISO())),
-//     testNullableWithActions: zonedDateTime({
-//       timeZone: 'America/Denver'
-//     }, {
-//         wrongTypeMessage: 'Not a ZonedDateTime',
-//     }, v.check((val) => val === Temporal.Now.zonedDateTimeISO())),
-// });
-// type InputZonedDateTimeExample = v.InferInput<typeof zonedDateTimeExample>
-// type OutputZonedDateTimeExample = v.InferOutput<typeof zonedDateTimeExample>

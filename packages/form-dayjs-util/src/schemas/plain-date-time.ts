@@ -27,47 +27,32 @@ export function _plainDateTimeRequired(messages: f.FormRequiredMessage, ...actio
 }
 
 /**
+ * PlainDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- */
-export function plainDateTime(
-  messages: f.FormWrongTypeMessage,
-  ...actions: f.PlainDateTimeAction[]
-): ReturnType<typeof _plainDateTimeNullable>;
-
-/**
+ * Accepts:
  *
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.PlainDateTime`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.PlainDateTime` via `.toPlainDateTime()`
+ *
+ * `Dayjs` (valid) -> `Temporal.PlainDateTime` via date/time components
  */
-export function plainDateTime(
-  messages: f.FormRequiredMessage,
+export function plainDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
+  messages: T,
   ...actions: f.PlainDateTimeAction[]
-): ReturnType<typeof _plainDateTimeRequired>;
+): T extends f.FormRequiredMessage ? ReturnType<typeof _plainDateTimeRequired> : ReturnType<typeof _plainDateTimeNullable>;
 
 export function plainDateTime(
   messages: f.FormWrongTypeMessage | f.FormRequiredMessage,
   ...actions: f.PlainDateTimeAction[]
 ) {
-  if ('requiredMessage' in messages) {
+  if (f.isFormRequiredMessage(messages)) {
     return _plainDateTimeRequired(messages, ...actions);
   }
 
   return _plainDateTimeNullable(messages, ...actions);
 }
-
-// const plainDateTimeExample = v.object({
-//     testRequired: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//     }),
-//     testRequiredWithActions: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.plainDateTimeISO())),
-//     testNullableWithActions: plainDateTime({
-//         wrongTypeMessage: 'Not a PlainDateTime',
-//     }, v.check((val) => val === Temporal.Now.plainDateTimeISO())),
-// });
-// type InputPlainDateTimeExample = v.InferInput<typeof plainDateTimeExample>
-// type OutputPlainDateTimeExample = v.InferOutput<typeof plainDateTimeExample>

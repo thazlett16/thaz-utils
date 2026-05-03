@@ -3,6 +3,8 @@ export * from './types';
 export * from './string';
 export * from './number';
 
+export * from './dayjs';
+
 export * from './instant';
 export * from './plain-date';
 export * from './plain-date-time';

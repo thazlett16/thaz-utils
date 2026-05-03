@@ -27,44 +27,29 @@ export function _instantRequired(messages: f.FormRequiredMessage, ...actions: f.
 }
 
 /**
+ * Instant schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
  *
- */
-export function instant(
-  messages: f.FormWrongTypeMessage,
-  ...actions: f.InstantAction[]
-): ReturnType<typeof _instantNullable>;
-
-/**
+ * Accepts:
  *
+ * `null`
+ *
+ * `undefined` -> `null`
+ *
+ * `Temporal.Instant`
+ *
+ * `Temporal.ZonedDateTime` -> `Temporal.Instant` via `.toInstant()`
+ *
+ * `Dayjs` (valid) -> `Temporal.Instant` via ISO string conversion
  */
-export function instant(
-  messages: f.FormRequiredMessage,
+export function instant<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
+  messages: T,
   ...actions: f.InstantAction[]
-): ReturnType<typeof _instantRequired>;
+): T extends f.FormRequiredMessage ? ReturnType<typeof _instantRequired> : ReturnType<typeof _instantNullable>;
 
 export function instant(messages: f.FormWrongTypeMessage | f.FormRequiredMessage, ...actions: f.InstantAction[]) {
-  if ('requiredMessage' in messages) {
+  if (f.isFormRequiredMessage(messages)) {
     return _instantRequired(messages, ...actions);
   }
 
   return _instantNullable(messages, ...actions);
 }
-
-// const instantExample = v.object({
-//     testRequired: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//         requiredMessage: 'Field is Required',
-//     }),
-//     testNullable: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//     }),
-//     testRequiredWithActions: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//         requiredMessage: 'Field is Required',
-//     }, v.check((val) => val === Temporal.Now.instant())),
-//     testNullableWithActions: instant({
-//         wrongTypeMessage: 'Not a Instant',
-//     }, v.check((val) => val === Temporal.Now.instant())),
-// });
-// type InputInstantExample = v.InferInput<typeof instantExample>
-// type OutputInstantExample = v.InferOutput<typeof instantExample>
