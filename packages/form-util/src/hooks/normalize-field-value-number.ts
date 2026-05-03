@@ -11,7 +11,7 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueNumber = v.InferInput<ReturnType<typeof _numberNullable>>;
 
-export function normalizeFieldValueNumber(value: FieldValueNumber): number | null {
+export function normalizeFieldValueNumber(value: FieldValueNumber) {
   if (typeof value === 'number') {
     return value;
   }

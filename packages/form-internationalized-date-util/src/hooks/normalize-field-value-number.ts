@@ -7,7 +7,7 @@ import { useFieldContext, FormTypeError } from '@thazstack/form-util';
 
 export type { FieldValueNumber } from '@thazstack/form-util';
 
-export function normalizeFieldValueNumber(value: FieldValueNumber): number | undefined {
+export function normalizeFieldValueNumber(value: FieldValueNumber) {
   if (typeof value === 'number') {
     return value;
   }
@@ -27,5 +27,5 @@ export function useNormalizeFieldValueNumber() {
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<number | undefined>(() => normalizeFieldValueNumber(baseFieldValue), [baseFieldValue]);
+  return useMemo(() => normalizeFieldValueNumber(baseFieldValue), [baseFieldValue]);
 }

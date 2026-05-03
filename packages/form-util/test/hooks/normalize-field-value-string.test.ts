@@ -12,12 +12,12 @@ describe('normalizeFieldValueString', () => {
     expect(normalizeFieldValueString('')).toBe('');
   });
 
-  it('returns null for null input', () => {
-    expect(normalizeFieldValueString(null)).toBeNull();
+  it('returns empty string for null input', () => {
+    expect(normalizeFieldValueString(null)).toBe('');
   });
 
-  it('returns null for undefined input', () => {
-    expect(normalizeFieldValueString(undefined)).toBeNull();
+  it('returns empty string for undefined input', () => {
+    expect(normalizeFieldValueString(undefined)).toBe('');
   });
 
   it('throws FormTypeError for number input', () => {

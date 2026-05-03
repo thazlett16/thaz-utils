@@ -11,7 +11,7 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueString = v.InferInput<ReturnType<typeof _stringNullable>>;
 
-export function normalizeFieldValueString(value: FieldValueString): string | null {
+export function normalizeFieldValueString(value: FieldValueString) {
   if (typeof value === 'string') {
     return value;
   }
@@ -23,7 +23,7 @@ export function normalizeFieldValueString(value: FieldValueString): string | nul
     });
   }
 
-  return null;
+  return '';
 }
 
 export function useNormalizeFieldValueString() {
