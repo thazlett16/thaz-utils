@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { useStore } from '@tanstack/react-form';
 
 import type { FieldValuePlainTime } from '@thazstack/form-util';
@@ -10,25 +8,29 @@ import { Temporal } from '@js-temporal/polyfill';
 
 export type FieldValueTime = FieldValuePlainTime | ZonedDateTime | CalendarDateTime | Time;
 
-export function normalizeFieldValueTime(value: FieldValueTime): Time | undefined {
+export function useNormalizeFieldValueTime() {
+  const field = useFieldContext<FieldValueTime>();
+
+  const baseFieldValue = useStore(field.store, (state) => state.value);
+
   try {
-    if (value instanceof Temporal.ZonedDateTime) {
-      return toTime(parseZonedDateTime(value.toString()));
-    } else if (value instanceof Temporal.PlainDateTime) {
-      return parseTime(value.toPlainTime().toString());
-    } else if (value instanceof Temporal.PlainTime) {
-      return parseTime(value.toString());
-    } else if (value instanceof ZonedDateTime) {
-      return toTime(value);
-    } else if (value instanceof CalendarDateTime) {
-      return toTime(value);
-    } else if (value instanceof Time) {
-      return value;
+    if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+      return toTime(parseZonedDateTime(baseFieldValue.toString()));
+    } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
+      return parseTime(baseFieldValue.toPlainTime().toString());
+    } else if (baseFieldValue instanceof Temporal.PlainTime) {
+      return parseTime(baseFieldValue.toString());
+    } else if (baseFieldValue instanceof ZonedDateTime) {
+      return toTime(baseFieldValue);
+    } else if (baseFieldValue instanceof CalendarDateTime) {
+      return toTime(baseFieldValue);
+    } else if (baseFieldValue instanceof Time) {
+      return baseFieldValue;
     }
   } catch (error: unknown) {
     throw new FormConversionError(
       {
-        message: 'useNormalizeFieldValueTime - Failed to normalize value',
+        message: 'useNormalizeFieldValueTime - Failed to normalize baseFieldValue',
       },
       {
         cause: error,
@@ -36,20 +38,12 @@ export function normalizeFieldValueTime(value: FieldValueTime): Time | undefined
     );
   }
 
-  if (!(value === null || value === undefined)) {
+  if (!(baseFieldValue === null || baseFieldValue === undefined)) {
     throw new FormTypeError({
-      data: value,
+      data: baseFieldValue,
       message: 'useNormalizeFieldValueTime - Invalid type in context',
     });
   }
 
   return undefined;
-}
-
-export function useNormalizeFieldValueTime() {
-  const field = useFieldContext<FieldValueTime>();
-
-  const baseFieldValue = useStore(field.store, (state) => state.value);
-
-  return useMemo<Time | undefined>(() => normalizeFieldValueTime(baseFieldValue), [baseFieldValue]);
 }
