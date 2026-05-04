@@ -20,4 +20,6 @@ export * from './js-plugin/js-plugin-tanstack-router';
 
 export * from './config-file-config';
 
+export * from './library-code-config';
+
 export * from './full-config';

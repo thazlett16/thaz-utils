@@ -38,11 +38,11 @@
   },
   "scripts": {
     "check": "vp check",
-    "check:fix": "vp check --fix",
     "prepack": "vp pack"
   },
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",
@@ -57,11 +57,11 @@
     "typescript": "catalog:",
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
+    "@tanstack/history": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@thazstack/temporal-util": "workspace:",

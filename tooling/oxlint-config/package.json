@@ -37,8 +37,8 @@
   },
   "scripts": {
     "check": "vp check",
-    "check:fix": "vp check --fix",
-    "prepack": "vp pack"
+    "prepack": "vp pack",
+    "tsc:config": "tsc --showConfig"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
@@ -53,8 +53,7 @@
     "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",

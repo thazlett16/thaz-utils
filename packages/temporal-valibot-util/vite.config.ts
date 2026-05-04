@@ -1,6 +1,5 @@
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vite-plus';
-import viteTSConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   run: {
@@ -11,17 +10,21 @@ export default defineConfig({
       },
     },
   },
-  // resolve: {
-  //   tsconfigPaths: true,
-  // },
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     externalizeDeps(),
     // Eventually won't need this anymore. Doesn't work in dev though. Eventually should use `outputOptions.preserveModules`
     // https://github.com/vitejs/vite/issues/22047
-    viteTSConfigPaths(),
+    // This might be working now? But leaving till I know for sure
+    // import viteTSConfigPaths from 'vite-tsconfig-paths';
+    // viteTSConfigPaths(),
   ],
   pack: {
-    dts: true,
+    dts: {
+      build: true,
+    },
     outputOptions: {
       preserveModules: true,
     },
@@ -41,6 +44,13 @@ export default defineConfig({
     options: {
       typeAware: true,
       typeCheck: true,
+    },
+  },
+  test: {
+    include: ['test/**/*.test.ts'],
+    typecheck: {
+      enabled: true,
+      include: ['test/**/*.test-d.ts'],
     },
   },
 });
