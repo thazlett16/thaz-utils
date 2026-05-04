@@ -40,8 +40,7 @@
     "./transpile-library-monorepo.json": "./configs/transpile-library-monorepo.json"
   },
   "scripts": {
-    "check": "vp check",
-    "check:fix": "vp check --fix"
+    "check": "vp check"
   },
   "devDependencies": {
     "@types/node": "catalog:",

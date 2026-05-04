@@ -31,25 +31,37 @@ export const oxfmtConfig = defineConfig({
     order: 'asc',
     newlinesBetween: true,
     internalPattern: ['@src/', '@test/', '@mock/', '#src/', '#test/', '#mock/'],
+
+    customGroups: [
+      {
+        elementNamePattern: ['react', 'react-dom'],
+        groupName: 'react',
+      },
+      {
+        elementNamePattern: ['@tanstack/**'],
+        groupName: 'tanStack',
+      },
+      {
+        elementNamePattern: ['@thazstack/**'],
+        groupName: 'thazstack',
+      },
+    ],
     groups: [
-      ['type-import'],
+      ['builtin'],
 
-      ['value-builtin'],
+      ['react'],
 
-      ['type-external'],
-      ['value-external'],
+      ['tanStack'],
 
-      ['type-internal'],
-      ['value-internal'],
+      ['thazstack'],
 
-      ['type-index'],
-      ['value-index'],
+      ['external'],
 
-      ['type-sibling'],
-      ['value-sibling'],
+      ['internal', 'subpath'],
 
-      ['type-parent'],
-      ['value-parent'],
+      ['parent', 'sibling', 'index'],
+
+      ['style'],
 
       ['unknown'],
     ],

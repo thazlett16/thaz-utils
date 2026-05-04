@@ -1,8 +1,9 @@
-import type { DefaultError, QueryKey, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query';
-import type { defaultOptions } from 'spin-delay';
-
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
+
+import type { DefaultError, QueryKey, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+import type { defaultOptions } from 'spin-delay';
 import { useSpinDelay } from 'spin-delay';
 import { useDeepCompareMemo } from 'use-deep-compare';
 

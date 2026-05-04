@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { response } from '#src/valibot/response-message/response/schema';
+import { response } from '#src/valibot/response-message/response/response';
 
 import { NetworkError } from './network-error';
 import { NetworkErrorWithMessageList } from './network-error-with-message-list';

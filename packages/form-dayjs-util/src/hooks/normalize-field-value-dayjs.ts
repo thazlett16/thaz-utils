@@ -1,10 +1,12 @@
+import { useMemo } from 'react';
+
+import { useStore } from '@tanstack/react-form';
+
+import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
 import type { TimeZoneOptions } from '@thazstack/temporal-util';
-import type { Dayjs } from 'dayjs';
 
 import { Temporal } from '@js-temporal/polyfill';
-import { useStore } from '@tanstack/react-form';
-import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
-import { useMemo } from 'react';
+import type { Dayjs } from 'dayjs';
 
 import { dayJS } from '#src/dayjs.config';
 
@@ -18,63 +20,63 @@ export type FieldValueZonedDateTime =
   | null
   | undefined;
 
-export type NormalizeFieldValueDayJSOptions = Required<TimeZoneOptions>;
+export function normalizeFieldValueDayJS(value: FieldValueZonedDateTime, options: TimeZoneOptions): Dayjs | null {
+  try {
+    if (value instanceof Temporal.ZonedDateTime) {
+      return dayJS.utc(value.toInstant().toString()).tz(options.timeZone);
+    } else if (value instanceof Temporal.Instant) {
+      return dayJS.utc(value.toString()).tz(options.timeZone);
+    } else if (value instanceof Temporal.PlainDateTime) {
+      return dayJS({
+        years: value.year,
+        months: value.month - 1,
+        dates: value.day,
+        hours: value.hour,
+        minutes: value.minute,
+        seconds: value.second,
+        milliseconds: value.millisecond,
+      }).tz(options.timeZone, true);
+    } else if (value instanceof Temporal.PlainDate) {
+      return dayJS({
+        years: value.year,
+        months: value.month - 1,
+        dates: value.day,
+      }).tz(options.timeZone, true);
+    } else if (value instanceof Temporal.PlainTime) {
+      return dayJS({
+        hours: value.hour,
+        minutes: value.minute,
+        seconds: value.second,
+        milliseconds: value.millisecond,
+      }).tz(options.timeZone, true);
+    } else if (dayJS.isDayjs(value)) {
+      return value;
+    }
+  } catch (error: unknown) {
+    throw new FormConversionError(
+      {
+        message: 'useNormalizeFieldValueDayJS - Failed to normalize value',
+      },
+      {
+        cause: error,
+      },
+    );
+  }
 
-export function useNormalizeFieldValueDayJS(options: NormalizeFieldValueDayJSOptions) {
+  if (!(value === null || value === undefined)) {
+    throw new FormTypeError({
+      data: value,
+      message: 'useNormalizeFieldValueDayJS - Invalid type in context',
+    });
+  }
+
+  return null;
+}
+
+export function useNormalizeFieldValueDayJS(options: TimeZoneOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  return useMemo<null | Dayjs>(() => {
-    try {
-      if (baseFieldValue instanceof Temporal.ZonedDateTime) {
-        return dayJS.utc(baseFieldValue.toInstant().toString()).tz(options.timeZone);
-      } else if (baseFieldValue instanceof Temporal.Instant) {
-        return dayJS.utc(baseFieldValue.toString()).tz(options.timeZone);
-      } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
-        return dayJS({
-          years: baseFieldValue.year,
-          months: baseFieldValue.month - 1,
-          dates: baseFieldValue.day,
-          hours: baseFieldValue.hour,
-          minutes: baseFieldValue.minute,
-          seconds: baseFieldValue.second,
-          milliseconds: baseFieldValue.millisecond,
-        }).tz(options.timeZone);
-      } else if (baseFieldValue instanceof Temporal.PlainDate) {
-        return dayJS({
-          years: baseFieldValue.year,
-          months: baseFieldValue.month - 1,
-          dates: baseFieldValue.day,
-        }).tz(options.timeZone);
-      } else if (baseFieldValue instanceof Temporal.PlainTime) {
-        return dayJS({
-          hours: baseFieldValue.hour,
-          minutes: baseFieldValue.minute,
-          seconds: baseFieldValue.second,
-          milliseconds: baseFieldValue.millisecond,
-        }).tz(options.timeZone);
-      } else if (dayJS.isDayjs(baseFieldValue)) {
-        return baseFieldValue;
-      }
-    } catch (error: unknown) {
-      throw new FormConversionError(
-        {
-          message: 'useNormalizeFieldValueDayJS - Failed to normalize value',
-        },
-        {
-          cause: error,
-        },
-      );
-    }
-
-    if (!(baseFieldValue === null || baseFieldValue === undefined)) {
-      throw new FormTypeError({
-        data: baseFieldValue,
-        message: 'useNormalizeFieldValueDayJS - Invalid type in context',
-      });
-    }
-
-    return null;
-  }, [baseFieldValue, options]);
+  return useMemo(() => normalizeFieldValueDayJS(baseFieldValue, options), [baseFieldValue, options]);
 }

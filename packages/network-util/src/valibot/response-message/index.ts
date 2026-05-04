@@ -1,3 +1,3 @@
-export * from './message/schema';
-export * from './message-type/schema';
-export * from './response/schema';
+export * from './message';
+export * from './message-type';
+export * from './response';

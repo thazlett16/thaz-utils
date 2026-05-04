@@ -1,1 +1,1 @@
-export * from './when/action';
+export * from './when';
