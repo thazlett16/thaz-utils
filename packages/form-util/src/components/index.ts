@@ -1,1 +1,1 @@
-export * from './form-shell';
+export * from './tanstack-form.config';

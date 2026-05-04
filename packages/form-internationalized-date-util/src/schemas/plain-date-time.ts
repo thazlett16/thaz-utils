@@ -12,14 +12,14 @@ export function _plainDateTimeNullable(messages: f.FormWrongTypeMessage, ...acti
     [
       f._plainDateTimeNullable(messages, ...actions),
       v.pipe(
-        internationalizedZonedDateTime(),
+        internationalizedZonedDateTime(messages.wrongTypeMessage),
         toPlainDateTime(messages.wrongTypeMessage),
-        v.pipe(t.plainDateTime(), ...actions),
+        v.pipe(t.plainDateTime(messages.wrongTypeMessage), ...actions),
       ),
       v.pipe(
-        internationalizedCalendarDateTime(),
+        internationalizedCalendarDateTime(messages.wrongTypeMessage),
         toPlainDateTime(messages.wrongTypeMessage),
-        v.pipe(t.plainDateTime(), ...actions),
+        v.pipe(t.plainDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

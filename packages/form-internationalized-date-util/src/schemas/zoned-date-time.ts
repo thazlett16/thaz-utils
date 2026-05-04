@@ -11,9 +11,9 @@ export function _zonedDateTimeNullable(messages: f.FormWrongTypeMessage, ...acti
     [
       f._zonedDateTimeNullable(messages, ...actions),
       v.pipe(
-        internationalizedZonedDateTime(),
+        internationalizedZonedDateTime(messages.wrongTypeMessage),
         toZonedDateTime(messages.wrongTypeMessage),
-        v.pipe(t.zonedDateTime(), ...actions),
+        v.pipe(t.zonedDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

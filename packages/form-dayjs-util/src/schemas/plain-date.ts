@@ -12,10 +12,10 @@ export function _plainDateNullable(messages: f.FormWrongTypeMessage, ...actions:
     [
       f._plainDateNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
+        dayjs(messages.wrongTypeMessage),
         isDayJSValid(messages.wrongTypeMessage),
         toPlainDate(messages.wrongTypeMessage),
-        v.pipe(t.plainDate(), ...actions),
+        v.pipe(t.plainDate(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

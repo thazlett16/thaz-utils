@@ -17,10 +17,10 @@ export function _zonedDateTimeNullable(
     [
       f._zonedDateTimeNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
+        dayjs(messages.wrongTypeMessage),
         isDayJSValid(messages.wrongTypeMessage),
         toZonedDateTime(options, messages.wrongTypeMessage),
-        v.pipe(t.zonedDateTime(), ...actions),
+        v.pipe(t.zonedDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

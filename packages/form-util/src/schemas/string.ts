@@ -14,14 +14,14 @@ export function _stringNullable(messages: FormWrongTypeMessage, ...actions: Stri
         v.transform(() => null),
       ),
       v.pipe(
-        v.string(),
+        v.string(messages.wrongTypeMessage),
         v.trim(),
         v.union([
           v.pipe(
             v.literal(''),
             v.transform(() => null),
           ),
-          v.pipe(v.string(), ...actions),
+          v.pipe(v.string(messages.wrongTypeMessage), ...actions),
         ]),
       ),
     ],
