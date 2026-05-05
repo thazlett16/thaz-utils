@@ -5,6 +5,6 @@
     "@thazstack/typescript-config/bundler.json",
     "@thazstack/typescript-config/strictest.json"
   ],
-  "include": ["src", "test", "mock"],
+  "include": ["src", "test"],
   "compilerOptions": {}
 }

@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "prepare": "vpx msw init ./public --save"
+  },
   "dependencies": {
     "@internationalized/date": "catalog:",
     "@js-temporal/polyfill": "catalog:",
@@ -34,11 +37,18 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/browser-playwright": "catalog:",
+    "@vitest/ui": "catalog:",
+    "msw": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vitest-browser-react": "catalog:"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

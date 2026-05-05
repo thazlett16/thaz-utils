@@ -9,6 +9,9 @@ import { defineConfig } from 'vite-plus';
 export default defineConfig({
   run: {
     tasks: {
+      dev: {
+        command: 'vp dev',
+      },
       build: {
         command: 'vp build',
         dependsOn: [
@@ -19,6 +22,9 @@ export default defineConfig({
           '@thazstack/form-dayjs-util#build',
           '@thazstack/form-internationalized-date-util#build',
         ],
+      },
+      preview: {
+        command: 'vp preview',
       },
       test: {
         command: 'vp test',
@@ -33,12 +39,6 @@ export default defineConfig({
       },
       check: {
         command: 'vp check',
-      },
-      dev: {
-        command: 'vp dev',
-      },
-      preview: {
-        command: 'vp preview',
       },
     },
   },
