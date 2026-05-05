@@ -55,13 +55,16 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "bumpp": "catalog:",
     "dayjs": "catalog:",
     "react": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
+    "vitest-browser-react": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",

@@ -44,11 +44,14 @@
     "@thazstack/temporal-util": "workspace:",
     "@thazstack/typescript-config": "workspace:",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "bumpp": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
+    "vitest-browser-react": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
