@@ -55,6 +55,7 @@ export default defineConfig({
   },
   test: {
     coverage: {
+      include: ['src/**/*.{ts,tsx}'],
       enabled: true,
       provider: 'v8',
     },
