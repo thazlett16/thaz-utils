@@ -6,7 +6,7 @@
     "@thazstack/typescript-config/strictest.json",
     "@thazstack/typescript-config/react.json"
   ],
-  "include": ["src", "mock"],
+  "include": ["src", "test", "mock"],
   "compilerOptions": {
     "types": ["vite/client"]
   }

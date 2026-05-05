@@ -6,5 +6,6 @@
     "@thazstack/typescript-config/strictest.json",
     "@thazstack/typescript-config/react.json"
   ],
-  "include": ["src"]
+  "include": ["src", "mock"],
+  "compilerOptions": {}
 }

@@ -1,12 +1,10 @@
 {
   "extends": [
     "@thazstack/typescript-config/paths.json",
-    "@thazstack/typescript-config/no-dom.json",
+    "@thazstack/typescript-config/dom.json",
     "@thazstack/typescript-config/bundler.json",
     "@thazstack/typescript-config/strictest.json"
   ],
-  "include": ["vite.config.ts"],
-  "compilerOptions": {
-    "types": ["node"]
-  }
+  "include": ["src", "test", "mock"],
+  "compilerOptions": {}
 }
