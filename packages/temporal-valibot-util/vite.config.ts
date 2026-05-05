@@ -1,3 +1,4 @@
+import { playwright } from '@vitest/browser-playwright';
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vite-plus';
 
@@ -6,6 +7,10 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp pack',
+        dependsOn: ['@thazstack/temporal-util#build'],
+      },
+      test: {
+        command: 'vp test',
         dependsOn: ['@thazstack/temporal-util#build'],
       },
     },
@@ -47,10 +52,42 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['test/**/*.test.ts'],
-    typecheck: {
+    coverage: {
       enabled: true,
-      include: ['test/**/*.test-d.ts'],
+      provider: 'v8',
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['test/**/*.node.test.ts'],
+          setupFiles: [],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'browser',
+          include: ['test/**/*.browser.test.{ts,tsx}'],
+          setupFiles: [],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          typecheck: {
+            include: ['test/**/*.test-d.{ts,tsx}'],
+            enabled: true,
+          },
+        },
+      },
+    ],
   },
 });

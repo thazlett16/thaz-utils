@@ -1,3 +1,4 @@
+import { playwright } from '@vitest/browser-playwright';
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vite-plus';
 
@@ -6,6 +7,9 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp pack',
+      },
+      test: {
+        command: 'vp test',
       },
     },
   },
@@ -44,5 +48,44 @@ export default defineConfig({
       typeAware: true,
       typeCheck: true,
     },
+  },
+  test: {
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+    },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['test/**/*.node.test.ts'],
+          setupFiles: [],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'browser',
+          include: ['test/**/*.browser.test.{ts,tsx}'],
+          setupFiles: [],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          typecheck: {
+            include: ['test/**/*.test-d.{ts,tsx}'],
+            enabled: true,
+          },
+        },
+      },
+    ],
   },
 });

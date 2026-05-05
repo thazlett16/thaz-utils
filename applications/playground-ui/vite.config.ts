@@ -3,6 +3,7 @@ import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import viteJSPluginReact from '@vitejs/plugin-react';
+import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
@@ -10,6 +11,17 @@ export default defineConfig({
     tasks: {
       build: {
         command: 'vp build',
+        dependsOn: [
+          '@thazstack/temporal-util#build',
+          '@thazstack/temporal-valibot-util#build',
+          '@thazstack/network-util#build',
+          '@thazstack/form-util#build',
+          '@thazstack/form-dayjs-util#build',
+          '@thazstack/form-internationalized-date-util#build',
+        ],
+      },
+      test: {
+        command: 'vp test',
         dependsOn: [
           '@thazstack/temporal-util#build',
           '@thazstack/temporal-valibot-util#build',
@@ -61,5 +73,44 @@ export default defineConfig({
       typeAware: true,
       typeCheck: true,
     },
+  },
+  test: {
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+    },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['test/**/*.node.test.ts'],
+          setupFiles: [],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'browser',
+          include: ['test/**/*.browser.test.{ts,tsx}'],
+          setupFiles: [],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          typecheck: {
+            include: ['test/**/*.test-d.{ts,tsx}'],
+            enabled: true,
+          },
+        },
+      },
+    ],
   },
 });
