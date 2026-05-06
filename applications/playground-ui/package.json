@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vpx msw init ./public --save"
+    "prepare": "vpx msw init ./public --save && vpx playwright install chromium chromium-headless-shell firefox"
   },
   "dependencies": {
     "@internationalized/date": "catalog:",
@@ -37,6 +37,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
     "msw": "catalog:",
     "type-fest": "catalog:",

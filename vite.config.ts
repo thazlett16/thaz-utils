@@ -1,7 +1,7 @@
+import { defineConfig } from 'vite-plus';
+
 import { oxfmtConfig } from '@thazstack/oxfmt-config';
 import { fullConfig, libraryCodeConfig } from '@thazstack/oxlint-config';
-
-import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
   staged: {

@@ -1,10 +1,11 @@
+import viteJSPluginReact from '@vitejs/plugin-react';
+import { playwright } from '@vitest/browser-playwright';
+import { defineConfig } from 'vite-plus';
+
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
-import viteJSPluginReact from '@vitejs/plugin-react';
-import { playwright } from '@vitest/browser-playwright';
-import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
   run: {
@@ -94,7 +95,7 @@ export default defineConfig({
         test: {
           name: 'browser',
           include: ['test/**/*.browser.test.{ts,tsx}'],
-          setupFiles: [],
+          setupFiles: ['test/setup.browser.ts'],
           browser: {
             enabled: true,
             provider: playwright(),
