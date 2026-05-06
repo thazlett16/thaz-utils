@@ -39,14 +39,10 @@
     "./transpile-library.json": "./configs/transpile-library.json",
     "./transpile-library-monorepo.json": "./configs/transpile-library-monorepo.json"
   },
-  "scripts": {
-    "check": "vp check"
-  },
   "devDependencies": {
     "@types/node": "catalog:",
     "bumpp": "catalog:",
-    "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "typescript": "catalog:"

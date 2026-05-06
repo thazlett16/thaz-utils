@@ -1,5 +1,6 @@
 import viteJSPluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
+import { playwright } from 'vite-plus/test/browser-playwright';
 
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
@@ -80,37 +81,37 @@ export default defineConfig({
     // },
     projects: [
       {
+        extends: true,
         test: {
-          // name: 'node',
+          name: 'node',
           include: ['test/**/*.node.test.ts'],
         },
       },
-      // {
-      //   extends: true,
-      //   test: {
-      //     name: 'browser',
-      //     include: ['test/**/*.browser.test.{ts,tsx}'],
-      //     browser: {
-      //       enabled: true,
-      //       headless: true,
-      //       provider: playwright(),
-      //       instances: [
-      //         { browser: 'chromium', launch: { args: ['--no-sandbox', '--disable-setuid-sandbox'] } },
-      //         // { browser: 'firefox' }
-      //       ],
-      //     },
-      //   },
-      // },
-      // {
-      //   extends: true,
-      //   test: {
-      //     name: 'types',
-      //     include: ['test/**/*.test-d.{ts,tsx}'],
-      //     typecheck: {
-      //       enabled: true,
-      //     },
-      //   },
-      // },
+      {
+        extends: true,
+        test: {
+          name: 'browser',
+          include: ['test/**/*.browser.test.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [
+              { browser: 'chromium' },
+              { browser: 'firefox' }
+            ],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          include: ['test/**/*.test-d.{ts,tsx}'],
+          typecheck: {
+            enabled: true,
+          },
+        },
+      },
     ],
   },
 });

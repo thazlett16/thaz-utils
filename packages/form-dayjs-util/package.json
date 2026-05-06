@@ -60,7 +60,6 @@
     "react": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
-    "vite": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:"
   },

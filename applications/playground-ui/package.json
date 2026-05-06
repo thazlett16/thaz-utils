@@ -36,11 +36,11 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/ui": "catalog:",
     "playwright": "catalog:",
     "msw": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:",
-    "vite": "catalog:",
     "vite-plus": "catalog:"
   },
   "msw": {
