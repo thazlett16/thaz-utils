@@ -34,27 +34,20 @@ export const oxfmtConfig = defineConfig({
 
     customGroups: [
       {
-        elementNamePattern: [
-          '@vitejs/devtools',
-          '@vitejs/plugin-react',
-          '@vitest/browser-playwright',
-          '@vitest/coverage-v8',
-          '@vitest/ui',
-          'vite',
-          'vite-plugin-externalize-deps',
-          'vite-plus',
-          'vitest',
-          'vitest-browser-react',
-
-          // '^vite-plus$',
-          // '^vite$',
-          // '^@vite/.+',
-          // '^@vitejs/.+',
-          // '^vite-.+',
-          // '^vitest$',
-          // '^vitest-.+',
-          // '^@vitest/.+',
-        ],
+        elementNamePattern: ['oxfmt', 'oxlint', 'oxlint-tsgolint'],
+        groupName: 'oxc',
+      },
+      // {
+      //   elementNamePattern: [
+      //     'tsdown',
+      //     'rolldown',
+      //     'rollup-*',
+      //     'rolldown-*',
+      //   ],
+      //   groupName: 'tsdown',
+      // },
+      {
+        elementNamePattern: ['vite-plus', 'vite', 'vitest', '@vite/*', '@vitest/*', '@vitejs/*', 'vite-*', 'vitest-*'],
         groupName: 'vite',
       },
       {
@@ -72,6 +65,8 @@ export const oxfmtConfig = defineConfig({
     ],
     groups: [
       ['builtin'],
+
+      ['oxc'],
 
       ['vite'],
 

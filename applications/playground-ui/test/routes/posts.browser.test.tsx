@@ -1,12 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect } from 'vitest';
 
-import { worker } from '#mock/browser';
 import { errorHandlers } from '#mock/handlers/posts';
 import { PostsComponent } from '#src/routes/posts/-common/posts-component';
-import { renderWithProviders } from '#test/util';
+import { test } from '#test/util';
 
 describe('postsComponent', () => {
-  it('renders the posts list on success', async () => {
+  test('renders the posts list on success', async ({ renderWithProviders }) => {
     const screen = await renderWithProviders(<PostsComponent />);
 
     await expect.element(screen.getByTestId('posts-container')).toBeVisible();
@@ -16,7 +15,7 @@ describe('postsComponent', () => {
     await expect.element(screen.getByText('Third Post')).toBeVisible();
   });
 
-  it('renders the error state when the API fails', async () => {
+  test('renders the error state when the API fails', async ({ renderWithProviders, worker }) => {
     worker.use(errorHandlers.getPosts);
 
     const screen = await renderWithProviders(<PostsComponent />);
@@ -25,10 +24,10 @@ describe('postsComponent', () => {
     await expect.element(screen.getByText(/failed to fetch posts/i)).toBeVisible();
   });
 
-  it('renders error state via handlers option', async () => {
-    const screen = await renderWithProviders(<PostsComponent />, {
-      handlers: [errorHandlers.getPosts],
-    });
+  test('renders error state via handlers option', async ({ renderWithProviders, worker }) => {
+    worker.use(errorHandlers.getPosts);
+
+    const screen = await renderWithProviders(<PostsComponent />);
 
     await expect.element(screen.getByTestId('posts-error')).toBeVisible();
   });

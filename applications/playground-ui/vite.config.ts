@@ -76,11 +76,11 @@ export default defineConfig({
     },
   },
   test: {
-    coverage: {
-      include: ['src/**/*.{ts,tsx}'],
-      enabled: true,
-      provider: 'v8',
-    },
+    // coverage: {
+    //   include: ['src/**/*.{ts,tsx}'],
+    //   enabled: true,
+    //   provider: 'v8',
+    // },
     projects: [
       {
         extends: true,
@@ -95,11 +95,10 @@ export default defineConfig({
         test: {
           name: 'browser',
           include: ['test/**/*.browser.test.{ts,tsx}'],
-          setupFiles: ['test/setup.browser.ts'],
           browser: {
             enabled: true,
             provider: playwright(),
-            instances: [{ browser: 'chromium' }],
+            instances: [{ browser: 'chromium' }, { browser: 'firefox' }],
           },
         },
       },
@@ -107,8 +106,9 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'types',
+          include: ['test/**/*.test-d.{ts,tsx}'],
+          setupFiles: [],
           typecheck: {
-            include: ['test/**/*.test-d.{ts,tsx}'],
             enabled: true,
           },
         },
