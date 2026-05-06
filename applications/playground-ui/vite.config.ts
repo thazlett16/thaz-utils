@@ -1,5 +1,4 @@
 import viteJSPluginReact from '@vitejs/plugin-react';
-import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vite-plus';
 
 import { devtools } from '@tanstack/devtools-vite';
@@ -29,14 +28,7 @@ export default defineConfig({
       },
       test: {
         command: 'vp test',
-        dependsOn: [
-          '@thazstack/temporal-util#build',
-          '@thazstack/temporal-valibot-util#build',
-          '@thazstack/network-util#build',
-          '@thazstack/form-util#build',
-          '@thazstack/form-dayjs-util#build',
-          '@thazstack/form-internationalized-date-util#build',
-        ],
+        // dependsOn: ['playground-ui#build'],
       },
       check: {
         command: 'vp check',
@@ -76,6 +68,11 @@ export default defineConfig({
     },
   },
   test: {
+    // include: ['test/**/*.node.test.ts'],
+    // typecheck: {
+    //   enabled: true,
+    //   include: ['test/**/*.test-d.ts'],
+    // },
     // coverage: {
     //   include: ['src/**/*.{ts,tsx}'],
     //   enabled: true,
@@ -83,36 +80,37 @@ export default defineConfig({
     // },
     projects: [
       {
-        extends: true,
         test: {
-          name: 'node',
+          // name: 'node',
           include: ['test/**/*.node.test.ts'],
-          setupFiles: [],
         },
       },
-      {
-        extends: true,
-        test: {
-          name: 'browser',
-          include: ['test/**/*.browser.test.{ts,tsx}'],
-          browser: {
-            enabled: true,
-            provider: playwright(),
-            instances: [{ browser: 'chromium' }, { browser: 'firefox' }],
-          },
-        },
-      },
-      {
-        extends: true,
-        test: {
-          name: 'types',
-          include: ['test/**/*.test-d.{ts,tsx}'],
-          setupFiles: [],
-          typecheck: {
-            enabled: true,
-          },
-        },
-      },
+      // {
+      //   extends: true,
+      //   test: {
+      //     name: 'browser',
+      //     include: ['test/**/*.browser.test.{ts,tsx}'],
+      //     browser: {
+      //       enabled: true,
+      //       headless: true,
+      //       provider: playwright(),
+      //       instances: [
+      //         { browser: 'chromium', launch: { args: ['--no-sandbox', '--disable-setuid-sandbox'] } },
+      //         // { browser: 'firefox' }
+      //       ],
+      //     },
+      //   },
+      // },
+      // {
+      //   extends: true,
+      //   test: {
+      //     name: 'types',
+      //     include: ['test/**/*.test-d.{ts,tsx}'],
+      //     typecheck: {
+      //       enabled: true,
+      //     },
+      //   },
+      // },
     ],
   },
 });

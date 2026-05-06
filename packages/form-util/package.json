@@ -51,9 +51,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "@vitest/browser-playwright": "catalog:",
-    "@vitest/coverage-v8": "catalog:",
-    "@vitest/ui": "catalog:",
     "bumpp": "catalog:",
     "react": "catalog:",
     "rollup-plugin-preserve-directives": "catalog:",
@@ -61,9 +58,7 @@
     "valibot": "catalog:",
     "vite": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:",
-    "vitest": "catalog:",
-    "vitest-browser-react": "catalog:"
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",

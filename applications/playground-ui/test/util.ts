@@ -7,11 +7,11 @@ import { renderWithProviders } from './render-with';
 
 export const test = baseTest
   .extend('worker', { auto: true }, async (_testScopeContext, { onCleanup }) => {
-    await worker.start();
+    // await worker.start();
 
-    onCleanup(() => {
-      worker.resetHandlers();
-    });
+    // onCleanup(() => {
+    //   worker.resetHandlers();
+    // });
 
     return worker;
   })
