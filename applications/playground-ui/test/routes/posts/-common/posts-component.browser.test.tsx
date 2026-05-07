@@ -12,6 +12,9 @@ describe('postsComponent', () => {
 
       const { screen } = await renderWithProviders(<PostsComponent />);
 
+      // Screenshot
+      // await expect(screen.locator).toMatchScreenshot(`post-component-${width}-${height}`);
+
       await expect.element(screen.getByText('Posts')).toBeVisible();
       await expect.element(screen.getByText('First Post', { exact: true })).toBeVisible();
       await expect.element(screen.getByText('Second Post', { exact: true })).toBeVisible();
