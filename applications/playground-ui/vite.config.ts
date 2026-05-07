@@ -7,6 +7,13 @@ import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { playwright } from 'vite-plus/test/browser-playwright';
 
+const VIEW_PORT_OPTIONS = {
+  LARGE: { width: 2560, height: 1440 },
+  DESKTOP: { width: 1920, height: 1080 },
+  IPAD_MINI: { width: 768, height: 1024 },
+  IPHONE_MINI: { width: 375, height: 667 },
+};
+
 export default defineConfig({
   run: {
     tasks: {
@@ -101,36 +108,23 @@ export default defineConfig({
       {
         extends: true,
         test: {
-          name: 'browser',
           include: ['test/**/*.browser.test.{ts,tsx}'],
           browser: {
             enabled: true,
             provider: playwright(),
-            instances: [{ browser: 'chromium' }, { browser: 'firefox' }],
+            instances: [
+              { name: 'browser-chromium-large', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.LARGE },
+              { name: 'browser-firefox-large', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.LARGE },
+              { name: 'browser-chromium-desktop', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.DESKTOP },
+              { name: 'browser-firefox-desktop', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.DESKTOP },
+              { name: 'browser-chromium-ipad', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.IPAD_MINI },
+              { name: 'browser-firefox-ipad', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.IPAD_MINI },
+              { name: 'browser-chromium-iphone', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.IPHONE_MINI },
+              { name: 'browser-firefox-iphone', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.IPHONE_MINI },
+            ],
           },
         },
       },
-      // {
-      //   // Might not have these but want configured just in case for future
-      //   // https://vitest.dev/guide/browser/visual-regression-testing.html
-      //   extends: true,
-      //   test: {
-      //     name: 'browser-visual',
-      //     include: ['test/**/*.browser.visual.test.tsx'],
-      //     browser: {
-      //       enabled: true,
-      //       provider: playwright(),
-      //       instances: [
-      //         { browser: 'chromium', name: 'browser-visual-chromium-desktop', viewport: { width: 1920, height: 1080 } },
-      //         { browser: 'chromium', name: 'browser-visual-chromium-tablet', viewport: { width: 768, height: 1024 } },
-      //         { browser: 'chromium', name: 'browser-visual-chromium-phone', viewport: { width: 375, height: 667 } },
-      //         { browser: 'firefox', name: 'browser-visual-firefox-desktop', viewport: { width: 1920, height: 1080 } },
-      //         { browser: 'firefox', name: 'browser-visual-firefox-tablet', viewport: { width: 768, height: 1024 } },
-      //         { browser: 'firefox', name: 'browser-visual-firefox-phone', viewport: { width: 375, height: 667 } },
-      //       ],
-      //     },
-      //   },
-      // },
       {
         extends: true,
         test: {
