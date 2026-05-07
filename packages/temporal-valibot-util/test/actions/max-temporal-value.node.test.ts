@@ -1,59 +1,59 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 
-import type { TemporalMinValueAction, TemporalMinValueIssue } from '#src/actions/min-temporal-value';
+import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '#src/actions/max-temporal-value';
 
-import { temporalMinValue } from '#src/actions/min-temporal-value';
+import { temporalMaxValue } from '#src/actions/max-temporal-value';
 
-describe('temporalMinValue', () => {
+describe('temporalMaxValue', () => {
   describe('should return action object', () => {
-    const requirement = Temporal.PlainDate.from('2024-01-01');
-    const baseAction: Omit<TemporalMinValueAction<Temporal.PlainDate, typeof requirement, never>, 'message'> = {
+    const requirement = Temporal.PlainDate.from('2024-12-31');
+    const baseAction: Omit<TemporalMaxValueAction<Temporal.PlainDate, typeof requirement, never>, 'message'> = {
       kind: 'validation',
-      type: 'temporal_min_value',
-      reference: temporalMinValue,
-      expects: `>=${requirement.toJSON()}`,
+      type: 'temporal_max_value',
+      reference: temporalMaxValue,
+      expects: `<=${requirement.toJSON()}`,
       requirement,
       async: false,
       '~run': expect.any(Function),
     };
 
     it('with undefined message', () => {
-      const action: TemporalMinValueAction<Temporal.PlainDate, typeof requirement, undefined> = {
+      const action: TemporalMaxValueAction<Temporal.PlainDate, typeof requirement, undefined> = {
         ...baseAction,
         message: undefined,
       };
-      expect(temporalMinValue(requirement)).toStrictEqual(action);
+      expect(temporalMaxValue(requirement)).toStrictEqual(action);
     });
 
     it('with string message', () => {
-      expect(temporalMinValue(requirement, 'message')).toStrictEqual({
+      expect(temporalMaxValue(requirement, 'message')).toStrictEqual({
         ...baseAction,
         message: 'message',
-      } satisfies TemporalMinValueAction<Temporal.PlainDate, typeof requirement, string>);
+      } satisfies TemporalMaxValueAction<Temporal.PlainDate, typeof requirement, string>);
     });
 
     it('with function message', () => {
       const message = () => 'message';
-      expect(temporalMinValue(requirement, message)).toStrictEqual({
+      expect(temporalMaxValue(requirement, message)).toStrictEqual({
         ...baseAction,
         message,
-      } satisfies TemporalMinValueAction<Temporal.PlainDate, typeof requirement, typeof message>);
+      } satisfies TemporalMaxValueAction<Temporal.PlainDate, typeof requirement, typeof message>);
     });
   });
 
   describe('should return dataset without issues', () => {
     const requirement = Temporal.PlainDate.from('2024-06-01');
-    const action = temporalMinValue(requirement);
+    const action = temporalMaxValue(requirement);
 
     it('for untyped inputs', () => {
-      const issues: [TemporalMinValueIssue<Temporal.PlainDate, typeof requirement>] = [
+      const issues: [TemporalMaxValueIssue<Temporal.PlainDate, typeof requirement>] = [
         {
           kind: 'validation',
-          type: 'temporal_min_value',
-          input: Temporal.PlainDate.from('2024-01-01'),
-          expected: `>=${requirement.toJSON()}`,
-          received: '2024-01-01',
+          type: 'temporal_max_value',
+          input: Temporal.PlainDate.from('2024-12-31'),
+          expected: `<=${requirement.toJSON()}`,
+          received: '2024-12-31',
           message: 'message',
           requirement,
           path: undefined,
@@ -63,9 +63,9 @@ describe('temporalMinValue', () => {
           abortPipeEarly: undefined,
         },
       ];
-      expect(action['~run']({ typed: false, value: Temporal.PlainDate.from('2024-01-01'), issues }, {})).toStrictEqual({
+      expect(action['~run']({ typed: false, value: Temporal.PlainDate.from('2024-12-31'), issues }, {})).toStrictEqual({
         typed: false,
-        value: Temporal.PlainDate.from('2024-01-01'),
+        value: Temporal.PlainDate.from('2024-12-31'),
         issues,
       });
     });
@@ -75,47 +75,47 @@ describe('temporalMinValue', () => {
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for value after requirement', () => {
-      const value = Temporal.PlainDate.from('2024-12-31');
+    it('for value before requirement', () => {
+      const value = Temporal.PlainDate.from('2024-01-01');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
     it('for Temporal.Instant equal to requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
-      const instantAction = temporalMinValue(req);
+      const instantAction = temporalMaxValue(req);
       const value = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       expect(instantAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.Instant after requirement', () => {
+    it('for Temporal.Instant before requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
-      const instantAction = temporalMinValue(req);
-      const value = Temporal.Instant.fromEpochMilliseconds(2_000_000);
+      const instantAction = temporalMaxValue(req);
+      const value = Temporal.Instant.fromEpochMilliseconds(500_000);
       expect(instantAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
     it('for Temporal.PlainTime equal to requirement', () => {
-      const req = Temporal.PlainTime.from('10:00:00');
-      const timeAction = temporalMinValue(req);
-      const value = Temporal.PlainTime.from('10:00:00');
+      const req = Temporal.PlainTime.from('12:00:00');
+      const timeAction = temporalMaxValue(req);
+      const value = Temporal.PlainTime.from('12:00:00');
       expect(timeAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.PlainTime after requirement', () => {
-      const req = Temporal.PlainTime.from('10:00:00');
-      const timeAction = temporalMinValue(req);
-      const value = Temporal.PlainTime.from('23:59:59');
+    it('for Temporal.PlainTime before requirement', () => {
+      const req = Temporal.PlainTime.from('12:00:00');
+      const timeAction = temporalMaxValue(req);
+      const value = Temporal.PlainTime.from('08:00:00');
       expect(timeAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
   });
 
   describe('should return dataset with issues', () => {
     const requirement = Temporal.PlainDate.from('2024-06-01');
-    const action = temporalMinValue(requirement, 'message');
-    const baseIssue: Omit<TemporalMinValueIssue<Temporal.PlainDate, typeof requirement>, 'input' | 'received'> = {
+    const action = temporalMaxValue(requirement, 'message');
+    const baseIssue: Omit<TemporalMaxValueIssue<Temporal.PlainDate, typeof requirement>, 'input' | 'received'> = {
       kind: 'validation',
-      type: 'temporal_min_value',
-      expected: `>=${requirement.toJSON()}`,
+      type: 'temporal_max_value',
+      expected: `<=${requirement.toJSON()}`,
       message: 'message',
       requirement,
       path: undefined,
@@ -125,8 +125,8 @@ describe('temporalMinValue', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for value before requirement', () => {
-      const value = Temporal.PlainDate.from('2024-01-01');
+    it('for value after requirement', () => {
+      const value = Temporal.PlainDate.from('2024-12-31');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
         value,
@@ -134,8 +134,8 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for value one day before requirement', () => {
-      const value = Temporal.PlainDate.from('2024-05-31');
+    it('for value one day after requirement', () => {
+      const value = Temporal.PlainDate.from('2024-06-02');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
         value,
@@ -143,18 +143,18 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.Instant before requirement', () => {
+    it('for Temporal.Instant after requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
-      const instantAction = temporalMinValue(req, 'message');
-      const value = Temporal.Instant.fromEpochMilliseconds(500_000);
+      const instantAction = temporalMaxValue(req, 'message');
+      const value = Temporal.Instant.fromEpochMilliseconds(2_000_000);
       expect(instantAction['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
         value,
         issues: [
           {
             kind: 'validation',
-            type: 'temporal_min_value',
-            expected: `>=${req.toJSON()}`,
+            type: 'temporal_max_value',
+            expected: `<=${req.toJSON()}`,
             message: 'message',
             requirement: req,
             path: undefined,

@@ -1,90 +1,98 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 
-import type { ToPlainDateTimeAction, ToPlainDateTimeIssue } from '#src/actions/to-plain-date-time-value';
+import type { ToPlainTimeAction, ToPlainTimeIssue } from '#src/actions/to-plain-time-value';
 
-import { toPlainDateTime } from '#src/actions/to-plain-date-time-value';
+import { toPlainTime } from '#src/actions/to-plain-time-value';
 
-describe('toPlainDateTime', () => {
+describe('toPlainTime', () => {
   describe('should return action object', () => {
     it('with undefined message', () => {
-      expect(toPlainDateTime()).toStrictEqual({
+      expect(toPlainTime()).toStrictEqual({
         kind: 'transformation',
-        type: 'to_plain_date_time',
-        reference: toPlainDateTime,
+        type: 'to_plain_time',
+        reference: toPlainTime,
         async: false,
         message: undefined,
         '~run': expect.any(Function),
-      } satisfies ToPlainDateTimeAction<unknown, undefined>);
+      } satisfies ToPlainTimeAction<unknown, undefined>);
     });
 
     it('with string message', () => {
-      expect(toPlainDateTime('message')).toStrictEqual({
+      expect(toPlainTime('message')).toStrictEqual({
         kind: 'transformation',
-        type: 'to_plain_date_time',
-        reference: toPlainDateTime,
+        type: 'to_plain_time',
+        reference: toPlainTime,
         async: false,
         message: 'message',
         '~run': expect.any(Function),
-      } satisfies ToPlainDateTimeAction<unknown, string>);
+      } satisfies ToPlainTimeAction<unknown, string>);
     });
 
     it('with function message', () => {
       const message = () => 'message';
-      expect(toPlainDateTime(message)).toStrictEqual({
+      expect(toPlainTime(message)).toStrictEqual({
         kind: 'transformation',
-        type: 'to_plain_date_time',
-        reference: toPlainDateTime,
+        type: 'to_plain_time',
+        reference: toPlainTime,
         async: false,
         message,
         '~run': expect.any(Function),
-      } satisfies ToPlainDateTimeAction<unknown, typeof message>);
+      } satisfies ToPlainTimeAction<unknown, typeof message>);
     });
   });
 
-  describe('should transform to Temporal.PlainDateTime', () => {
-    const action = toPlainDateTime();
+  describe('should transform to Temporal.PlainTime', () => {
+    const action = toPlainTime();
 
     it('converts a ZonedDateTime ISO string', () => {
-      expect(action['~run']({ typed: true, value: '2024-01-15T10:30:00+00:00[UTC]' }, {})).toStrictEqual({
+      expect(action['~run']({ typed: true, value: '2024-01-01T10:30:00+00:00[UTC]' }, {})).toStrictEqual({
         typed: true,
-        value: Temporal.ZonedDateTime.from('2024-01-15T10:30:00+00:00[UTC]').toPlainDateTime(),
+        value: Temporal.ZonedDateTime.from('2024-01-01T10:30:00+00:00[UTC]').toPlainTime(),
       });
     });
 
     it('converts a PlainDateTime ISO string', () => {
-      expect(action['~run']({ typed: true, value: '2024-06-15T10:30:00' }, {})).toStrictEqual({
+      expect(action['~run']({ typed: true, value: '2024-01-01T14:45:30' }, {})).toStrictEqual({
         typed: true,
-        value: Temporal.PlainDateTime.from('2024-06-15T10:30:00'),
+        value: Temporal.PlainDateTime.from('2024-01-01T14:45:30').toPlainTime(),
       });
     });
 
-    it('converts a PlainDateTime string with sub-seconds', () => {
-      expect(action['~run']({ typed: true, value: '2024-01-01T00:00:00.123' }, {})).toStrictEqual({
+    it('converts a PlainTime ISO string', () => {
+      expect(action['~run']({ typed: true, value: '10:30:00' }, {})).toStrictEqual({
         typed: true,
-        value: Temporal.PlainDateTime.from('2024-01-01T00:00:00.123'),
+        value: Temporal.PlainTime.from('10:30:00'),
       });
     });
 
     it('converts a Temporal.ZonedDateTime', () => {
-      const zdt = Temporal.ZonedDateTime.from('2024-01-15T09:00:00-05:00[America/New_York]');
+      const zdt = Temporal.ZonedDateTime.from('2024-01-15T09:15:00-05:00[America/New_York]');
       expect(action['~run']({ typed: true, value: zdt }, {})).toStrictEqual({
         typed: true,
-        value: zdt.toPlainDateTime(),
+        value: zdt.toPlainTime(),
       });
     });
 
-    it('passes through an existing Temporal.PlainDateTime', () => {
-      const value = Temporal.PlainDateTime.from('2024-06-15T10:30:00');
+    it('converts a Temporal.PlainDateTime', () => {
+      const pdt = Temporal.PlainDateTime.from('2024-03-20T09:15:00');
+      expect(action['~run']({ typed: true, value: pdt }, {})).toStrictEqual({
+        typed: true,
+        value: pdt.toPlainTime(),
+      });
+    });
+
+    it('passes through an existing Temporal.PlainTime', () => {
+      const value = Temporal.PlainTime.from('10:30:00');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
   });
 
   describe('should return dataset with issues', () => {
-    const action = toPlainDateTime('message');
-    const baseIssue: Omit<ToPlainDateTimeIssue<unknown>, 'input' | 'received'> = {
+    const action = toPlainTime('message');
+    const baseIssue: Omit<ToPlainTimeIssue<unknown>, 'input' | 'received'> = {
       kind: 'transformation',
-      type: 'to_plain_date_time',
+      type: 'to_plain_time',
       expected: null,
       message: 'message',
       requirement: undefined,
@@ -96,7 +104,7 @@ describe('toPlainDateTime', () => {
     };
 
     it('for invalid strings', () => {
-      const value = 'not-a-datetime';
+      const value = 'not-a-time';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
         value,
@@ -104,8 +112,8 @@ describe('toPlainDateTime', () => {
       });
     });
 
-    it('for time-only strings', () => {
-      const value = '14:30:00';
+    it('for invalid date-like strings', () => {
+      const value = '2024-99-99';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
         value,

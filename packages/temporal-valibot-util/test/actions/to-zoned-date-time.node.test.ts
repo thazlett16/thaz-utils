@@ -1,5 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 
 import type { ToZonedDateTimeAction, ToZonedDateTimeIssue } from '#src/actions/to-zoned-date-time-value';
 

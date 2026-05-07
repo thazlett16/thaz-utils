@@ -1,7 +1,7 @@
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expectTypeOf, it } from 'vitest';
+import { describe, expectTypeOf, it } from 'vite-plus/test';
 
 import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '#src/actions/max-temporal-value';
 import type { TemporalValueInput } from '#src/actions/types';

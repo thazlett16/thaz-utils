@@ -1,17 +1,17 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 
-import type { InstantIssue, InstantSchema } from '#src/schema/instant';
+import type { DurationIssue, DurationSchema } from '#src/schema/duration';
 
-import { instant } from '#src/schema/instant';
+import { duration } from '#src/schema/duration';
 
-describe('instant', () => {
+describe('duration', () => {
   describe('should return schema object', () => {
-    const baseSchema: Omit<InstantSchema<never>, 'message'> = {
+    const baseSchema: Omit<DurationSchema<never>, 'message'> = {
       kind: 'schema',
-      type: 'instant',
-      reference: instant,
-      expects: 'Temporal.Instant',
+      type: 'duration',
+      reference: duration,
+      expects: 'Temporal.Duration',
       async: false,
       '~standard': {
         version: 1,
@@ -22,52 +22,57 @@ describe('instant', () => {
     };
 
     it('with undefined message', () => {
-      const schema: InstantSchema<undefined> = { ...baseSchema, message: undefined };
-      expect(instant()).toStrictEqual(schema);
-      expect(instant(undefined)).toStrictEqual(schema);
+      const schema: DurationSchema<undefined> = { ...baseSchema, message: undefined };
+      expect(duration()).toStrictEqual(schema);
+      expect(duration(undefined)).toStrictEqual(schema);
     });
 
     it('with string message', () => {
-      expect(instant('message')).toStrictEqual({
+      expect(duration('message')).toStrictEqual({
         ...baseSchema,
         message: 'message',
-      } satisfies InstantSchema<string>);
+      } satisfies DurationSchema<string>);
     });
 
     it('with function message', () => {
       const message = () => 'message';
-      expect(instant(message)).toStrictEqual({
+      expect(duration(message)).toStrictEqual({
         ...baseSchema,
         message,
-      } satisfies InstantSchema<typeof message>);
+      } satisfies DurationSchema<typeof message>);
     });
   });
 
   describe('should return dataset without issues', () => {
-    const schema = instant();
+    const schema = duration();
 
-    it('for epoch instant', () => {
-      const value = Temporal.Instant.fromEpochMilliseconds(0);
+    it('for zero duration', () => {
+      const value = new Temporal.Duration();
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for positive epoch instant', () => {
-      const value = Temporal.Instant.fromEpochMilliseconds(1_700_000_000_000);
+    it('for duration with hours', () => {
+      const value = Temporal.Duration.from({ hours: 1 });
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for instant from ISO string', () => {
-      const value = Temporal.Instant.from('2024-06-15T12:00:00Z');
+    it('for duration with multiple fields', () => {
+      const value = Temporal.Duration.from({ years: 1, months: 2, days: 3, hours: 4 });
+      expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
+    });
+
+    it('for negative duration', () => {
+      const value = Temporal.Duration.from({ hours: -5 });
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
   });
 
   describe('should return dataset with issues', () => {
-    const schema = instant('message');
-    const baseIssue: Omit<InstantIssue, 'input' | 'received'> = {
+    const schema = duration('message');
+    const baseIssue: Omit<DurationIssue, 'input' | 'received'> = {
       kind: 'schema',
-      type: 'instant',
-      expected: 'Temporal.Instant',
+      type: 'duration',
+      expected: 'Temporal.Duration',
       message: 'message',
       requirement: undefined,
       path: undefined,
@@ -93,19 +98,27 @@ describe('instant', () => {
       });
     });
 
-    it('for iso instant strings', () => {
-      expect(schema['~run']({ value: '2024-01-01T00:00:00Z' }, {})).toStrictEqual({
+    it('for iso duration strings', () => {
+      expect(schema['~run']({ value: 'PT1H' }, {})).toStrictEqual({
         typed: false,
-        value: '2024-01-01T00:00:00Z',
-        issues: [{ ...baseIssue, input: '2024-01-01T00:00:00Z', received: '"2024-01-01T00:00:00Z"' }],
+        value: 'PT1H',
+        issues: [{ ...baseIssue, input: 'PT1H', received: '"PT1H"' }],
       });
     });
 
     it('for numbers', () => {
-      expect(schema['~run']({ value: 1_000_000 }, {})).toStrictEqual({
+      expect(schema['~run']({ value: 0 }, {})).toStrictEqual({
         typed: false,
-        value: 1_000_000,
-        issues: [{ ...baseIssue, input: 1_000_000, received: '1000000' }],
+        value: 0,
+        issues: [{ ...baseIssue, input: 0, received: '0' }],
+      });
+    });
+
+    it('for booleans', () => {
+      expect(schema['~run']({ value: true }, {})).toStrictEqual({
+        typed: false,
+        value: true,
+        issues: [{ ...baseIssue, input: true, received: 'true' }],
       });
     });
 
@@ -117,12 +130,12 @@ describe('instant', () => {
       });
     });
 
-    it('for Temporal.Duration', () => {
-      const value = Temporal.Duration.from({ hours: 1 });
+    it('for Temporal.Instant', () => {
+      const value = Temporal.Instant.fromEpochMilliseconds(0);
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,
         value,
-        issues: [{ ...baseIssue, input: value, received: 'Duration' }],
+        issues: [{ ...baseIssue, input: value, received: 'Instant' }],
       });
     });
 
@@ -132,15 +145,6 @@ describe('instant', () => {
         typed: false,
         value,
         issues: [{ ...baseIssue, input: value, received: 'PlainDate' }],
-      });
-    });
-
-    it('for Temporal.ZonedDateTime', () => {
-      const value = Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]');
-      expect(schema['~run']({ value }, {})).toStrictEqual({
-        typed: false,
-        value,
-        issues: [{ ...baseIssue, input: value, received: 'ZonedDateTime' }],
       });
     });
   });

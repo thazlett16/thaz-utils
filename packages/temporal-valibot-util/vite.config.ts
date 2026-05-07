@@ -8,6 +8,10 @@ export default defineConfig({
         command: 'vp pack',
         dependsOn: ['@thazstack/temporal-util#build'],
       },
+      test: {
+        command: 'vp test',
+        dependsOn: ['@thazstack/temporal-valibot-util#build'],
+      },
     },
   },
   resolve: {
@@ -47,10 +51,35 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['test/**/*.test.ts'],
-    typecheck: {
+    coverage: {
       enabled: true,
-      include: ['test/**/*.test-d.ts'],
+      include: ['src/**/*.ts'],
+      provider: 'istanbul',
+      thresholds: {
+        branches: 80,
+        functions: 80,
+        lines: 80,
+        statements: 80,
+      },
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['test/**/*.node.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          include: ['test/**/*.test-d.ts'],
+          typecheck: {
+            enabled: true,
+          },
+        },
+      },
+    ],
   },
 });
