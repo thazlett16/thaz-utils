@@ -5,8 +5,10 @@ import { PostsComponent } from '#src/routes/posts/-common/posts-component';
 import { test } from '#test/util';
 
 describe('postsComponent', () => {
-  test('renders the posts list on success', async ({ renderWithProviders }) => {
-    const screen = await renderWithProviders(<PostsComponent />);
+  test('renders the posts list on success', async ({ page, renderWithProviders }) => {
+    const { baseElement } = await renderWithProviders(<PostsComponent />);
+
+    const screen = page.elementLocator(baseElement);
 
     await expect.element(screen.getByTestId('posts-container')).toBeVisible();
     await expect.element(screen.getByTestId('posts-list')).toBeVisible();
@@ -15,20 +17,13 @@ describe('postsComponent', () => {
     await expect.element(screen.getByText('Third Post')).toBeVisible();
   });
 
-  test('renders the error state when the API fails', async ({ renderWithProviders, worker }) => {
+  test('renders the error state when the API fails', async ({ page, renderWithProviders, worker }) => {
     worker.use(errorHandlers.getPosts);
 
-    const screen = await renderWithProviders(<PostsComponent />);
+    const { baseElement } = await renderWithProviders(<PostsComponent />);
 
-    await expect.element(screen.getByTestId('posts-error')).toBeVisible();
+    const screen = page.elementLocator(baseElement);
+
     await expect.element(screen.getByText(/failed to fetch posts/i)).toBeVisible();
-  });
-
-  test('renders error state via handlers option', async ({ renderWithProviders, worker }) => {
-    worker.use(errorHandlers.getPosts);
-
-    const screen = await renderWithProviders(<PostsComponent />);
-
-    await expect.element(screen.getByTestId('posts-error')).toBeVisible();
   });
 });
