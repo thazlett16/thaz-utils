@@ -12,6 +12,10 @@ export default defineConfig({
         command: 'vp test',
         dependsOn: ['@thazstack/temporal-valibot-util#build'],
       },
+      check: {
+        command: 'vp check',
+        dependsOn: ['@thazstack/temporal-valibot-util#build'],
+      },
     },
   },
   resolve: {
