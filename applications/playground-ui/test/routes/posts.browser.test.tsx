@@ -2,10 +2,10 @@ import { describe, expect } from 'vite-plus/test';
 
 import { errorHandlers } from '#mock/handlers/posts';
 import { PostsComponent } from '#src/routes/posts/-common/posts-component';
-import { test, testViewPorts } from '#test/util';
+import { test, TEST_VIEW_PORT_OPTIONS } from '#test/util';
 
 describe('postsComponent', () => {
-  test.for(testViewPorts)(
+  test.for(TEST_VIEW_PORT_OPTIONS)(
     '$width x $height - renders the posts list on success',
     async ({ width, height }, { page, renderWithProviders }) => {
       await page.viewport(width, height);
@@ -19,7 +19,7 @@ describe('postsComponent', () => {
     },
   );
 
-  test.for(testViewPorts)(
+  test.for(TEST_VIEW_PORT_OPTIONS)(
     '$width x $height - renders the error state when the API fails',
     async ({ width, height }, { page, renderWithProviders, worker }) => {
       await page.viewport(width, height);

@@ -69,11 +69,18 @@ export default defineConfig({
     },
   },
   test: {
-    // coverage: {
-    //   include: ['src/**/*.{ts,tsx}'],
-    //   enabled: true,
-    //   provider: 'v8',
-    // },
+    coverage: {
+      enabled: true,
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/paraglide/**', 'src/configs/**', 'src/route-tree.gen.ts', 'src/main.ts', 'src/entry-app.tsx'],
+      provider: 'istanbul',
+      thresholds: {
+        branches: 80,
+        functions: 80,
+        lines: 80,
+        statements: 80,
+      },
+    },
     projects: [
       {
         extends: true,
@@ -94,27 +101,27 @@ export default defineConfig({
           },
         },
       },
-      {
-        // Might not have these but want configured just in case for future
-        // https://vitest.dev/guide/browser/visual-regression-testing.html
-        extends: true,
-        test: {
-          name: 'browser-visual',
-          include: ['test/**/*.browser.visual.test.tsx'],
-          browser: {
-            enabled: true,
-            provider: playwright(),
-            instances: [
-              { browser: 'chromium', viewport: { width: 1920, height: 1080 } },
-              { browser: 'chromium', viewport: { width: 768, height: 1024 } },
-              { browser: 'chromium', viewport: { width: 375, height: 667 } },
-              { browser: 'firefox', viewport: { width: 1920, height: 1080 } },
-              { browser: 'firefox', viewport: { width: 768, height: 1024 } },
-              { browser: 'firefox', viewport: { width: 375, height: 667 } },
-            ],
-          },
-        },
-      },
+      // {
+      //   // Might not have these but want configured just in case for future
+      //   // https://vitest.dev/guide/browser/visual-regression-testing.html
+      //   extends: true,
+      //   test: {
+      //     name: 'browser-visual',
+      //     include: ['test/**/*.browser.visual.test.tsx'],
+      //     browser: {
+      //       enabled: true,
+      //       provider: playwright(),
+      //       instances: [
+      //         { browser: 'chromium', name: 'browser-visual-chromium-desktop', viewport: { width: 1920, height: 1080 } },
+      //         { browser: 'chromium', name: 'browser-visual-chromium-tablet', viewport: { width: 768, height: 1024 } },
+      //         { browser: 'chromium', name: 'browser-visual-chromium-phone', viewport: { width: 375, height: 667 } },
+      //         { browser: 'firefox', name: 'browser-visual-firefox-desktop', viewport: { width: 1920, height: 1080 } },
+      //         { browser: 'firefox', name: 'browser-visual-firefox-tablet', viewport: { width: 768, height: 1024 } },
+      //         { browser: 'firefox', name: 'browser-visual-firefox-phone', viewport: { width: 375, height: 667 } },
+      //       ],
+      //     },
+      //   },
+      // },
       {
         extends: true,
         test: {
