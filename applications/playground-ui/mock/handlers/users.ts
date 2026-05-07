@@ -1,10 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import type { User } from '#src/services/users-contract';
 
 const MOCK_USERS: User[] = [
   { id: 1, name: 'Alice Smith', email: 'alice@example.com' },

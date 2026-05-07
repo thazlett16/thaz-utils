@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { instant } from '#src/valibot/schema/instant/instant';
+import { instant } from '#src/valibot/schema/instant';
 
 export const baseEntity = v.object({
   created_at_timestamp: instant,

@@ -1,11 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-export interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
+import type { Post } from '#src/services/posts-contract';
 
 const MOCK_POSTS: Post[] = [
   { id: 1, title: 'First Post', body: 'Content of the first post.', userId: 1 },

@@ -1,7 +1,8 @@
 import * as v from 'valibot';
 
-import { message } from '#src/valibot/response-message/message/message';
-import { responseArray } from '#src/valibot/schema/array/array';
+import { responseArray } from '#src/valibot/schema/array';
+
+import { message } from './message';
 
 export const response = v.object({
   message_list: responseArray(message),

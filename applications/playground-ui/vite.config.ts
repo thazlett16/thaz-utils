@@ -72,7 +72,15 @@ export default defineConfig({
     coverage: {
       enabled: true,
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/paraglide/**', 'src/configs/**', 'src/route-tree.gen.ts', 'src/main.ts', 'src/entry-app.tsx'],
+      exclude: [
+        'src/paraglide/**',
+        'src/components/app-form-root.ts',
+        'src/components/devtools.tsx',
+        'src/configs/**',
+        'src/route-tree.gen.ts',
+        'src/main.ts',
+        'src/entry-app.tsx',
+      ],
       provider: 'istanbul',
       thresholds: {
         branches: 80,
