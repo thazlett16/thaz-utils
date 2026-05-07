@@ -77,6 +77,7 @@ export default defineConfig({
         'src/components/app-form-root.ts',
         'src/components/devtools.tsx',
         'src/configs/**',
+        'src/services/**',
         'src/route-tree.gen.ts',
         'src/main.ts',
         'src/entry-app.tsx',

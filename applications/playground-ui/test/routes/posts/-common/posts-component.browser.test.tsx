@@ -1,6 +1,6 @@
 import { describe, expect } from 'vite-plus/test';
 
-import { errorHandlers } from '#mock/handlers/posts';
+import { getPostsHandler } from '#mock/handlers/posts';
 import { PostsComponent } from '#src/routes/posts/-common/posts-component';
 import { test, TEST_VIEW_PORT_OPTIONS } from '#test/util';
 
@@ -24,11 +24,11 @@ describe('postsComponent', () => {
     async ({ width, height }, { page, renderWithProviders, worker }) => {
       await page.viewport(width, height);
 
-      worker.use(errorHandlers.getPosts);
+      worker.use(getPostsHandler.error400);
 
       const { screen } = await renderWithProviders(<PostsComponent />);
 
-      await expect.element(screen.getByText(/failed to fetch posts/i)).toBeVisible();
+      await expect.element(screen.getByText(/NetworkErrorWithMessageList/i)).toBeVisible();
     },
   );
 });

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { postsQueryOptions } from './posts-query-options';
+import { postOptions } from '#src/services/post/options';
 
 export function PostsComponent() {
-  const { data: posts, isLoading, isError, error } = useQuery(postsQueryOptions);
+  const { data: posts, isLoading, isError, error } = useQuery(postOptions.getPostsQueryOptions());
 
   if (isLoading) {
     return <div>Loading posts...</div>;
@@ -17,7 +17,7 @@ export function PostsComponent() {
     <div>
       <h1>Posts</h1>
       <ul>
-        {posts?.map((post) => (
+        {posts?.data.map((post) => (
           <li key={post.id}>
             <strong>{post.title}</strong>
             <p>{post.body}</p>
