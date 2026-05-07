@@ -7,13 +7,6 @@ import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { playwright } from 'vite-plus/test/browser-playwright';
 
-// const VIEW_PORT_OPTIONS = {
-//   LARGE: { width: 2560, height: 1440 },
-//   DESKTOP: { width: 1920, height: 1080 },
-//   IPAD_MINI: { width: 768, height: 1024 },
-//   IPHONE_MINI: { width: 375, height: 667 },
-// };
-
 export default defineConfig({
   run: {
     tasks: {
@@ -115,12 +108,6 @@ export default defineConfig({
             instances: [
               { name: 'browser-chromium', browser: 'chromium' },
               { name: 'browser-firefox', browser: 'firefox' },
-              // { name: 'browser-chromium-desktop', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.DESKTOP },
-              // { name: 'browser-firefox-desktop', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.DESKTOP },
-              // { name: 'browser-chromium-ipad', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.IPAD_MINI },
-              // { name: 'browser-firefox-ipad', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.IPAD_MINI },
-              // { name: 'browser-chromium-iphone', browser: 'chromium', viewport: VIEW_PORT_OPTIONS.IPHONE_MINI },
-              // { name: 'browser-firefox-iphone', browser: 'firefox', viewport: VIEW_PORT_OPTIONS.IPHONE_MINI },
             ],
           },
         },
