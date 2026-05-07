@@ -1,11 +1,11 @@
 import viteJSPluginReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
-import { playwright } from 'vite-plus/test/browser-playwright';
 
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
+import { playwright } from 'vite-plus/test/browser-playwright';
 
 export default defineConfig({
   run: {
@@ -95,10 +95,7 @@ export default defineConfig({
           browser: {
             enabled: true,
             provider: playwright(),
-            instances: [
-              { browser: 'chromium' },
-              { browser: 'firefox' }
-            ],
+            instances: [{ browser: 'chromium' }, { browser: 'firefox' }],
           },
         },
       },

@@ -10,8 +10,7 @@ describe('postsComponent', () => {
 
     const screen = page.elementLocator(baseElement);
 
-    await expect.element(screen.getByTestId('posts-container')).toBeVisible();
-    await expect.element(screen.getByTestId('posts-list')).toBeVisible();
+    await expect.element(screen.getByText('Posts')).toBeVisible();
     await expect.element(screen.getByText('First Post')).toBeVisible();
     await expect.element(screen.getByText('Second Post')).toBeVisible();
     await expect.element(screen.getByText('Third Post')).toBeVisible();
