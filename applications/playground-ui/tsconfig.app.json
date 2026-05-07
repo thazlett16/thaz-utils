@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "@thazstack/typescript-config/paths.json",
+    "@thazstack/typescript-config/dom.json",
+    "@thazstack/typescript-config/bundler.json",
+    "@thazstack/typescript-config/strictest.json",
+    "@thazstack/typescript-config/react.json"
+  ],
+  "include": ["src", "test", "mock"],
+  "compilerOptions": {
+    "types": ["vite-plus/client"]
+  }
+}

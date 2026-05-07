@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "prepare": "vpx msw init ./public --save"
+  },
   "dependencies": {
     "@internationalized/date": "catalog:",
     "@js-temporal/polyfill": "catalog:",
@@ -14,6 +17,7 @@
     "@thazstack/network-util": "workspace:*",
     "@thazstack/temporal-util": "workspace:*",
     "@thazstack/temporal-valibot-util": "workspace:*",
+    "@ts-rest/core": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-scan": "catalog:",
@@ -33,9 +37,19 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vitest/ui": "catalog:",
+    "msw": "catalog:",
+    "playwright": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
+    "vitest-browser-react": "catalog:"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

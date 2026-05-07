@@ -1,13 +1,18 @@
+import viteJSPluginReact from '@vitejs/plugin-react';
+import { defineConfig } from 'vite-plus';
+
 import { devtools } from '@tanstack/devtools-vite';
 import tanStackRouterPluginVite from '@tanstack/router-plugin/vite';
 
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
-import viteJSPluginReact from '@vitejs/plugin-react';
-import { defineConfig } from 'vite-plus';
+import { playwright } from 'vite-plus/test/browser-playwright';
 
 export default defineConfig({
   run: {
     tasks: {
+      dev: {
+        command: 'vp dev',
+      },
       build: {
         command: 'vp build',
         dependsOn: [
@@ -19,14 +24,15 @@ export default defineConfig({
           '@thazstack/form-internationalized-date-util#build',
         ],
       },
-      check: {
-        command: 'vp check',
-      },
-      dev: {
-        command: 'vp dev',
-      },
       preview: {
         command: 'vp preview',
+      },
+      test: {
+        command: 'vp test',
+        // dependsOn: ['playground-ui#build'],
+      },
+      check: {
+        command: 'vp check',
       },
     },
   },
@@ -61,5 +67,61 @@ export default defineConfig({
       typeAware: true,
       typeCheck: true,
     },
+  },
+  test: {
+    coverage: {
+      enabled: true,
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/paraglide/**',
+        'src/components/app-form-root.ts',
+        'src/components/devtools.tsx',
+        'src/configs/**',
+        'src/services/**',
+        'src/route-tree.gen.ts',
+        'src/main.ts',
+        'src/entry-app.tsx',
+      ],
+      provider: 'istanbul',
+      thresholds: {
+        branches: 80,
+        functions: 80,
+        lines: 80,
+        statements: 80,
+      },
+    },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['test/**/*.node.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          include: ['test/**/*.browser.test.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [
+              { name: 'browser-chromium', browser: 'chromium' },
+              { name: 'browser-firefox', browser: 'firefox' },
+            ],
+          },
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'types',
+          include: ['test/**/*.test-d.{ts,tsx}'],
+          typecheck: {
+            enabled: true,
+          },
+        },
+      },
+    ],
   },
 });

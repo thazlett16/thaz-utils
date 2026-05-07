@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "@thazstack/typescript-config/paths.json",
-    "@thazstack/typescript-config/no-dom.json",
-    "@thazstack/typescript-config/bundler.json",
-    "@thazstack/typescript-config/strictest.json"
-  ],
-  "include": ["src"]
-}

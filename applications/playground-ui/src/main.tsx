@@ -9,14 +9,26 @@ import { EntryApp } from '#src/entry-app';
 
 const rootElement = document.querySelector('#root');
 
-if (rootElement) {
-  const root = createRoot(rootElement);
-
-  root.render(
-    <StrictMode>
-      <EntryApp />
-    </StrictMode>,
-  );
-} else {
+if (rootElement === null) {
   throw new Error('Root element is missing');
 }
+
+async function enableMocking() {
+  if (import.meta.env.PROD) {
+    return;
+  }
+
+  const { worker } = await import('#mock/browser');
+
+  await worker.start();
+}
+
+await enableMocking();
+
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
+    <EntryApp />
+  </StrictMode>,
+);

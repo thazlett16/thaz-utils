@@ -13,6 +13,14 @@ export default defineConfig({
           '@thazstack/form-util#build',
         ],
       },
+      test: {
+        command: 'vp test',
+        dependsOn: [
+          '@thazstack/temporal-util#build',
+          '@thazstack/temporal-valibot-util#build',
+          '@thazstack/form-util#build',
+        ],
+      },
     },
   },
   resolve: {
@@ -50,13 +58,6 @@ export default defineConfig({
     options: {
       typeAware: true,
       typeCheck: true,
-    },
-  },
-  test: {
-    include: ['test/**/*.test.ts'],
-    typecheck: {
-      enabled: true,
-      include: ['test/**/*.test-d.ts'],
     },
   },
 });

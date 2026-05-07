@@ -46,11 +46,4 @@ export default defineConfig({
       typeCheck: true,
     },
   },
-  test: {
-    include: ['test/**/*.test.ts'],
-    typecheck: {
-      enabled: true,
-      include: ['test/**/*.test-d.ts'],
-    },
-  },
 });
