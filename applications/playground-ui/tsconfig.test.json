@@ -8,6 +8,6 @@
   ],
   "include": ["src", "test", "mock"],
   "compilerOptions": {
-    "types": ["vite/client"]
+    "types": ["vite-plus/client"]
   }
 }

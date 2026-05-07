@@ -7,6 +7,6 @@
   ],
   "include": ["vite.config.ts"],
   "compilerOptions": {
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite-plus/client"]
   }
 }
