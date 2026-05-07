@@ -6,6 +6,8 @@ import { worker } from '#mock/browser';
 import { renderWithProviders } from './render-with';
 
 export const test = baseTest
+  // We need this disable. Test can't run if we do an underscore variable
+  // oxlint-disable-next-line eslint/no-empty-pattern
   .extend('worker', { auto: true }, async ({}, { onCleanup }) => {
     await worker.start();
 

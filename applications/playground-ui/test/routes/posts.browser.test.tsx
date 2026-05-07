@@ -11,9 +11,9 @@ describe('postsComponent', () => {
     const screen = page.elementLocator(baseElement);
 
     await expect.element(screen.getByText('Posts')).toBeVisible();
-    await expect.element(screen.getByText('First Post')).toBeVisible();
-    await expect.element(screen.getByText('Second Post')).toBeVisible();
-    await expect.element(screen.getByText('Third Post')).toBeVisible();
+    await expect.element(screen.getByText('First Post', { exact: true })).toBeVisible();
+    await expect.element(screen.getByText('Second Post', { exact: true })).toBeVisible();
+    await expect.element(screen.getByText('Third Post', { exact: true })).toBeVisible();
   });
 
   test('renders the error state when the API fails', async ({ page, renderWithProviders, worker }) => {
