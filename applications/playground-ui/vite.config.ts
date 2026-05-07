@@ -69,11 +69,6 @@ export default defineConfig({
     },
   },
   test: {
-    // include: ['test/**/*.node.test.ts'],
-    // typecheck: {
-    //   enabled: true,
-    //   include: ['test/**/*.test-d.ts'],
-    // },
     // coverage: {
     //   include: ['src/**/*.{ts,tsx}'],
     //   enabled: true,
@@ -96,6 +91,27 @@ export default defineConfig({
             enabled: true,
             provider: playwright(),
             instances: [{ browser: 'chromium' }, { browser: 'firefox' }],
+          },
+        },
+      },
+      {
+        // Might not have these but want configured just in case for future
+        // https://vitest.dev/guide/browser/visual-regression-testing.html
+        extends: true,
+        test: {
+          name: 'browser-visual',
+          include: ['test/**/*.browser.visual.test.tsx'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [
+              { browser: 'chromium', viewport: { width: 1920, height: 1080 } },
+              { browser: 'chromium', viewport: { width: 768, height: 1024 } },
+              { browser: 'chromium', viewport: { width: 375, height: 667 } },
+              { browser: 'firefox', viewport: { width: 1920, height: 1080 } },
+              { browser: 'firefox', viewport: { width: 768, height: 1024 } },
+              { browser: 'firefox', viewport: { width: 375, height: 667 } },
+            ],
           },
         },
       },

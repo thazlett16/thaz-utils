@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vpx msw init ./public --save && vpx playwright install chromium chromium-headless-shell firefox"
+    "prepare": "vpx msw init ./public --save"
   },
   "dependencies": {
     "@internationalized/date": "catalog:",
@@ -17,6 +17,7 @@
     "@thazstack/network-util": "workspace:*",
     "@thazstack/temporal-util": "workspace:*",
     "@thazstack/temporal-valibot-util": "workspace:*",
+    "@ts-rest/core": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-scan": "catalog:",

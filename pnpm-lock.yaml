@@ -207,6 +207,9 @@ importers:
       '@thazstack/temporal-valibot-util':
         specifier: workspace:*
         version: link:../../packages/temporal-valibot-util
+      '@ts-rest/core':
+        specifier: 'catalog:'
+        version: 3.53.0-rc.1(@types/node@24.12.2)
       react:
         specifier: 'catalog:'
         version: 19.2.6

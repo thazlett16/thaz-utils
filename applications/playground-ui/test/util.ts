@@ -26,3 +26,14 @@ export const test = baseTest
   .extend('renderWithProviders', () => {
     return renderWithProviders;
   });
+
+export const testViewPorts = [
+  // Large Screen
+  { width: 2560, height: 1440 },
+  // Desktop Standard
+  { width: 1920, height: 1080 },
+  // IPad Mini
+  { width: 768, height: 1024 },
+  // IPhone Mini
+  { width: 375, height: 667 },
+];

@@ -19,10 +19,11 @@ export interface RenderWithProvidersOptions extends RenderOptions {
   router?: RegisteredRouter;
 }
 
-export interface RenderWithProvidersResult extends RenderResult {
+export interface RenderWithProvidersResult {
   history: RouterHistory;
   queryClient: QueryClient;
   router: RegisteredRouter;
+  screen: RenderResult;
 }
 
 export async function renderWithProviders(
@@ -36,21 +37,23 @@ export async function renderWithProviders(
     ...options
   }: RenderWithProvidersOptions = {},
 ): Promise<RenderWithProvidersResult> {
+  const screen = await render(ui, {
+    ...options,
+    wrapper({ children }) {
+      return (
+        <RouterContextProvider router={router}>
+          <QueryClientProvider client={queryClient}>
+            <Wrapper>{children}</Wrapper>
+          </QueryClientProvider>
+        </RouterContextProvider>
+      );
+    },
+  });
+
   return {
     queryClient,
     history,
     router,
-    ...(await render(ui, {
-      ...options,
-      wrapper({ children }) {
-        return (
-          <RouterContextProvider router={router}>
-            <QueryClientProvider client={queryClient}>
-              <Wrapper>{children}</Wrapper>
-            </QueryClientProvider>
-          </RouterContextProvider>
-        );
-      },
-    })),
+    screen,
   };
 }
