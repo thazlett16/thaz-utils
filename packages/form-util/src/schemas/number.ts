@@ -1,7 +1,6 @@
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
-
 import { isFormRequiredMessage } from '#src/schemas/types';
 
 export type NumberAction = v.BaseValidation<number, number, v.BaseIssue<unknown>>;

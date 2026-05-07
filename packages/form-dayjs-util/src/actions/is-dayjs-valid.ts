@@ -1,5 +1,4 @@
 import type { Dayjs } from 'dayjs';
-
 import * as v from 'valibot';
 
 export interface IsDayJSValidIssue<TInput extends Dayjs> extends v.BaseIssue<TInput | Dayjs> {

@@ -1,13 +1,10 @@
-import { useMemo } from 'react';
-
 import { useStore } from '@tanstack/react-form';
 
 import { useFieldContext, FormConversionError, FormTypeError } from '@thazstack/form-util';
 import type { TimeZoneOptions } from '@thazstack/temporal-util';
 
-import type { Dayjs } from 'dayjs';
-
 import { Temporal } from '@js-temporal/polyfill';
+import type { Dayjs } from 'dayjs';
 
 import { dayJS } from '#src/dayjs.config';
 
@@ -21,42 +18,46 @@ export type FieldValueZonedDateTime =
   | null
   | undefined;
 
-export function normalizeFieldValueDayJS(value: FieldValueZonedDateTime, options: TimeZoneOptions): Dayjs | null {
+export function useNormalizeFieldValueDayJS(options: TimeZoneOptions) {
+  const field = useFieldContext<FieldValueZonedDateTime>();
+
+  const baseFieldValue = useStore(field.store, (state) => state.value);
+
   try {
-    if (value instanceof Temporal.ZonedDateTime) {
-      return dayJS.utc(value.toInstant().toString()).tz(options.timeZone);
-    } else if (value instanceof Temporal.Instant) {
-      return dayJS.utc(value.toString()).tz(options.timeZone);
-    } else if (value instanceof Temporal.PlainDateTime) {
+    if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+      return dayJS.utc(baseFieldValue.toInstant().toString()).tz(options.timeZone);
+    } else if (baseFieldValue instanceof Temporal.Instant) {
+      return dayJS.utc(baseFieldValue.toString()).tz(options.timeZone);
+    } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
       return dayJS({
-        years: value.year,
-        months: value.month - 1,
-        dates: value.day,
-        hours: value.hour,
-        minutes: value.minute,
-        seconds: value.second,
-        milliseconds: value.millisecond,
+        years: baseFieldValue.year,
+        months: baseFieldValue.month - 1,
+        dates: baseFieldValue.day,
+        hours: baseFieldValue.hour,
+        minutes: baseFieldValue.minute,
+        seconds: baseFieldValue.second,
+        milliseconds: baseFieldValue.millisecond,
       }).tz(options.timeZone, true);
-    } else if (value instanceof Temporal.PlainDate) {
+    } else if (baseFieldValue instanceof Temporal.PlainDate) {
       return dayJS({
-        years: value.year,
-        months: value.month - 1,
-        dates: value.day,
+        years: baseFieldValue.year,
+        months: baseFieldValue.month - 1,
+        dates: baseFieldValue.day,
       }).tz(options.timeZone, true);
-    } else if (value instanceof Temporal.PlainTime) {
+    } else if (baseFieldValue instanceof Temporal.PlainTime) {
       return dayJS({
-        hours: value.hour,
-        minutes: value.minute,
-        seconds: value.second,
-        milliseconds: value.millisecond,
+        hours: baseFieldValue.hour,
+        minutes: baseFieldValue.minute,
+        seconds: baseFieldValue.second,
+        milliseconds: baseFieldValue.millisecond,
       }).tz(options.timeZone, true);
-    } else if (dayJS.isDayjs(value)) {
-      return value;
+    } else if (dayJS.isDayjs(baseFieldValue)) {
+      return baseFieldValue;
     }
   } catch (error: unknown) {
     throw new FormConversionError(
       {
-        message: 'useNormalizeFieldValueDayJS - Failed to normalize value',
+        message: 'useNormalizeFieldValueDayJS - Failed to normalize baseFieldValue',
       },
       {
         cause: error,
@@ -64,20 +65,12 @@ export function normalizeFieldValueDayJS(value: FieldValueZonedDateTime, options
     );
   }
 
-  if (!(value === null || value === undefined)) {
+  if (!(baseFieldValue === null || baseFieldValue === undefined)) {
     throw new FormTypeError({
-      data: value,
+      data: baseFieldValue,
       message: 'useNormalizeFieldValueDayJS - Invalid type in context',
     });
   }
 
   return null;
-}
-
-export function useNormalizeFieldValueDayJS(options: TimeZoneOptions) {
-  const field = useFieldContext<FieldValueZonedDateTime>();
-
-  const baseFieldValue = useStore(field.store, (state) => state.value);
-
-  return useMemo(() => normalizeFieldValueDayJS(baseFieldValue, options), [baseFieldValue, options]);
 }

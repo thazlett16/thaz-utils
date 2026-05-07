@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { useStore } from '@tanstack/react-form';
 
 import type { FieldValuePlainDateTime } from '@thazstack/form-util';
@@ -16,21 +14,25 @@ import { Temporal } from '@js-temporal/polyfill';
 
 export type FieldValueCalendarDateTime = FieldValuePlainDateTime | ZonedDateTime | CalendarDateTime;
 
-export function normalizeFieldValueCalendarDateTime(value: FieldValueCalendarDateTime): CalendarDateTime | undefined {
+export function useNormalizeFieldValueCalendarDateTime() {
+  const field = useFieldContext<FieldValueCalendarDateTime>();
+
+  const baseFieldValue = useStore(field.store, (state) => state.value);
+
   try {
-    if (value instanceof Temporal.ZonedDateTime) {
-      return toCalendarDateTime(parseZonedDateTime(value.toString()));
-    } else if (value instanceof Temporal.PlainDateTime) {
-      return parseDateTime(value.toString());
-    } else if (value instanceof ZonedDateTime) {
-      return toCalendarDateTime(value);
-    } else if (value instanceof CalendarDateTime) {
-      return value;
+    if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+      return toCalendarDateTime(parseZonedDateTime(baseFieldValue.toString()));
+    } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
+      return parseDateTime(baseFieldValue.toString());
+    } else if (baseFieldValue instanceof ZonedDateTime) {
+      return toCalendarDateTime(baseFieldValue);
+    } else if (baseFieldValue instanceof CalendarDateTime) {
+      return baseFieldValue;
     }
   } catch (error: unknown) {
     throw new FormConversionError(
       {
-        message: 'useNormalizeFieldValueCalendarDateTime - Failed to normalize value',
+        message: 'useNormalizeFieldValueCalendarDateTime - Failed to normalize baseFieldValue',
       },
       {
         cause: error,
@@ -38,23 +40,12 @@ export function normalizeFieldValueCalendarDateTime(value: FieldValueCalendarDat
     );
   }
 
-  if (!(value === null || value === undefined)) {
+  if (!(baseFieldValue === null || baseFieldValue === undefined)) {
     throw new FormTypeError({
-      data: value,
+      data: baseFieldValue,
       message: 'useNormalizeFieldValueCalendarDateTime - Invalid type in context',
     });
   }
 
   return undefined;
-}
-
-export function useNormalizeFieldValueCalendarDateTime() {
-  const field = useFieldContext<FieldValueCalendarDateTime>();
-
-  const baseFieldValue = useStore(field.store, (state) => state.value);
-
-  return useMemo<CalendarDateTime | undefined>(
-    () => normalizeFieldValueCalendarDateTime(baseFieldValue),
-    [baseFieldValue],
-  );
 }

@@ -1,11 +1,9 @@
 import * as t from '@thazstack/temporal-valibot-util';
 
 import type { Temporal } from '@js-temporal/polyfill';
-
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
-
 import { isFormRequiredMessage } from '#src/schemas/types';
 
 export type PlainDateAction = v.BaseValidation<Temporal.PlainDate, Temporal.PlainDate, v.BaseIssue<unknown>>;
@@ -18,16 +16,16 @@ export function _plainDateNullable(messages: FormWrongTypeMessage, ...actions: P
         v.undefined(),
         v.transform(() => null),
       ),
-      v.pipe(t.plainDate(), ...actions),
+      v.pipe(t.plainDate(messages.wrongTypeMessage), ...actions),
       v.pipe(
-        t.zonedDateTime(),
+        t.zonedDateTime(messages.wrongTypeMessage),
         v.transform((val) => val.toPlainDate()),
-        v.pipe(t.plainDate(), ...actions),
+        v.pipe(t.plainDate(messages.wrongTypeMessage), ...actions),
       ),
       v.pipe(
-        t.plainDateTime(),
+        t.plainDateTime(messages.wrongTypeMessage),
         v.transform((val) => val.toPlainDate()),
-        v.pipe(t.plainDate(), ...actions),
+        v.pipe(t.plainDate(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

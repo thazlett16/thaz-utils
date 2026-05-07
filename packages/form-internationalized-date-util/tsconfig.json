@@ -1,14 +1,11 @@
 {
-  "extends": [
-    "@thazstack/typescript-config/dom",
-    "@thazstack/typescript-config/bundler",
-    "@thazstack/typescript-config/react"
-  ],
-  "include": ["src", "test", "vite.config.ts"],
-  "compilerOptions": {
-    "paths": {
-      "#src/*": ["./src/*"],
-      "#test/*": ["./test/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
     }
-  }
+  ]
 }

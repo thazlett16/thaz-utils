@@ -1,6 +1,5 @@
-import type { Dayjs } from 'dayjs';
-
 import { Temporal } from '@js-temporal/polyfill';
+import type { Dayjs } from 'dayjs';
 import * as v from 'valibot';
 
 import { dayJS } from '#src/dayjs.config';

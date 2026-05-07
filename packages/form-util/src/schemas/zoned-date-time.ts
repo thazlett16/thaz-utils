@@ -1,11 +1,9 @@
 import * as t from '@thazstack/temporal-valibot-util';
 
 import type { Temporal } from '@js-temporal/polyfill';
-
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
-
 import { isFormRequiredMessage } from '#src/schemas/types';
 
 export type ZonedDateTimeAction = v.BaseValidation<
@@ -22,7 +20,7 @@ export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...action
         v.undefined(),
         v.transform(() => null),
       ),
-      v.pipe(t.zonedDateTime(), ...actions),
+      v.pipe(t.zonedDateTime(messages.wrongTypeMessage), ...actions),
     ],
     messages.wrongTypeMessage,
   );
@@ -46,7 +44,9 @@ export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions
 export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: ZonedDateTimeAction[]
-): T extends FormRequiredMessage ? ReturnType<typeof _zonedDateTimeRequired> : ReturnType<typeof _zonedDateTimeNullable>;
+): T extends FormRequiredMessage
+  ? ReturnType<typeof _zonedDateTimeRequired>
+  : ReturnType<typeof _zonedDateTimeNullable>;
 
 export function zonedDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: ZonedDateTimeAction[]) {
   if (isFormRequiredMessage(messages)) {

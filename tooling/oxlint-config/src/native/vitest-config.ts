@@ -21,7 +21,12 @@ export const vitestConfig = defineConfig({
         'vitest/no-conditional-in-test': 'error',
 
         // Style Rules
-        'vitest/consistent-test-it': 'error',
+        'vitest/consistent-test-it': [
+          'error',
+          {
+            withinDescribe: 'test',
+          },
+        ],
         'vitest/consistent-vitest-vi': 'error',
         'vitest/no-alias-methods': 'error',
         'vitest/no-duplicate-hooks': 'error',

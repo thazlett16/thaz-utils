@@ -36,7 +36,6 @@
   },
   "scripts": {
     "check": "vp check",
-    "check:fix": "vp check --fix",
     "prepack": "vp pack"
   },
   "devDependencies": {
@@ -46,8 +45,7 @@
     "bumpp": "catalog:",
     "typescript": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:"

@@ -1,11 +1,9 @@
 import * as t from '@thazstack/temporal-valibot-util';
 
 import type { Temporal } from '@js-temporal/polyfill';
-
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
-
 import { isFormRequiredMessage } from '#src/schemas/types';
 
 export type PlainDateTimeAction = v.BaseValidation<
@@ -22,11 +20,11 @@ export function _plainDateTimeNullable(messages: FormWrongTypeMessage, ...action
         v.undefined(),
         v.transform(() => null),
       ),
-      v.pipe(t.plainDateTime(), ...actions),
+      v.pipe(t.plainDateTime(messages.wrongTypeMessage), ...actions),
       v.pipe(
-        t.zonedDateTime(),
+        t.zonedDateTime(messages.wrongTypeMessage),
         v.transform((val) => val.toPlainDateTime()),
-        v.pipe(t.plainDateTime(), ...actions),
+        v.pipe(t.plainDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,
@@ -53,7 +51,9 @@ export function _plainDateTimeRequired(messages: FormRequiredMessage, ...actions
 export function plainDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: PlainDateTimeAction[]
-): T extends FormRequiredMessage ? ReturnType<typeof _plainDateTimeRequired> : ReturnType<typeof _plainDateTimeNullable>;
+): T extends FormRequiredMessage
+  ? ReturnType<typeof _plainDateTimeRequired>
+  : ReturnType<typeof _plainDateTimeNullable>;
 
 export function plainDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: PlainDateTimeAction[]) {
   if (isFormRequiredMessage(messages)) {

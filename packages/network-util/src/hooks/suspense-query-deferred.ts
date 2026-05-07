@@ -4,7 +4,6 @@ import type { DefaultError, QueryKey, UseSuspenseQueryOptions, UseSuspenseQueryR
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import type { defaultOptions } from 'spin-delay';
-
 import { useSpinDelay } from 'spin-delay';
 import { useDeepCompareMemo } from 'use-deep-compare';
 

@@ -10,7 +10,11 @@ export function _instantNullable(messages: f.FormWrongTypeMessage, ...actions: f
   return v.union(
     [
       f._instantNullable(messages, ...actions),
-      v.pipe(internationalizedZonedDateTime(), toInstant(messages.wrongTypeMessage), v.pipe(t.instant(), ...actions)),
+      v.pipe(
+        internationalizedZonedDateTime(messages.wrongTypeMessage),
+        toInstant(messages.wrongTypeMessage),
+        v.pipe(t.instant(messages.wrongTypeMessage), ...actions),
+      ),
     ],
     messages.wrongTypeMessage,
   );

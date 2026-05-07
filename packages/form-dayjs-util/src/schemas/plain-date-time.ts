@@ -12,10 +12,10 @@ export function _plainDateTimeNullable(messages: f.FormWrongTypeMessage, ...acti
     [
       f._plainDateTimeNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
+        dayjs(messages.wrongTypeMessage),
         isDayJSValid(messages.wrongTypeMessage),
         toPlainDateTime(messages.wrongTypeMessage),
-        v.pipe(t.plainDateTime(), ...actions),
+        v.pipe(t.plainDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,
@@ -44,7 +44,9 @@ export function _plainDateTimeRequired(messages: f.FormRequiredMessage, ...actio
 export function plainDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
   messages: T,
   ...actions: f.PlainDateTimeAction[]
-): T extends f.FormRequiredMessage ? ReturnType<typeof _plainDateTimeRequired> : ReturnType<typeof _plainDateTimeNullable>;
+): T extends f.FormRequiredMessage
+  ? ReturnType<typeof _plainDateTimeRequired>
+  : ReturnType<typeof _plainDateTimeNullable>;
 
 export function plainDateTime(
   messages: f.FormWrongTypeMessage | f.FormRequiredMessage,

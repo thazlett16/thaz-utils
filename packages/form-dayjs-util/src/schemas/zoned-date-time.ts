@@ -17,10 +17,10 @@ export function _zonedDateTimeNullable(
     [
       f._zonedDateTimeNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
+        dayjs(messages.wrongTypeMessage),
         isDayJSValid(messages.wrongTypeMessage),
         toZonedDateTime(options, messages.wrongTypeMessage),
-        v.pipe(t.zonedDateTime(), ...actions),
+        v.pipe(t.zonedDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,
@@ -52,7 +52,9 @@ export function zonedDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredM
   options: TimeZoneOptions,
   messages: T,
   ...actions: f.ZonedDateTimeAction[]
-): T extends f.FormRequiredMessage ? ReturnType<typeof _zonedDateTimeRequired> : ReturnType<typeof _zonedDateTimeNullable>;
+): T extends f.FormRequiredMessage
+  ? ReturnType<typeof _zonedDateTimeRequired>
+  : ReturnType<typeof _zonedDateTimeNullable>;
 
 export function zonedDateTime(
   options: TimeZoneOptions,

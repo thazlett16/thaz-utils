@@ -11,9 +11,9 @@ export function _zonedDateTimeNullable(messages: f.FormWrongTypeMessage, ...acti
     [
       f._zonedDateTimeNullable(messages, ...actions),
       v.pipe(
-        internationalizedZonedDateTime(),
+        internationalizedZonedDateTime(messages.wrongTypeMessage),
         toZonedDateTime(messages.wrongTypeMessage),
-        v.pipe(t.zonedDateTime(), ...actions),
+        v.pipe(t.zonedDateTime(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,
@@ -40,7 +40,9 @@ export function _zonedDateTimeRequired(messages: f.FormRequiredMessage, ...actio
 export function zonedDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
   messages: T,
   ...actions: f.ZonedDateTimeAction[]
-): T extends f.FormRequiredMessage ? ReturnType<typeof _zonedDateTimeRequired> : ReturnType<typeof _zonedDateTimeNullable>;
+): T extends f.FormRequiredMessage
+  ? ReturnType<typeof _zonedDateTimeRequired>
+  : ReturnType<typeof _zonedDateTimeNullable>;
 
 export function zonedDateTime(
   messages: f.FormWrongTypeMessage | f.FormRequiredMessage,

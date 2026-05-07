@@ -13,16 +13,20 @@ export function _plainTimeNullable(messages: f.FormWrongTypeMessage, ...actions:
     [
       f._plainTimeNullable(messages, ...actions),
       v.pipe(
-        internationalizedZonedDateTime(),
+        internationalizedZonedDateTime(messages.wrongTypeMessage),
         toPlainTime(messages.wrongTypeMessage),
-        v.pipe(t.plainTime(), ...actions),
+        v.pipe(t.plainTime(messages.wrongTypeMessage), ...actions),
       ),
       v.pipe(
-        internationalizedCalendarDateTime(),
+        internationalizedCalendarDateTime(messages.wrongTypeMessage),
         toPlainTime(messages.wrongTypeMessage),
-        v.pipe(t.plainTime(), ...actions),
+        v.pipe(t.plainTime(messages.wrongTypeMessage), ...actions),
       ),
-      v.pipe(internationalizedTime(), toPlainTime(messages.wrongTypeMessage), v.pipe(t.plainTime(), ...actions)),
+      v.pipe(
+        internationalizedTime(messages.wrongTypeMessage),
+        toPlainTime(messages.wrongTypeMessage),
+        v.pipe(t.plainTime(messages.wrongTypeMessage), ...actions),
+      ),
     ],
     messages.wrongTypeMessage,
   );

@@ -12,10 +12,10 @@ export function _instantNullable(messages: f.FormWrongTypeMessage, ...actions: f
     [
       f._instantNullable(messages, ...actions),
       v.pipe(
-        dayjs(),
+        dayjs(messages.wrongTypeMessage),
         isDayJSValid(messages.wrongTypeMessage),
         toInstant(messages.wrongTypeMessage),
-        v.pipe(t.instant(), ...actions),
+        v.pipe(t.instant(messages.wrongTypeMessage), ...actions),
       ),
     ],
     messages.wrongTypeMessage,

@@ -1,7 +1,6 @@
 import * as v from 'valibot';
 
 import type { FormWrongTypeMessage, FormRequiredMessage } from '#src/schemas/types';
-
 import { isFormRequiredMessage } from '#src/schemas/types';
 
 export type StringAction = v.BaseValidation<string, string, v.BaseIssue<unknown>>;
@@ -15,14 +14,14 @@ export function _stringNullable(messages: FormWrongTypeMessage, ...actions: Stri
         v.transform(() => null),
       ),
       v.pipe(
-        v.string(),
+        v.string(messages.wrongTypeMessage),
         v.trim(),
         v.union([
           v.pipe(
             v.literal(''),
             v.transform(() => null),
           ),
-          v.pipe(v.string(), ...actions),
+          v.pipe(v.string(messages.wrongTypeMessage), ...actions),
         ]),
       ),
     ],

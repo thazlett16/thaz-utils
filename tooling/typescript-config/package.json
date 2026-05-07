@@ -29,23 +29,20 @@
   "type": "module",
   "exports": {
     "./package.json": "./package.json",
-    "./dom": "./configs/dom.json",
-    "./no-dom": "./configs/no-dom.json",
-    "./react": "./configs/react.json",
-    "./bundler": "./configs/bundler.json",
-    "./transpile": "./configs/transpile.json",
-    "./transpile-library": "./configs/transpile-library.json",
-    "./transpile-library-monorepo": "./configs/transpile-library-monorepo.json"
-  },
-  "scripts": {
-    "check": "vp check",
-    "check:fix": "vp check --fix"
+    "./paths.json": "./configs/paths.json",
+    "./dom.json": "./configs/dom.json",
+    "./no-dom.json": "./configs/no-dom.json",
+    "./react.json": "./configs/react.json",
+    "./strictest.json": "./configs/strictest.json",
+    "./bundler.json": "./configs/bundler.json",
+    "./transpile.json": "./configs/transpile.json",
+    "./transpile-library.json": "./configs/transpile-library.json",
+    "./transpile-library-monorepo.json": "./configs/transpile-library-monorepo.json"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "bumpp": "catalog:",
-    "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "typescript": "catalog:"
