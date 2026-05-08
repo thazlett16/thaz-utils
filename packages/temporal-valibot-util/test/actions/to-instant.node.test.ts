@@ -169,5 +169,13 @@ describe('toInstant', () => {
         issues: [{ ...baseIssue, input: value, received: '"Invalid conversion option"' }],
       });
     });
+
+    it('for NaN', () => {
+      expect(action['~run']({ typed: true, value: NaN }, {})).toStrictEqual({
+        typed: false,
+        value: NaN,
+        issues: [{ ...baseIssue, input: NaN, received: 'NaN' }],
+      });
+    });
   });
 });
