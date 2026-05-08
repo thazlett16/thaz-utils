@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react';
+import { Component } from 'react';
+
 import type { FormOptions } from '@tanstack/react-form';
 import { useForm } from '@tanstack/react-form';
 import { createMemoryHistory, createRootRoute, createRouter, RouterContextProvider } from '@tanstack/react-router';
-import type { ReactNode } from 'react';
-import { Component } from 'react';
 
 import { fieldContext, formContext } from '#src/tanstack-form.config';
 
@@ -51,9 +52,7 @@ export function FieldWrapper({ initialValue, children }: FieldWrapperProps) {
       {/* oxlint-disable-next-line typescript/no-explicit-any */}
       <form.Field name={'field' as any}>
         {/* oxlint-disable-next-line typescript/no-explicit-any */}
-        {(field: any) => (
-          <fieldContext.Provider value={field}>{children}</fieldContext.Provider>
-        )}
+        {(field: any) => <fieldContext.Provider value={field}>{children}</fieldContext.Provider>}
       </form.Field>
     </formContext.Provider>
   );
@@ -68,7 +67,7 @@ interface FormWrapperProps {
 
 export function FormWrapper({ children, formOptions, router }: FormWrapperProps) {
   // oxlint-disable-next-line typescript/no-explicit-any
-  const form = useForm((formOptions ?? { defaultValues: {} }) as FormOptions<any>);
+  const form = useForm(formOptions ?? { defaultValues: {} });
   // oxlint-disable-next-line typescript/no-explicit-any
   const inner = <formContext.Provider value={form as any}>{children}</formContext.Provider>;
 

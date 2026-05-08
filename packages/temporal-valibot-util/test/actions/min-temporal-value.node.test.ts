@@ -1,8 +1,7 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, test } from 'vite-plus/test';
 
 import type { TemporalMinValueAction, TemporalMinValueIssue } from '#src/actions/min-temporal-value';
-
 import { temporalMinValue } from '#src/actions/min-temporal-value';
 
 describe('temporalMinValue', () => {
@@ -18,7 +17,7 @@ describe('temporalMinValue', () => {
       '~run': expect.any(Function),
     };
 
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       const action: TemporalMinValueAction<Temporal.PlainDate, typeof requirement, undefined> = {
         ...baseAction,
         message: undefined,
@@ -26,14 +25,14 @@ describe('temporalMinValue', () => {
       expect(temporalMinValue(requirement)).toStrictEqual(action);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(temporalMinValue(requirement, 'message')).toStrictEqual({
         ...baseAction,
         message: 'message',
       } satisfies TemporalMinValueAction<Temporal.PlainDate, typeof requirement, string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(temporalMinValue(requirement, message)).toStrictEqual({
         ...baseAction,
@@ -46,7 +45,7 @@ describe('temporalMinValue', () => {
     const requirement = Temporal.PlainDate.from('2024-06-01');
     const action = temporalMinValue(requirement);
 
-    it('for untyped inputs', () => {
+    test('for untyped inputs', () => {
       const issues: [TemporalMinValueIssue<Temporal.PlainDate, typeof requirement>] = [
         {
           kind: 'validation',
@@ -70,80 +69,80 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for value equal to requirement', () => {
+    test('for value equal to requirement', () => {
       const value = Temporal.PlainDate.from('2024-06-01');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for value after requirement', () => {
+    test('for value after requirement', () => {
       const value = Temporal.PlainDate.from('2024-12-31');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.Instant equal to requirement', () => {
+    test('for Temporal.Instant equal to requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       const instantAction = temporalMinValue(req);
       const value = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       expect(instantAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.Instant after requirement', () => {
+    test('for Temporal.Instant after requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       const instantAction = temporalMinValue(req);
       const value = Temporal.Instant.fromEpochMilliseconds(2_000_000);
       expect(instantAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.PlainTime equal to requirement', () => {
+    test('for Temporal.PlainTime equal to requirement', () => {
       const req = Temporal.PlainTime.from('10:00:00');
       const timeAction = temporalMinValue(req);
       const value = Temporal.PlainTime.from('10:00:00');
       expect(timeAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.PlainTime after requirement', () => {
+    test('for Temporal.PlainTime after requirement', () => {
       const req = Temporal.PlainTime.from('10:00:00');
       const timeAction = temporalMinValue(req);
       const value = Temporal.PlainTime.from('23:59:59');
       expect(timeAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.Duration equal to requirement', () => {
+    test('for Temporal.Duration equal to requirement', () => {
       const req = Temporal.Duration.from({ hours: 2 });
       const durationAction = temporalMinValue(req);
       const value = Temporal.Duration.from({ hours: 2 });
       expect(durationAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.Duration after requirement', () => {
+    test('for Temporal.Duration after requirement', () => {
       const req = Temporal.Duration.from({ hours: 2 });
       const durationAction = temporalMinValue(req);
       const value = Temporal.Duration.from({ hours: 5 });
       expect(durationAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.PlainDateTime equal to requirement', () => {
+    test('for Temporal.PlainDateTime equal to requirement', () => {
       const req = Temporal.PlainDateTime.from('2024-06-01T12:00:00');
       const dtAction = temporalMinValue(req);
       const value = Temporal.PlainDateTime.from('2024-06-01T12:00:00');
       expect(dtAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.PlainDateTime after requirement', () => {
+    test('for Temporal.PlainDateTime after requirement', () => {
       const req = Temporal.PlainDateTime.from('2024-06-01T12:00:00');
       const dtAction = temporalMinValue(req);
       const value = Temporal.PlainDateTime.from('2024-12-31T23:59:59');
       expect(dtAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.ZonedDateTime equal to requirement', () => {
+    test('for Temporal.ZonedDateTime equal to requirement', () => {
       const req = Temporal.ZonedDateTime.from('2024-06-01T12:00:00+00:00[UTC]');
       const zdtAction = temporalMinValue(req);
       const value = Temporal.ZonedDateTime.from('2024-06-01T12:00:00+00:00[UTC]');
       expect(zdtAction['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for Temporal.ZonedDateTime after requirement', () => {
+    test('for Temporal.ZonedDateTime after requirement', () => {
       const req = Temporal.ZonedDateTime.from('2024-06-01T12:00:00+00:00[UTC]');
       const zdtAction = temporalMinValue(req);
       const value = Temporal.ZonedDateTime.from('2024-12-31T23:59:59+00:00[UTC]');
@@ -167,7 +166,7 @@ describe('temporalMinValue', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for value before requirement', () => {
+    test('for value before requirement', () => {
       const value = Temporal.PlainDate.from('2024-01-01');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
@@ -176,7 +175,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for value one day before requirement', () => {
+    test('for value one day before requirement', () => {
       const value = Temporal.PlainDate.from('2024-05-31');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
@@ -185,7 +184,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.Instant before requirement', () => {
+    test('for Temporal.Instant before requirement', () => {
       const req = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       const instantAction = temporalMinValue(req, 'message');
       const value = Temporal.Instant.fromEpochMilliseconds(500_000);
@@ -211,7 +210,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.PlainTime before requirement', () => {
+    test('for Temporal.PlainTime before requirement', () => {
       const req = Temporal.PlainTime.from('12:00:00');
       const timeAction = temporalMinValue(req, 'message');
       const value = Temporal.PlainTime.from('08:00:00');
@@ -237,7 +236,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.Duration before requirement', () => {
+    test('for Temporal.Duration before requirement', () => {
       const req = Temporal.Duration.from({ hours: 5 });
       const durationAction = temporalMinValue(req, 'message');
       const value = Temporal.Duration.from({ hours: 1 });
@@ -263,7 +262,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.PlainDateTime before requirement', () => {
+    test('for Temporal.PlainDateTime before requirement', () => {
       const req = Temporal.PlainDateTime.from('2024-06-01T12:00:00');
       const dtAction = temporalMinValue(req, 'message');
       const value = Temporal.PlainDateTime.from('2024-01-01T00:00:00');
@@ -289,7 +288,7 @@ describe('temporalMinValue', () => {
       });
     });
 
-    it('for Temporal.ZonedDateTime before requirement', () => {
+    test('for Temporal.ZonedDateTime before requirement', () => {
       const req = Temporal.ZonedDateTime.from('2024-06-01T12:00:00+00:00[UTC]');
       const zdtAction = temporalMinValue(req, 'message');
       const value = Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]');

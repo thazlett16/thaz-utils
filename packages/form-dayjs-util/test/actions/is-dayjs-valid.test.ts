@@ -1,14 +1,13 @@
 import type { Dayjs } from 'dayjs';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 
 import type { IsDayJSValidAction, IsDayJSValidIssue } from '#src/actions/is-dayjs-valid';
-
 import { isDayJSValid } from '#src/actions/is-dayjs-valid';
 import { dayJS } from '#src/dayjs.config';
 
 describe('isDayJSValid', () => {
   describe('should return action object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       expect(isDayJSValid()).toStrictEqual({
         kind: 'validation',
         type: 'is_dayjs_valid',
@@ -20,7 +19,7 @@ describe('isDayJSValid', () => {
       } satisfies IsDayJSValidAction<Dayjs, undefined>);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(isDayJSValid('message')).toStrictEqual({
         kind: 'validation',
         type: 'is_dayjs_valid',
@@ -32,7 +31,7 @@ describe('isDayJSValid', () => {
       } satisfies IsDayJSValidAction<Dayjs, string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(isDayJSValid(message)).toStrictEqual({
         kind: 'validation',
@@ -49,42 +48,42 @@ describe('isDayJSValid', () => {
   describe('should pass valid DayJS instances unchanged', () => {
     const action = isDayJSValid();
 
-    it('passes a DayJS from UTC ISO string', () => {
+    test('passes a DayJS from UTC ISO string', () => {
       const value = dayJS.utc('2024-06-15T12:00:00Z');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a timezone-aware DayJS in summer (CDT, UTC-5)', () => {
+    test('passes a timezone-aware DayJS in summer (CDT, UTC-5)', () => {
       const value = dayJS.tz('2024-06-15T12:00:00', 'America/Chicago');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a timezone-aware DayJS in winter (CST, UTC-6)', () => {
+    test('passes a timezone-aware DayJS in winter (CST, UTC-6)', () => {
       const value = dayJS.tz('2024-01-15T12:00:00', 'America/Chicago');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a DayJS at DST spring-forward (March 10 2024 at 03:00 CDT)', () => {
+    test('passes a DayJS at DST spring-forward (March 10 2024 at 03:00 CDT)', () => {
       const value = dayJS.tz('2024-03-10T03:00:00', 'America/Chicago');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a DayJS during DST fall-back (first 01:30 CDT, UTC-5)', () => {
+    test('passes a DayJS during DST fall-back (first 01:30 CDT, UTC-5)', () => {
       const value = dayJS.utc('2024-11-03T06:30:00Z').tz('America/Chicago');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a DayJS during DST fall-back (second 01:30 CST, UTC-6)', () => {
+    test('passes a DayJS during DST fall-back (second 01:30 CST, UTC-6)', () => {
       const value = dayJS.utc('2024-11-03T07:30:00Z').tz('America/Chicago');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a DayJS with European timezone (CET, UTC+1)', () => {
+    test('passes a DayJS with European timezone (CET, UTC+1)', () => {
       const value = dayJS.tz('2024-01-15T12:00:00', 'Europe/London');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('passes a DayJS with European timezone in summer (BST, UTC+1)', () => {
+    test('passes a DayJS with European timezone in summer (BST, UTC+1)', () => {
       const value = dayJS.tz('2024-07-15T12:00:00', 'Europe/London');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -105,7 +104,7 @@ describe('isDayJSValid', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for DayJS from a non-date string', () => {
+    test('for DayJS from a non-date string', () => {
       const value = dayJS('not-a-date');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
@@ -114,8 +113,8 @@ describe('isDayJSValid', () => {
       });
     });
 
-    it('for DayJS from NaN', () => {
-      const value = dayJS(NaN);
+    test('for DayJS from NaN', () => {
+      const value = dayJS(Number.NaN);
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: true,
         value,

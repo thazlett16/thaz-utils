@@ -1,6 +1,6 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, test } from 'vite-plus/test';
 
 import { plainTime } from '#src/schemas/plain-time';
 
@@ -15,53 +15,53 @@ describe('plainTime', () => {
   describe('nullable overload', () => {
     const schema = plainTime(wrongTypeMessages);
 
-    it('passes null through', () => {
+    test('passes null through', () => {
       expect(v.safeParse(schema, null)).toMatchObject({ success: true, output: null });
     });
 
-    it('coerces undefined to null', () => {
+    test('coerces undefined to null', () => {
       expect(v.safeParse(schema, undefined)).toMatchObject({ success: true, output: null });
     });
 
-    it('passes a Temporal.PlainTime', () => {
+    test('passes a Temporal.PlainTime', () => {
       expect(v.safeParse(schema, aPlainTime)).toMatchObject({ success: true, output: aPlainTime });
     });
 
-    it('converts a Temporal.ZonedDateTime to Temporal.PlainTime', () => {
+    test('converts a Temporal.ZonedDateTime to Temporal.PlainTime', () => {
       const result = v.safeParse(schema, aZonedDateTime);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(aZonedDateTime.toPlainTime());
+      expect(result.output).toStrictEqual(aZonedDateTime.toPlainTime());
     });
 
-    it('converts a Temporal.PlainDateTime to Temporal.PlainTime', () => {
+    test('converts a Temporal.PlainDateTime to Temporal.PlainTime', () => {
       const result = v.safeParse(schema, aPlainDateTime);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(aPlainDateTime.toPlainTime());
+      expect(result.output).toStrictEqual(aPlainDateTime.toPlainTime());
     });
 
-    it('rejects strings with wrongTypeMessage', () => {
+    test('rejects strings with wrongTypeMessage', () => {
       const result = v.safeParse(schema, '09:30:00');
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects numbers', () => {
+    test('rejects numbers', () => {
       expect(v.safeParse(schema, 0).success).toBeFalsy();
     });
 
-    it('rejects objects', () => {
+    test('rejects objects', () => {
       expect(v.safeParse(schema, {}).success).toBeFalsy();
     });
 
-    it('rejects Temporal.PlainDate', () => {
+    test('rejects Temporal.PlainDate', () => {
       expect(v.safeParse(schema, Temporal.PlainDate.from('2024-06-15')).success).toBeFalsy();
     });
 
-    it('rejects Temporal.Instant', () => {
+    test('rejects Temporal.Instant', () => {
       expect(v.safeParse(schema, Temporal.Instant.from('2024-06-15T00:00:00Z')).success).toBeFalsy();
     });
 
-    it('passes extra plain time actions', () => {
+    test('passes extra plain time actions', () => {
       const schemaWithAction = plainTime(
         wrongTypeMessages,
         v.check((val) => val.hour >= 9, 'before 9am'),
@@ -74,47 +74,47 @@ describe('plainTime', () => {
   describe('required overload', () => {
     const schema = plainTime(requiredMessages);
 
-    it('passes a Temporal.PlainTime', () => {
+    test('passes a Temporal.PlainTime', () => {
       expect(v.safeParse(schema, aPlainTime)).toMatchObject({ success: true, output: aPlainTime });
     });
 
-    it('converts a Temporal.ZonedDateTime to Temporal.PlainTime', () => {
+    test('converts a Temporal.ZonedDateTime to Temporal.PlainTime', () => {
       const result = v.safeParse(schema, aZonedDateTime);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(aZonedDateTime.toPlainTime());
+      expect(result.output).toStrictEqual(aZonedDateTime.toPlainTime());
     });
 
-    it('converts a Temporal.PlainDateTime to Temporal.PlainTime', () => {
+    test('converts a Temporal.PlainDateTime to Temporal.PlainTime', () => {
       const result = v.safeParse(schema, aPlainDateTime);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(aPlainDateTime.toPlainTime());
+      expect(result.output).toStrictEqual(aPlainDateTime.toPlainTime());
     });
 
-    it('rejects null with requiredMessage', () => {
+    test('rejects null with requiredMessage', () => {
       const result = v.safeParse(schema, null);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Required');
     });
 
-    it('rejects undefined with requiredMessage', () => {
+    test('rejects undefined with requiredMessage', () => {
       const result = v.safeParse(schema, undefined);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Required');
     });
 
-    it('rejects strings with wrongTypeMessage', () => {
+    test('rejects strings with wrongTypeMessage', () => {
       const result = v.safeParse(schema, '09:30:00');
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects numbers with wrongTypeMessage', () => {
+    test('rejects numbers with wrongTypeMessage', () => {
       const result = v.safeParse(schema, 0);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('passes extra plain time actions', () => {
+    test('passes extra plain time actions', () => {
       const schemaWithAction = plainTime(
         requiredMessages,
         v.check((val) => val.hour >= 9, 'before 9am'),

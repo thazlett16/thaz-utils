@@ -1,9 +1,9 @@
-import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vite-plus/test';
 import { render } from 'vitest-browser-react';
 
-import { useNormalizeFieldValueZonedDateTime } from '#src/hooks/normalize-field-value-zoned-date-time';
+import { Temporal } from '@js-temporal/polyfill';
+import { describe, expect, test } from 'vite-plus/test';
 
+import { useNormalizeFieldValueZonedDateTime } from '#src/hooks/normalize-field-value-zoned-date-time';
 import { ErrorBoundary, FieldWrapper } from '#test/render-with';
 
 const aZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
@@ -16,7 +16,7 @@ function ZonedDateTimeDisplay() {
 }
 
 describe('useNormalizeFieldValueZonedDateTime', () => {
-  it('passes a Temporal.ZonedDateTime through unchanged', async () => {
+  test('passes a Temporal.ZonedDateTime through unchanged', async () => {
     const screen = await render(
       <FieldWrapper initialValue={aZonedDateTime}>
         <ZonedDateTimeDisplay />
@@ -25,7 +25,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent(aZonedDateTime.toString());
   });
 
-  it('returns null for null', async () => {
+  test('returns null for null', async () => {
     const screen = await render(
       <FieldWrapper initialValue={null}>
         <ZonedDateTimeDisplay />
@@ -34,7 +34,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('returns null for undefined', async () => {
+  test('returns null for undefined', async () => {
     const screen = await render(
       <FieldWrapper initialValue={undefined}>
         <ZonedDateTimeDisplay />
@@ -43,7 +43,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('throws FormTypeError for a Temporal.Instant field value', async () => {
+  test('throws FormTypeError for a Temporal.Instant field value', async () => {
     const screen = await render(
       <ErrorBoundary>
         <FieldWrapper initialValue={anInstant}>
@@ -54,7 +54,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
     await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
   });
 
-  it('throws FormTypeError for a Temporal.PlainDate field value', async () => {
+  test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
     const screen = await render(
       <ErrorBoundary>
         <FieldWrapper initialValue={aPlainDate}>

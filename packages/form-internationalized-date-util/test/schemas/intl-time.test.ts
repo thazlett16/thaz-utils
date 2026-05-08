@@ -1,6 +1,6 @@
 import { CalendarDate, Time } from '@internationalized/date';
 import * as v from 'valibot';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 
 import { internationalizedTime } from '#src/schemas/intl-time';
 
@@ -10,27 +10,27 @@ const aTime = new Time(12, 30, 0);
 describe('internationalizedTime', () => {
   const schema = internationalizedTime();
 
-  it('passes a Time instance', () => {
+  test('passes a Time instance', () => {
     expect(v.safeParse(schema, aTime)).toMatchObject({ success: true, output: aTime });
   });
 
-  it('rejects strings', () => {
+  test('rejects strings', () => {
     expect(v.safeParse(schema, '12:30:00').success).toBeFalsy();
   });
 
-  it('rejects numbers', () => {
+  test('rejects numbers', () => {
     expect(v.safeParse(schema, 0).success).toBeFalsy();
   });
 
-  it('rejects null', () => {
+  test('rejects null', () => {
     expect(v.safeParse(schema, null).success).toBeFalsy();
   });
 
-  it('rejects undefined', () => {
+  test('rejects undefined', () => {
     expect(v.safeParse(schema, undefined).success).toBeFalsy();
   });
 
-  it('rejects CalendarDate instances', () => {
+  test('rejects CalendarDate instances', () => {
     expect(v.safeParse(schema, aCalendarDate).success).toBeFalsy();
   });
 });

@@ -1,7 +1,9 @@
-import { useForm } from '@tanstack/react-form';
-import { describe, expect, it } from 'vite-plus/test';
-import { userEvent } from 'vite-plus/test/browser';
 import { render } from 'vitest-browser-react';
+
+import { useForm } from '@tanstack/react-form';
+
+import { describe, expect, test } from 'vite-plus/test';
+import { userEvent } from 'vite-plus/test/browser';
 
 import { useFieldErrorMessageList } from '#src/hooks/field-error-message';
 import { fieldContext, formContext } from '#src/tanstack-form.config';
@@ -14,7 +16,9 @@ function FieldErrorDisplay() {
 function TestFieldError() {
   const form = useForm({
     defaultValues: { field: '' },
-    onSubmit: async () => { /* noop */ },
+    onSubmit: async () => {
+      /* noop */
+    },
   });
 
   return (
@@ -24,8 +28,7 @@ function TestFieldError() {
         // oxlint-disable-next-line typescript/no-explicit-any
         name={'field' as any}
         validators={{
-          onChange: ({ value }: { value: string }) =>
-            value.length > 0 && value.length < 3 ? 'too short' : undefined,
+          onChange: ({ value }: { value: string }) => (value.length > 0 && value.length < 3 ? 'too short' : undefined),
         }}
       >
         {/* oxlint-disable-next-line typescript/no-explicit-any */}
@@ -41,7 +44,10 @@ function TestFieldError() {
           </fieldContext.Provider>
         )}
       </form.Field>
-      <button data-testid="submit-btn" onClick={() => void form.handleSubmit()}>
+      <button
+        data-testid="submit-btn"
+        onClick={() => void form.handleSubmit()}
+      >
         Submit
       </button>
     </formContext.Provider>
@@ -49,26 +55,26 @@ function TestFieldError() {
 }
 
 describe('useFieldErrorMessageList', () => {
-  it('returns null before blur or submission', async () => {
+  test('returns null before blur or submission', async () => {
     const screen = await render(<TestFieldError />);
     await expect.element(screen.getByTestId('error')).toHaveTextContent('no error');
   });
 
-  it('returns null after blur when field is valid', async () => {
+  test('returns null after blur when field is valid', async () => {
     const screen = await render(<TestFieldError />);
     await userEvent.type(screen.getByTestId('field-input'), 'valid');
     await userEvent.click(screen.getByTestId('submit-btn'));
     await expect.element(screen.getByTestId('error')).toHaveTextContent('no error');
   });
 
-  it('returns the error message after blur when field is invalid', async () => {
+  test('returns the error message after blur when field is invalid', async () => {
     const screen = await render(<TestFieldError />);
     await userEvent.type(screen.getByTestId('field-input'), 'ab');
     await userEvent.tab();
     await expect.element(screen.getByTestId('error')).toHaveTextContent('too short');
   });
 
-  it('returns the error message after a submission attempt', async () => {
+  test('returns the error message after a submission attempt', async () => {
     const screen = await render(<TestFieldError />);
     await userEvent.type(screen.getByTestId('field-input'), 'ab');
     await userEvent.click(screen.getByTestId('submit-btn'));

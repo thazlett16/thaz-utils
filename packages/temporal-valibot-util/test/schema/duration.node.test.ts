@@ -1,8 +1,7 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, test } from 'vite-plus/test';
 
 import type { DurationIssue, DurationSchema } from '#src/schema/duration';
-
 import { duration } from '#src/schema/duration';
 
 describe('duration', () => {
@@ -21,20 +20,20 @@ describe('duration', () => {
       '~run': expect.any(Function),
     };
 
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       const schema: DurationSchema<undefined> = { ...baseSchema, message: undefined };
       expect(duration()).toStrictEqual(schema);
       expect(duration(undefined)).toStrictEqual(schema);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(duration('message')).toStrictEqual({
         ...baseSchema,
         message: 'message',
       } satisfies DurationSchema<string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(duration(message)).toStrictEqual({
         ...baseSchema,
@@ -46,22 +45,22 @@ describe('duration', () => {
   describe('should return dataset without issues', () => {
     const schema = duration();
 
-    it('for zero duration', () => {
+    test('for zero duration', () => {
       const value = new Temporal.Duration();
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for duration with hours', () => {
+    test('for duration with hours', () => {
       const value = Temporal.Duration.from({ hours: 1 });
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for duration with multiple fields', () => {
+    test('for duration with multiple fields', () => {
       const value = Temporal.Duration.from({ years: 1, months: 2, days: 3, hours: 4 });
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
 
-    it('for negative duration', () => {
+    test('for negative duration', () => {
       const value = Temporal.Duration.from({ hours: -5 });
       expect(schema['~run']({ value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -82,7 +81,7 @@ describe('duration', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for null', () => {
+    test('for null', () => {
       expect(schema['~run']({ value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -90,7 +89,7 @@ describe('duration', () => {
       });
     });
 
-    it('for undefined', () => {
+    test('for undefined', () => {
       expect(schema['~run']({ value: undefined }, {})).toStrictEqual({
         typed: false,
         value: undefined,
@@ -98,7 +97,7 @@ describe('duration', () => {
       });
     });
 
-    it('for iso duration strings', () => {
+    test('for iso duration strings', () => {
       expect(schema['~run']({ value: 'PT1H' }, {})).toStrictEqual({
         typed: false,
         value: 'PT1H',
@@ -106,7 +105,7 @@ describe('duration', () => {
       });
     });
 
-    it('for numbers', () => {
+    test('for numbers', () => {
       expect(schema['~run']({ value: 0 }, {})).toStrictEqual({
         typed: false,
         value: 0,
@@ -114,7 +113,7 @@ describe('duration', () => {
       });
     });
 
-    it('for booleans', () => {
+    test('for booleans', () => {
       expect(schema['~run']({ value: true }, {})).toStrictEqual({
         typed: false,
         value: true,
@@ -122,7 +121,7 @@ describe('duration', () => {
       });
     });
 
-    it('for objects', () => {
+    test('for objects', () => {
       expect(schema['~run']({ value: {} }, {})).toStrictEqual({
         typed: false,
         value: {},
@@ -130,7 +129,7 @@ describe('duration', () => {
       });
     });
 
-    it('for Temporal.Instant', () => {
+    test('for Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(0);
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,
@@ -139,7 +138,7 @@ describe('duration', () => {
       });
     });
 
-    it('for Temporal.PlainDate', () => {
+    test('for Temporal.PlainDate', () => {
       const value = Temporal.PlainDate.from('2024-01-01');
       expect(schema['~run']({ value }, {})).toStrictEqual({
         typed: false,

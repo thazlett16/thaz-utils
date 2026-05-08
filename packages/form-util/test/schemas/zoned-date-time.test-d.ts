@@ -1,9 +1,8 @@
-import { Temporal } from '@js-temporal/polyfill';
+import type { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
-import { describe, expectTypeOf, it } from 'vite-plus/test';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { _zonedDateTimeNullable, _zonedDateTimeRequired } from '#src/schemas/zoned-date-time';
-
 import { zonedDateTime } from '#src/schemas/zoned-date-time';
 
 const wrongTypeMessages = { wrongTypeMessage: 'Wrong type' };
@@ -13,15 +12,15 @@ describe('zonedDateTime', () => {
   describe('nullable overload', () => {
     const schema = zonedDateTime(wrongTypeMessages);
 
-    it('returns ReturnType<typeof _zonedDateTimeNullable>', () => {
+    test('returns ReturnType<typeof _zonedDateTimeNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _zonedDateTimeNullable>>();
     });
 
-    it('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
+    test('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
     });
 
-    it('inferOutput is Temporal.ZonedDateTime | null', () => {
+    test('inferOutput is Temporal.ZonedDateTime | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null>();
     });
   });
@@ -32,15 +31,15 @@ describe('zonedDateTime', () => {
       v.check((val) => val.hour >= 0),
     );
 
-    it('returns ReturnType<typeof _zonedDateTimeNullable>', () => {
+    test('returns ReturnType<typeof _zonedDateTimeNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _zonedDateTimeNullable>>();
     });
 
-    it('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
+    test('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
     });
 
-    it('inferOutput is Temporal.ZonedDateTime | null', () => {
+    test('inferOutput is Temporal.ZonedDateTime | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null>();
     });
   });
@@ -48,15 +47,15 @@ describe('zonedDateTime', () => {
   describe('required overload', () => {
     const schema = zonedDateTime(requiredMessages);
 
-    it('returns ReturnType<typeof _zonedDateTimeRequired>', () => {
+    test('returns ReturnType<typeof _zonedDateTimeRequired>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _zonedDateTimeRequired>>();
     });
 
-    it('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
+    test('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
     });
 
-    it('inferOutput is Temporal.ZonedDateTime', () => {
+    test('inferOutput is Temporal.ZonedDateTime', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
   });
@@ -67,15 +66,15 @@ describe('zonedDateTime', () => {
       v.check((val) => val.hour >= 0),
     );
 
-    it('returns ReturnType<typeof _zonedDateTimeRequired>', () => {
+    test('returns ReturnType<typeof _zonedDateTimeRequired>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _zonedDateTimeRequired>>();
     });
 
-    it('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
+    test('inferInput includes Temporal.ZonedDateTime, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime | null | undefined>();
     });
 
-    it('inferOutput is Temporal.ZonedDateTime', () => {
+    test('inferOutput is Temporal.ZonedDateTime', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
   });

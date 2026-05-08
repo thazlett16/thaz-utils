@@ -1,9 +1,9 @@
-import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vite-plus/test';
 import { render } from 'vitest-browser-react';
 
-import { useNormalizeFieldValuePlainTime } from '#src/hooks/normalize-field-value-plain-time';
+import { Temporal } from '@js-temporal/polyfill';
+import { describe, expect, test } from 'vite-plus/test';
 
+import { useNormalizeFieldValuePlainTime } from '#src/hooks/normalize-field-value-plain-time';
 import { ErrorBoundary, FieldWrapper } from '#test/render-with';
 
 const aPlainTime = Temporal.PlainTime.from('12:00:00');
@@ -17,7 +17,7 @@ function PlainTimeDisplay() {
 }
 
 describe('useNormalizeFieldValuePlainTime', () => {
-  it('passes a Temporal.PlainTime through unchanged', async () => {
+  test('passes a Temporal.PlainTime through unchanged', async () => {
     const screen = await render(
       <FieldWrapper initialValue={aPlainTime}>
         <PlainTimeDisplay />
@@ -26,7 +26,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent(aPlainTime.toString());
   });
 
-  it('converts a Temporal.ZonedDateTime to Temporal.PlainTime', async () => {
+  test('converts a Temporal.ZonedDateTime to Temporal.PlainTime', async () => {
     const screen = await render(
       <FieldWrapper initialValue={aZonedDateTime}>
         <PlainTimeDisplay />
@@ -35,7 +35,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent(aZonedDateTime.toPlainTime().toString());
   });
 
-  it('converts a Temporal.PlainDateTime to Temporal.PlainTime', async () => {
+  test('converts a Temporal.PlainDateTime to Temporal.PlainTime', async () => {
     const screen = await render(
       <FieldWrapper initialValue={aPlainDateTime}>
         <PlainTimeDisplay />
@@ -44,7 +44,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent(aPlainDateTime.toPlainTime().toString());
   });
 
-  it('returns null for null', async () => {
+  test('returns null for null', async () => {
     const screen = await render(
       <FieldWrapper initialValue={null}>
         <PlainTimeDisplay />
@@ -53,7 +53,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('returns null for undefined', async () => {
+  test('returns null for undefined', async () => {
     const screen = await render(
       <FieldWrapper initialValue={undefined}>
         <PlainTimeDisplay />
@@ -62,7 +62,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('throws FormTypeError for a Temporal.PlainDate field value', async () => {
+  test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
     const screen = await render(
       <ErrorBoundary>
         <FieldWrapper initialValue={aPlainDate}>

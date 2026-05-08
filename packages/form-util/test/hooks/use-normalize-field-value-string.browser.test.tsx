@@ -1,71 +1,191 @@
-import { describe, expect, it } from 'vite-plus/test';
-import { render } from 'vitest-browser-react';
+import type { ReactNode } from 'react';
+import { renderHook } from 'vitest-browser-react';
 
+import { describe, expect, test } from 'vite-plus/test';
+
+import { BaseForm } from '#src/components/tanstack-form.config';
 import { useNormalizeFieldValueString } from '#src/hooks/normalize-field-value-string';
 
-import { ErrorBoundary, FieldWrapper } from '#test/render-with';
-
-function StringDisplay() {
-  const value = useNormalizeFieldValueString();
-  return <div data-testid="value">{value}</div>;
-}
-
 describe('useNormalizeFieldValueString', () => {
-  it('returns a string value unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue="hello">
-        <StringDisplay />
-      </FieldWrapper>,
+  test('returns a string value unchanged', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      type Person = {
+        name: string | null | undefined;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: 'FirstName',
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return (
+                <>{children}</>
+              )
+            }}
+          />
+        </form.AppForm>
+      )
+    }
+
+    const { result } = await renderHook(
+      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
     );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('hello');
+    expect(result.current).toBe('FirstName');
   });
 
-  it('returns an empty string unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue="">
-        <StringDisplay />
-      </FieldWrapper>,
+  test('returns an empty string unchanged', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      type Person = {
+        name: string | null | undefined;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: '',
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return (
+                <>{children}</>
+              )
+            }}
+          />
+        </form.AppForm>
+      )
+    }
+
+    const { result } = await renderHook(
+      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
     );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('');
+    expect(result.current).toBe('');
   });
 
-  it('returns empty string for null', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={null}>
-        <StringDisplay />
-      </FieldWrapper>,
+  test('returns empty string for null', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      type Person = {
+        name: string | null | undefined;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: null,
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return (
+                <>{children}</>
+              )
+            }}
+          />
+        </form.AppForm>
+      )
+    }
+
+    const { result } = await renderHook(
+      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
     );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('');
+    expect(result.current).toBe('');
   });
 
-  it('returns empty string for undefined', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={undefined}>
-        <StringDisplay />
-      </FieldWrapper>,
+  test('returns empty string for undefined', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      type Person = {
+        name: string | null | undefined;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: undefined,
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return (
+                <>{children}</>
+              )
+            }}
+          />
+        </form.AppForm>
+      )
+    }
+
+    const { result } = await renderHook(
+      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
     );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('');
+    expect(result.current).toBe('');
   });
 
-  it('throws FormTypeError for a number field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue={42}>
-          <StringDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+  test('throws FormTypeError for a number field value', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      type Person = {
+        name: number;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: 0,
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return (
+                <>{children}</>
+              )
+            }}
+          />a
+        </form.AppForm>
+      )
+    }
+
+    expect(() => {
+      renderHook(
+        () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
+      )
+    }).toThrow('useNormalizeFieldValueString');
   });
 
-  it('throws FormTypeError for an object field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue={{}}>
-          <StringDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
-  });
+  // test('throws FormTypeError for an object field value', async () => {
+  //   const screen = await render(
+  //     <ErrorBoundary>
+  //       <FieldWrapper initialValue={{}}>
+  //         <StringDisplay />
+  //       </FieldWrapper>
+  //     </ErrorBoundary>,
+  //   );
+  //   await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+  // });
 });

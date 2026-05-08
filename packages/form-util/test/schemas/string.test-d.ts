@@ -1,8 +1,7 @@
 import * as v from 'valibot';
-import { describe, expectTypeOf, it } from 'vite-plus/test';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { _stringNullable, _stringRequired } from '#src/schemas/string';
-
 import { string } from '#src/schemas/string';
 
 const wrongTypeMessages = { wrongTypeMessage: 'Wrong type' };
@@ -12,15 +11,15 @@ describe('string', () => {
   describe('nullable overload', () => {
     const schema = string(wrongTypeMessages);
 
-    it('returns ReturnType<typeof _stringNullable>', () => {
+    test('returns ReturnType<typeof _stringNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _stringNullable>>();
     });
 
-    it('inferInput includes string, null, and undefined', () => {
+    test('inferInput includes string, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | null | undefined>();
     });
 
-    it('inferOutput is string | null', () => {
+    test('inferOutput is string | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<string | null>();
     });
   });
@@ -33,15 +32,15 @@ describe('string', () => {
       v.check((val) => val !== 'test'),
     );
 
-    it('returns ReturnType<typeof _stringNullable>', () => {
+    test('returns ReturnType<typeof _stringNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _stringNullable>>();
     });
 
-    it('inferInput includes string, null, and undefined', () => {
+    test('inferInput includes string, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | null | undefined>();
     });
 
-    it('inferOutput is string | null', () => {
+    test('inferOutput is string | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<string | null>();
     });
   });
@@ -49,15 +48,15 @@ describe('string', () => {
   describe('required overload', () => {
     const schema = string(requiredMessages);
 
-    it('returns ReturnType<typeof _stringNullable>', () => {
+    test('returns ReturnType<typeof _stringNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _stringRequired>>();
     });
 
-    it('inferInput includes string, null, and undefined', () => {
+    test('inferInput includes string, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | null | undefined>();
     });
 
-    it('inferOutput is string | null', () => {
+    test('inferOutput is string | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<string>();
     });
   });
@@ -70,15 +69,15 @@ describe('string', () => {
       v.check((val) => val !== 'test'),
     );
 
-    it('returns ReturnType<typeof _stringNullable>', () => {
+    test('returns ReturnType<typeof _stringNullable>', () => {
       expectTypeOf(schema).toEqualTypeOf<ReturnType<typeof _stringRequired>>();
     });
 
-    it('inferInput includes string, null, and undefined', () => {
+    test('inferInput includes string, null, and undefined', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | null | undefined>();
     });
 
-    it('inferOutput is string | null', () => {
+    test('inferOutput is string | null', () => {
       expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<string>();
     });
   });

@@ -1,13 +1,12 @@
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, test } from 'vite-plus/test';
 
 import type { ToInstantAction, ToInstantIssue } from '#src/actions/to-instant-value';
-
 import { toInstant } from '#src/actions/to-instant-value';
 
 describe('toInstant', () => {
   describe('should return action object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       expect(toInstant()).toStrictEqual({
         kind: 'transformation',
         type: 'to_instant',
@@ -18,7 +17,7 @@ describe('toInstant', () => {
       } satisfies ToInstantAction<unknown, undefined>);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(toInstant('message')).toStrictEqual({
         kind: 'transformation',
         type: 'to_instant',
@@ -29,7 +28,7 @@ describe('toInstant', () => {
       } satisfies ToInstantAction<unknown, string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(toInstant(message)).toStrictEqual({
         kind: 'transformation',
@@ -45,42 +44,42 @@ describe('toInstant', () => {
   describe('should transform to Temporal.Instant', () => {
     const action = toInstant();
 
-    it('converts a ZonedDateTime ISO string', () => {
+    test('converts a ZonedDateTime ISO string', () => {
       expect(action['~run']({ typed: true, value: '2024-01-01T00:00:00+00:00[UTC]' }, {})).toStrictEqual({
         typed: true,
         value: Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]').toInstant(),
       });
     });
 
-    it('converts an Instant ISO string', () => {
+    test('converts an Instant ISO string', () => {
       expect(action['~run']({ typed: true, value: '2024-01-01T00:00:00Z' }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.from('2024-01-01T00:00:00Z'),
       });
     });
 
-    it('converts epoch milliseconds as number', () => {
+    test('converts epoch milliseconds as number', () => {
       expect(action['~run']({ typed: true, value: 0 }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochMilliseconds(0),
       });
     });
 
-    it('converts positive epoch milliseconds', () => {
+    test('converts positive epoch milliseconds', () => {
       expect(action['~run']({ typed: true, value: 1_700_000_000_000 }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochMilliseconds(1_700_000_000_000),
       });
     });
 
-    it('converts epoch nanoseconds as bigint', () => {
+    test('converts epoch nanoseconds as bigint', () => {
       expect(action['~run']({ typed: true, value: 0n }, {})).toStrictEqual({
         typed: true,
         value: Temporal.Instant.fromEpochNanoseconds(0n),
       });
     });
 
-    it('converts a Date object', () => {
+    test('converts a Date object', () => {
       const date = new Date(1_000_000);
       expect(action['~run']({ typed: true, value: date }, {})).toStrictEqual({
         typed: true,
@@ -88,7 +87,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('converts a Temporal.ZonedDateTime', () => {
+    test('converts a Temporal.ZonedDateTime', () => {
       const zdt = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
       expect(action['~run']({ typed: true, value: zdt }, {})).toStrictEqual({
         typed: true,
@@ -96,7 +95,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('passes through an existing Temporal.Instant', () => {
+    test('passes through an existing Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(1_000_000);
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -117,7 +116,7 @@ describe('toInstant', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for invalid strings', () => {
+    test('for invalid strings', () => {
       const value = 'not-a-datetime';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -126,7 +125,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('for plain date strings (no time or offset)', () => {
+    test('for plain date strings (no time or offset)', () => {
       const value = '2024-01-01';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -135,7 +134,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('for null', () => {
+    test('for null', () => {
       expect(action['~run']({ typed: true, value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -143,7 +142,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('for plain objects', () => {
+    test('for plain objects', () => {
       const value = {};
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -152,7 +151,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('for Temporal.PlainDate', () => {
+    test('for Temporal.PlainDate', () => {
       const value = Temporal.PlainDate.from('2024-01-01');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -161,7 +160,7 @@ describe('toInstant', () => {
       });
     });
 
-    it('for Temporal.PlainTime', () => {
+    test('for Temporal.PlainTime', () => {
       const value = Temporal.PlainTime.from('10:00:00');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -170,11 +169,11 @@ describe('toInstant', () => {
       });
     });
 
-    it('for NaN', () => {
-      expect(action['~run']({ typed: true, value: NaN }, {})).toStrictEqual({
+    test('for NaN', () => {
+      expect(action['~run']({ typed: true, value: Number.NaN }, {})).toStrictEqual({
         typed: false,
-        value: NaN,
-        issues: [{ ...baseIssue, input: NaN, received: 'NaN' }],
+        value: Number.NaN,
+        issues: [{ ...baseIssue, input: Number.NaN, received: 'NaN' }],
       });
     });
   });

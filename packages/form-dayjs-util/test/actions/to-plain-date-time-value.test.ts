@@ -1,15 +1,15 @@
-import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
-
-import type { ToPlainDateTimeAction } from '#src/actions/to-plain-date-time-value';
 import type { ToPlainDateTimeIssue } from '@thazstack/temporal-valibot-util';
 
+import { Temporal } from '@js-temporal/polyfill';
+import { describe, expect, test } from 'vite-plus/test';
+
+import type { ToPlainDateTimeAction } from '#src/actions/to-plain-date-time-value';
 import { toPlainDateTime } from '#src/actions/to-plain-date-time-value';
 import { dayJS } from '#src/dayjs.config';
 
 describe('toPlainDateTime', () => {
   describe('should return action object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       expect(toPlainDateTime()).toStrictEqual({
         kind: 'transformation',
         type: 'to_plain_date_time',
@@ -20,7 +20,7 @@ describe('toPlainDateTime', () => {
       } satisfies ToPlainDateTimeAction<unknown, undefined>);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(toPlainDateTime('message')).toStrictEqual({
         kind: 'transformation',
         type: 'to_plain_date_time',
@@ -31,7 +31,7 @@ describe('toPlainDateTime', () => {
       } satisfies ToPlainDateTimeAction<unknown, string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(toPlainDateTime(message)).toStrictEqual({
         kind: 'transformation',
@@ -47,31 +47,31 @@ describe('toPlainDateTime', () => {
   describe('should convert DayJS to Temporal.PlainDateTime', () => {
     const action = toPlainDateTime();
 
-    it('converts a UTC DayJS preserving all components', () => {
+    test('converts a UTC DayJS preserving all components', () => {
       const value = dayJS.utc('2024-06-15T09:30:45.123Z');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
-      expect(result.value).toEqual(Temporal.PlainDateTime.from('2024-06-15T09:30:45.123'));
+      expect(result.typed).toBeTruthy();
+      expect(result.value).toStrictEqual(Temporal.PlainDateTime.from('2024-06-15T09:30:45.123'));
     });
 
-    it('converts a timezone-aware DayJS (CDT, UTC-5) — uses local date/time', () => {
+    test('converts a timezone-aware DayJS (CDT, UTC-5) — uses local date/time', () => {
       const value = dayJS.tz('2024-06-15T12:30:00', 'America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
-      expect(result.value).toEqual(Temporal.PlainDateTime.from('2024-06-15T12:30:00'));
+      expect(result.typed).toBeTruthy();
+      expect(result.value).toStrictEqual(Temporal.PlainDateTime.from('2024-06-15T12:30:00'));
     });
 
-    it('converts a timezone-aware DayJS (CST, UTC-6) — uses local date/time', () => {
+    test('converts a timezone-aware DayJS (CST, UTC-6) — uses local date/time', () => {
       const value = dayJS.tz('2024-01-15T12:30:00', 'America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
-      expect(result.value).toEqual(Temporal.PlainDateTime.from('2024-01-15T12:30:00'));
+      expect(result.typed).toBeTruthy();
+      expect(result.value).toStrictEqual(Temporal.PlainDateTime.from('2024-01-15T12:30:00'));
     });
 
-    it('converts DayJS at midnight', () => {
+    test('converts DayJS at midnight', () => {
       const value = dayJS.utc('2024-01-01T00:00:00.000Z');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.hour).toBe(0);
       expect(pdt.minute).toBe(0);
@@ -79,10 +79,10 @@ describe('toPlainDateTime', () => {
       expect(pdt.millisecond).toBe(0);
     });
 
-    it('converts DayJS just before DST spring-forward (01:59:59.999 CST)', () => {
+    test('converts DayJS just before DST spring-forward (01:59:59.999 CST)', () => {
       const value = dayJS.tz('2024-03-10T01:59:59', 'America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.year).toBe(2024);
       expect(pdt.month).toBe(3);
@@ -92,47 +92,47 @@ describe('toPlainDateTime', () => {
       expect(pdt.second).toBe(59);
     });
 
-    it('converts DayJS just after DST spring-forward (03:00:00 CDT)', () => {
+    test('converts DayJS just after DST spring-forward (03:00:00 CDT)', () => {
       const value = dayJS.tz('2024-03-10T03:00:00', 'America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.hour).toBe(3);
       expect(pdt.minute).toBe(0);
     });
 
-    it('converts DayJS during DST fall-back (first 01:30, CDT)', () => {
+    test('converts DayJS during DST fall-back (first 01:30, CDT)', () => {
       const value = dayJS.utc('2024-11-03T06:30:00Z').tz('America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.day).toBe(3);
       expect(pdt.hour).toBe(1);
       expect(pdt.minute).toBe(30);
     });
 
-    it('converts DayJS during DST fall-back (second 01:30, CST)', () => {
+    test('converts DayJS during DST fall-back (second 01:30, CST)', () => {
       const value = dayJS.utc('2024-11-03T07:30:00Z').tz('America/Chicago');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.day).toBe(3);
       expect(pdt.hour).toBe(1);
       expect(pdt.minute).toBe(30);
     });
 
-    it('converts DayJS with millisecond precision', () => {
+    test('converts DayJS with millisecond precision', () => {
       const value = dayJS.utc('2024-06-15T09:30:45.999Z');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.millisecond).toBe(999);
     });
 
-    it('converts DayJS in Australia/Sydney (AEDT, UTC+11) — uses local time', () => {
+    test('converts DayJS in Australia/Sydney (AEDT, UTC+11) — uses local time', () => {
       const value = dayJS.tz('2024-01-15T12:00:00', 'Australia/Sydney');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const pdt = result.value as Temporal.PlainDateTime;
       expect(pdt.year).toBe(2024);
       expect(pdt.month).toBe(1);
@@ -144,7 +144,7 @@ describe('toPlainDateTime', () => {
   describe('should pass an existing Temporal.PlainDateTime through unchanged', () => {
     const action = toPlainDateTime();
 
-    it('passes through a Temporal.PlainDateTime', () => {
+    test('passes through a Temporal.PlainDateTime', () => {
       const value = Temporal.PlainDateTime.from('2024-06-15T09:30:45.123');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -165,7 +165,7 @@ describe('toPlainDateTime', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for null', () => {
+    test('for null', () => {
       expect(action['~run']({ typed: true, value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -173,7 +173,7 @@ describe('toPlainDateTime', () => {
       });
     });
 
-    it('for strings', () => {
+    test('for strings', () => {
       const value = '2024-06-15T12:00:00';
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -182,7 +182,7 @@ describe('toPlainDateTime', () => {
       });
     });
 
-    it('for Temporal.Instant', () => {
+    test('for Temporal.Instant', () => {
       const value = Temporal.Instant.from('2024-06-15T12:00:00Z');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -191,7 +191,7 @@ describe('toPlainDateTime', () => {
       });
     });
 
-    it('for Temporal.PlainDate', () => {
+    test('for Temporal.PlainDate', () => {
       const value = Temporal.PlainDate.from('2024-06-15');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -200,7 +200,7 @@ describe('toPlainDateTime', () => {
       });
     });
 
-    it('for Temporal.PlainTime', () => {
+    test('for Temporal.PlainTime', () => {
       const value = Temporal.PlainTime.from('12:00:00');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,

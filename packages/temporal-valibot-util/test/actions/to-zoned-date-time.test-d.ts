@@ -1,25 +1,23 @@
 import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
-
-import { describe, expectTypeOf, it } from 'vite-plus/test';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { ToZonedDateTimeAction, ToZonedDateTimeIssue } from '#src/actions/to-zoned-date-time-value';
-
 import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value';
 
 describe('toZonedDateTime', () => {
   describe('should return action object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       expectTypeOf(toZonedDateTime<string>()).toEqualTypeOf<ToZonedDateTimeAction<string, undefined>>();
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expectTypeOf(toZonedDateTime<string, 'message'>('message')).toEqualTypeOf<
         ToZonedDateTimeAction<string, 'message'>
       >();
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       expectTypeOf(toZonedDateTime<string, () => string>(() => 'message')).toEqualTypeOf<
         ToZonedDateTimeAction<string, () => string>
       >();
@@ -29,15 +27,15 @@ describe('toZonedDateTime', () => {
   describe('should infer correct types', () => {
     type Action = ToZonedDateTimeAction<string, undefined>;
 
-    it('of input', () => {
+    test('of input', () => {
       expectTypeOf<InferInput<Action>>().toEqualTypeOf<string>();
     });
 
-    it('of output', () => {
+    test('of output', () => {
       expectTypeOf<InferOutput<Action>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
 
-    it('of issue', () => {
+    test('of issue', () => {
       expectTypeOf<InferIssue<Action>>().toEqualTypeOf<ToZonedDateTimeIssue<string>>();
     });
   });

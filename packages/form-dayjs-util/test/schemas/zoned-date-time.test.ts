@@ -1,6 +1,6 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 
 import { dayJS } from '#src/dayjs.config';
 import { zonedDateTime } from '#src/schemas/zoned-date-time';
@@ -17,53 +17,53 @@ describe('zonedDateTime', () => {
   describe('nullable overload', () => {
     const schema = zonedDateTime(utcOptions, wrongTypeMessages);
 
-    it('passes null through', () => {
+    test('passes null through', () => {
       expect(v.safeParse(schema, null)).toMatchObject({ success: true, output: null });
     });
 
-    it('coerces undefined to null', () => {
+    test('coerces undefined to null', () => {
       expect(v.safeParse(schema, undefined)).toMatchObject({ success: true, output: null });
     });
 
-    it('passes a Temporal.ZonedDateTime', () => {
+    test('passes a Temporal.ZonedDateTime', () => {
       expect(v.safeParse(schema, aZonedDateTime)).toMatchObject({ success: true, output: aZonedDateTime });
     });
 
-    it('converts a valid DayJS instance to Temporal.ZonedDateTime', () => {
+    test('converts a valid DayJS instance to Temporal.ZonedDateTime', () => {
       const result = v.safeParse(schema, aValidDayJS);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(Temporal.Instant.from(aValidDayJS.toISOString()).toZonedDateTimeISO('UTC'));
+      expect(result.output).toStrictEqual(Temporal.Instant.from(aValidDayJS.toISOString()).toZonedDateTimeISO('UTC'));
     });
 
-    it('rejects an invalid DayJS instance with wrongTypeMessage', () => {
+    test('rejects an invalid DayJS instance with wrongTypeMessage', () => {
       const result = v.safeParse(schema, anInvalidDayJS);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects strings with wrongTypeMessage', () => {
+    test('rejects strings with wrongTypeMessage', () => {
       const result = v.safeParse(schema, '2024-06-15T12:00:00+00:00[UTC]');
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects numbers', () => {
+    test('rejects numbers', () => {
       expect(v.safeParse(schema, 0).success).toBeFalsy();
     });
 
-    it('rejects objects', () => {
+    test('rejects objects', () => {
       expect(v.safeParse(schema, {}).success).toBeFalsy();
     });
 
-    it('rejects Temporal.Instant', () => {
+    test('rejects Temporal.Instant', () => {
       expect(v.safeParse(schema, Temporal.Instant.from('2024-06-15T00:00:00Z')).success).toBeFalsy();
     });
 
-    it('rejects Temporal.PlainDate', () => {
+    test('rejects Temporal.PlainDate', () => {
       expect(v.safeParse(schema, Temporal.PlainDate.from('2024-06-15')).success).toBeFalsy();
     });
 
-    it('passes extra zoned date-time actions', () => {
+    test('passes extra zoned date-time actions', () => {
       const minZdt = Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]');
       const schemaWithAction = zonedDateTime(
         utcOptions,
@@ -80,47 +80,47 @@ describe('zonedDateTime', () => {
   describe('required overload', () => {
     const schema = zonedDateTime(utcOptions, requiredMessages);
 
-    it('passes a Temporal.ZonedDateTime', () => {
+    test('passes a Temporal.ZonedDateTime', () => {
       expect(v.safeParse(schema, aZonedDateTime)).toMatchObject({ success: true, output: aZonedDateTime });
     });
 
-    it('converts a valid DayJS instance to Temporal.ZonedDateTime', () => {
+    test('converts a valid DayJS instance to Temporal.ZonedDateTime', () => {
       const result = v.safeParse(schema, aValidDayJS);
       expect(result.success).toBeTruthy();
-      expect(result.output).toEqual(Temporal.Instant.from(aValidDayJS.toISOString()).toZonedDateTimeISO('UTC'));
+      expect(result.output).toStrictEqual(Temporal.Instant.from(aValidDayJS.toISOString()).toZonedDateTimeISO('UTC'));
     });
 
-    it('rejects null with requiredMessage', () => {
+    test('rejects null with requiredMessage', () => {
       const result = v.safeParse(schema, null);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Required');
     });
 
-    it('rejects undefined with requiredMessage', () => {
+    test('rejects undefined with requiredMessage', () => {
       const result = v.safeParse(schema, undefined);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Required');
     });
 
-    it('rejects strings with wrongTypeMessage', () => {
+    test('rejects strings with wrongTypeMessage', () => {
       const result = v.safeParse(schema, '2024-06-15T12:00:00+00:00[UTC]');
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects numbers with wrongTypeMessage', () => {
+    test('rejects numbers with wrongTypeMessage', () => {
       const result = v.safeParse(schema, 0);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('rejects an invalid DayJS instance with wrongTypeMessage', () => {
+    test('rejects an invalid DayJS instance with wrongTypeMessage', () => {
       const result = v.safeParse(schema, anInvalidDayJS);
       expect(result.success).toBeFalsy();
       expect(result.issues?.[0]?.message).toBe('Wrong type');
     });
 
-    it('passes extra zoned date-time actions', () => {
+    test('passes extra zoned date-time actions', () => {
       const minZdt = Temporal.ZonedDateTime.from('2024-01-01T00:00:00+00:00[UTC]');
       const schemaWithAction = zonedDateTime(
         utcOptions,

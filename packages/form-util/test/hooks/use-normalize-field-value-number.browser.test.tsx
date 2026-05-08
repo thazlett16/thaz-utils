@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vite-plus/test';
 import { render } from 'vitest-browser-react';
 
-import { useNormalizeFieldValueNumber } from '#src/hooks/normalize-field-value-number';
+import { describe, expect, test } from 'vite-plus/test';
 
+import { useNormalizeFieldValueNumber } from '#src/hooks/normalize-field-value-number';
 import { ErrorBoundary, FieldWrapper } from '#test/render-with';
 
 function NumberDisplay() {
@@ -11,7 +11,7 @@ function NumberDisplay() {
 }
 
 describe('useNormalizeFieldValueNumber', () => {
-  it('returns a number value unchanged', async () => {
+  test('returns a number value unchanged', async () => {
     const screen = await render(
       <FieldWrapper initialValue={42}>
         <NumberDisplay />
@@ -20,7 +20,7 @@ describe('useNormalizeFieldValueNumber', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('42');
   });
 
-  it('returns 0 unchanged', async () => {
+  test('returns 0 unchanged', async () => {
     const screen = await render(
       <FieldWrapper initialValue={0}>
         <NumberDisplay />
@@ -29,7 +29,7 @@ describe('useNormalizeFieldValueNumber', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('0');
   });
 
-  it('returns null for null', async () => {
+  test('returns null for null', async () => {
     const screen = await render(
       <FieldWrapper initialValue={null}>
         <NumberDisplay />
@@ -38,7 +38,7 @@ describe('useNormalizeFieldValueNumber', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('returns null for undefined', async () => {
+  test('returns null for undefined', async () => {
     const screen = await render(
       <FieldWrapper initialValue={undefined}>
         <NumberDisplay />
@@ -47,7 +47,7 @@ describe('useNormalizeFieldValueNumber', () => {
     await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
   });
 
-  it('throws FormTypeError for a string field value', async () => {
+  test('throws FormTypeError for a string field value', async () => {
     const screen = await render(
       <ErrorBoundary>
         <FieldWrapper initialValue="42">

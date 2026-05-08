@@ -1,25 +1,23 @@
 import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
-
-import { describe, expectTypeOf, it } from 'vite-plus/test';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { InstantIssue, InstantSchema } from '#src/schema/instant';
-
 import { instant } from '#src/schema/instant';
 
 describe('instant', () => {
   describe('should return schema object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       type Schema = InstantSchema<undefined>;
       expectTypeOf(instant()).toEqualTypeOf<Schema>();
       expectTypeOf(instant(undefined)).toEqualTypeOf<Schema>();
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expectTypeOf(instant('message')).toEqualTypeOf<InstantSchema<'message'>>();
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       expectTypeOf(instant(() => 'message')).toEqualTypeOf<InstantSchema<() => string>>();
     });
   });
@@ -27,15 +25,15 @@ describe('instant', () => {
   describe('should infer correct types', () => {
     type Schema = InstantSchema<undefined>;
 
-    it('of input', () => {
+    test('of input', () => {
       expectTypeOf<InferInput<Schema>>().toEqualTypeOf<Temporal.Instant>();
     });
 
-    it('of output', () => {
+    test('of output', () => {
       expectTypeOf<InferOutput<Schema>>().toEqualTypeOf<Temporal.Instant>();
     });
 
-    it('of issue', () => {
+    test('of issue', () => {
       expectTypeOf<InferIssue<Schema>>().toEqualTypeOf<InstantIssue>();
     });
   });

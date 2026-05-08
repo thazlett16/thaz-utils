@@ -1,25 +1,23 @@
 import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
-
-import { describe, expectTypeOf, it } from 'vite-plus/test';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { ZonedDateTimeIssue, ZonedDateTimeSchema } from '#src/schema/zoned-date-time';
-
 import { zonedDateTime } from '#src/schema/zoned-date-time';
 
 describe('zonedDateTime', () => {
   describe('should return schema object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       type Schema = ZonedDateTimeSchema<undefined>;
       expectTypeOf(zonedDateTime()).toEqualTypeOf<Schema>();
       expectTypeOf(zonedDateTime(undefined)).toEqualTypeOf<Schema>();
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expectTypeOf(zonedDateTime('message')).toEqualTypeOf<ZonedDateTimeSchema<'message'>>();
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       expectTypeOf(zonedDateTime(() => 'message')).toEqualTypeOf<ZonedDateTimeSchema<() => string>>();
     });
   });
@@ -27,15 +25,15 @@ describe('zonedDateTime', () => {
   describe('should infer correct types', () => {
     type Schema = ZonedDateTimeSchema<undefined>;
 
-    it('of input', () => {
+    test('of input', () => {
       expectTypeOf<InferInput<Schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
 
-    it('of output', () => {
+    test('of output', () => {
       expectTypeOf<InferOutput<Schema>>().toEqualTypeOf<Temporal.ZonedDateTime>();
     });
 
-    it('of issue', () => {
+    test('of issue', () => {
       expectTypeOf<InferIssue<Schema>>().toEqualTypeOf<ZonedDateTimeIssue>();
     });
   });

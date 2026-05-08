@@ -1,17 +1,16 @@
 import { CalendarDateTime, parseZonedDateTime } from '@internationalized/date';
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 
 import type {
   ToInternationalizedCalendarDateTimeAction,
   ToInternationalizedCalendarDateTimeIssue,
 } from '#src/actions/to-internationalized-calendar-date-time-value';
-
 import { toInternationalizedCalendarDateTime } from '#src/actions/to-internationalized-calendar-date-time-value';
 
 describe('toInternationalizedCalendarDateTime', () => {
   describe('should return action object', () => {
-    it('with undefined message', () => {
+    test('with undefined message', () => {
       expect(toInternationalizedCalendarDateTime()).toStrictEqual({
         kind: 'transformation',
         type: 'to_calendar_date_time',
@@ -22,7 +21,7 @@ describe('toInternationalizedCalendarDateTime', () => {
       } satisfies ToInternationalizedCalendarDateTimeAction<unknown, undefined>);
     });
 
-    it('with string message', () => {
+    test('with string message', () => {
       expect(toInternationalizedCalendarDateTime('message')).toStrictEqual({
         kind: 'transformation',
         type: 'to_calendar_date_time',
@@ -33,7 +32,7 @@ describe('toInternationalizedCalendarDateTime', () => {
       } satisfies ToInternationalizedCalendarDateTimeAction<unknown, string>);
     });
 
-    it('with function message', () => {
+    test('with function message', () => {
       const message = () => 'message';
       expect(toInternationalizedCalendarDateTime(message)).toStrictEqual({
         kind: 'transformation',
@@ -49,9 +48,9 @@ describe('toInternationalizedCalendarDateTime', () => {
   describe('should convert datetime strings to CalendarDateTime', () => {
     const action = toInternationalizedCalendarDateTime();
 
-    it('converts an ISO datetime string', () => {
+    test('converts an ISO datetime string', () => {
       const result = action['~run']({ typed: true, value: '2024-06-15T09:30:45' }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.year).toBe(2024);
       expect(cdt.month).toBe(6);
@@ -61,17 +60,17 @@ describe('toInternationalizedCalendarDateTime', () => {
       expect(cdt.second).toBe(45);
     });
 
-    it('converts a datetime string at midnight', () => {
+    test('converts a datetime string at midnight', () => {
       const result = action['~run']({ typed: true, value: '2024-01-01T00:00:00' }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.hour).toBe(0);
       expect(cdt.minute).toBe(0);
     });
 
-    it('converts a datetime string with milliseconds', () => {
+    test('converts a datetime string with milliseconds', () => {
       const result = action['~run']({ typed: true, value: '2024-06-15T09:30:45.123' }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.millisecond).toBe(123);
     });
@@ -80,10 +79,10 @@ describe('toInternationalizedCalendarDateTime', () => {
   describe('should convert Temporal.ZonedDateTime to CalendarDateTime', () => {
     const action = toInternationalizedCalendarDateTime();
 
-    it('converts a UTC Temporal.ZonedDateTime', () => {
+    test('converts a UTC Temporal.ZonedDateTime', () => {
       const value = Temporal.ZonedDateTime.from('2024-06-15T12:30:00+00:00[UTC]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.year).toBe(2024);
       expect(cdt.month).toBe(6);
@@ -92,45 +91,45 @@ describe('toInternationalizedCalendarDateTime', () => {
       expect(cdt.minute).toBe(30);
     });
 
-    it('converts a Temporal.ZonedDateTime in CDT (UTC-5) — preserves local time', () => {
+    test('converts a Temporal.ZonedDateTime in CDT (UTC-5) — preserves local time', () => {
       const value = Temporal.ZonedDateTime.from('2024-06-15T12:00:00-05:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.hour).toBe(12);
     });
 
-    it('converts a Temporal.ZonedDateTime in CST (UTC-6) — preserves local time', () => {
+    test('converts a Temporal.ZonedDateTime in CST (UTC-6) — preserves local time', () => {
       const value = Temporal.ZonedDateTime.from('2024-01-15T12:00:00-06:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.hour).toBe(12);
     });
 
-    it('converts a Temporal.ZonedDateTime during DST spring-forward (just after, 03:00 CDT)', () => {
+    test('converts a Temporal.ZonedDateTime during DST spring-forward (just after, 03:00 CDT)', () => {
       const value = Temporal.ZonedDateTime.from('2024-03-10T03:00:00-05:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.hour).toBe(3);
       expect(cdt.minute).toBe(0);
     });
 
-    it('converts a Temporal.ZonedDateTime during DST fall-back (first 01:30 CDT, UTC-5)', () => {
+    test('converts a Temporal.ZonedDateTime during DST fall-back (first 01:30 CDT, UTC-5)', () => {
       const value = Temporal.ZonedDateTime.from('2024-11-03T01:30:00-05:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.day).toBe(3);
       expect(cdt.hour).toBe(1);
       expect(cdt.minute).toBe(30);
     });
 
-    it('converts a Temporal.ZonedDateTime during DST fall-back (second 01:30 CST, UTC-6)', () => {
+    test('converts a Temporal.ZonedDateTime during DST fall-back (second 01:30 CST, UTC-6)', () => {
       const value = Temporal.ZonedDateTime.from('2024-11-03T01:30:00-06:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.day).toBe(3);
       expect(cdt.hour).toBe(1);
@@ -141,10 +140,10 @@ describe('toInternationalizedCalendarDateTime', () => {
   describe('should convert Temporal.PlainDateTime to CalendarDateTime', () => {
     const action = toInternationalizedCalendarDateTime();
 
-    it('converts a Temporal.PlainDateTime preserving all components', () => {
+    test('converts a Temporal.PlainDateTime preserving all components', () => {
       const value = Temporal.PlainDateTime.from('2024-06-15T09:30:45.123');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.year).toBe(2024);
       expect(cdt.month).toBe(6);
@@ -159,10 +158,10 @@ describe('toInternationalizedCalendarDateTime', () => {
   describe('should convert @internationalized/date ZonedDateTime to CalendarDateTime', () => {
     const action = toInternationalizedCalendarDateTime();
 
-    it('converts an @internationalized ZonedDateTime in CDT', () => {
+    test('converts an @internationalized ZonedDateTime in CDT', () => {
       const value = parseZonedDateTime('2024-06-15T12:30:00-05:00[America/Chicago]');
       const result = action['~run']({ typed: true, value }, {});
-      expect(result.typed).toBe(true);
+      expect(result.typed).toBeTruthy();
       const cdt = result.value as CalendarDateTime;
       expect(cdt.year).toBe(2024);
       expect(cdt.month).toBe(6);
@@ -175,7 +174,7 @@ describe('toInternationalizedCalendarDateTime', () => {
   describe('should pass an existing CalendarDateTime through unchanged', () => {
     const action = toInternationalizedCalendarDateTime();
 
-    it('passes through a CalendarDateTime', () => {
+    test('passes through a CalendarDateTime', () => {
       const value = new CalendarDateTime('gregory', 2024, 6, 15, 9, 30, 45);
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({ typed: true, value });
     });
@@ -196,7 +195,7 @@ describe('toInternationalizedCalendarDateTime', () => {
       abortPipeEarly: undefined,
     };
 
-    it('for null', () => {
+    test('for null', () => {
       expect(action['~run']({ typed: true, value: null }, {})).toStrictEqual({
         typed: false,
         value: null,
@@ -204,8 +203,8 @@ describe('toInternationalizedCalendarDateTime', () => {
       });
     });
 
-    it('for numbers', () => {
-      const value = 1718452800000;
+    test('for numbers', () => {
+      const value = 1_718_452_800_000;
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
         value,
@@ -213,7 +212,7 @@ describe('toInternationalizedCalendarDateTime', () => {
       });
     });
 
-    it('for Temporal.Instant', () => {
+    test('for Temporal.Instant', () => {
       const value = Temporal.Instant.from('2024-06-15T12:00:00Z');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,
@@ -222,7 +221,7 @@ describe('toInternationalizedCalendarDateTime', () => {
       });
     });
 
-    it('for Temporal.PlainTime', () => {
+    test('for Temporal.PlainTime', () => {
       const value = Temporal.PlainTime.from('12:00:00');
       expect(action['~run']({ typed: true, value }, {})).toStrictEqual({
         typed: false,

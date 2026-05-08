@@ -1,11 +1,12 @@
-import { useStore } from '@tanstack/react-form';
-import { describe, expect, it } from 'vite-plus/test';
-import { userEvent } from 'vite-plus/test/browser';
 import { render } from 'vitest-browser-react';
+
+import { useStore } from '@tanstack/react-form';
+
+import { describe, expect, test } from 'vite-plus/test';
+import { userEvent } from 'vite-plus/test/browser';
 
 import { FormShell } from '#src/components/form-shell';
 import { useFormContext } from '#src/tanstack-form.config';
-
 import { FormWrapper } from '#test/render-with';
 
 function SubmissionCounter() {
@@ -14,8 +15,8 @@ function SubmissionCounter() {
   return <div data-testid="submission-count">{count}</div>;
 }
 
-describe('FormShell', () => {
-  it('renders children', async () => {
+describe('formShell', () => {
+  test('renders children', async () => {
     const screen = await render(
       <FormWrapper formOptions={{ defaultValues: {}, onSubmit: async () => {} }}>
         <FormShell aria-label="test form">
@@ -26,7 +27,7 @@ describe('FormShell', () => {
     await expect.element(screen.getByTestId('child')).toHaveTextContent('hello');
   });
 
-  it('sets autoComplete to off by default', async () => {
+  test('sets autoComplete to off by default', async () => {
     const screen = await render(
       <FormWrapper formOptions={{ defaultValues: {}, onSubmit: async () => {} }}>
         <FormShell aria-label="test form">
@@ -37,10 +38,13 @@ describe('FormShell', () => {
     await expect.element(screen.getByRole('form')).toHaveAttribute('autocomplete', 'off');
   });
 
-  it('allows overriding autoComplete', async () => {
+  test('allows overriding autoComplete', async () => {
     const screen = await render(
       <FormWrapper formOptions={{ defaultValues: {}, onSubmit: async () => {} }}>
-        <FormShell aria-label="test form" autoComplete="on">
+        <FormShell
+          aria-label="test form"
+          autoComplete="on"
+        >
           <span />
         </FormShell>
       </FormWrapper>,
@@ -48,12 +52,15 @@ describe('FormShell', () => {
     await expect.element(screen.getByRole('form')).toHaveAttribute('autocomplete', 'on');
   });
 
-  it('calls form handleSubmit when submitted via default handler', async () => {
+  test('calls form handleSubmit when submitted via default handler', async () => {
     const screen = await render(
       <FormWrapper formOptions={{ defaultValues: {}, onSubmit: async () => {} }}>
         <SubmissionCounter />
         <FormShell aria-label="test form">
-          <button type="submit" data-testid="submit-btn">
+          <button
+            type="submit"
+            data-testid="submit-btn"
+          >
             Submit
           </button>
         </FormShell>
@@ -64,7 +71,7 @@ describe('FormShell', () => {
     await expect.element(screen.getByTestId('submission-count')).toHaveTextContent('1');
   });
 
-  it('uses custom onSubmit when provided', async () => {
+  test('uses custom onSubmit when provided', async () => {
     let customSubmitCalled = false;
 
     const screen = await render(
@@ -77,22 +84,28 @@ describe('FormShell', () => {
             customSubmitCalled = true;
           }}
         >
-          <button type="submit" data-testid="submit-btn">
+          <button
+            type="submit"
+            data-testid="submit-btn"
+          >
             Submit
           </button>
         </FormShell>
       </FormWrapper>,
     );
     await userEvent.click(screen.getByTestId('submit-btn'));
-    expect(customSubmitCalled).toBe(true);
+    expect(customSubmitCalled).toBeTruthy();
     await expect.element(screen.getByTestId('submission-count')).toHaveTextContent('0');
   });
 
-  it('calls form reset when reset via default handler', async () => {
+  test('calls form reset when reset via default handler', async () => {
     const screen = await render(
       <FormWrapper formOptions={{ defaultValues: {}, onSubmit: async () => {} }}>
         <FormShell aria-label="test form">
-          <button type="reset" data-testid="reset-btn">
+          <button
+            type="reset"
+            data-testid="reset-btn"
+          >
             Reset
           </button>
         </FormShell>

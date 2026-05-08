@@ -1,6 +1,7 @@
 import vitePluginReact from '@vitejs/plugin-react';
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vite-plus';
+
 import { playwright } from 'vite-plus/test/browser-playwright';
 
 export default defineConfig({

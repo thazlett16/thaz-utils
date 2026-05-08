@@ -1,23 +1,22 @@
-import { ZonedDateTime } from '@internationalized/date';
-import * as v from 'valibot';
-import { describe, expectTypeOf, it } from 'vitest';
+import type { ZonedDateTime } from '@internationalized/date';
+import type * as v from 'valibot';
+import { describe, expectTypeOf, test } from 'vite-plus/test';
 
 import type { InternationalizedZonedDateTimeSchema } from '#src/schemas/intl-zoned-date-time';
-
 import { internationalizedZonedDateTime } from '#src/schemas/intl-zoned-date-time';
 
 describe('internationalizedZonedDateTime', () => {
   const schema = internationalizedZonedDateTime();
 
-  it('returns InternationalizedZonedDateTimeSchema<undefined> when no message', () => {
+  test('returns InternationalizedZonedDateTimeSchema<undefined> when no message', () => {
     expectTypeOf(schema).toEqualTypeOf<InternationalizedZonedDateTimeSchema<undefined>>();
   });
 
-  it('inferInput is ZonedDateTime', () => {
+  test('inferInput is ZonedDateTime', () => {
     expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<ZonedDateTime>();
   });
 
-  it('inferOutput is ZonedDateTime', () => {
+  test('inferOutput is ZonedDateTime', () => {
     expectTypeOf<v.InferOutput<typeof schema>>().toEqualTypeOf<ZonedDateTime>();
   });
 });
