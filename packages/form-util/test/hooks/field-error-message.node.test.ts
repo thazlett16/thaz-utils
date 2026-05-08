@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 
 import { FormMessageShapeError } from '#src/error';
 import { formatErrorList, isStandardSchemaMessageShape } from '#src/hooks/field-error-message';

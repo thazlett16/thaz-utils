@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import { describe, expectTypeOf, it } from 'vitest';
+import { describe, expectTypeOf, it } from 'vite-plus/test';
 
 import type { _stringNullable, _stringRequired } from '#src/schemas/string';
 

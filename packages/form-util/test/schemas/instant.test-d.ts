@@ -1,6 +1,6 @@
 import { Temporal } from '@js-temporal/polyfill';
 import * as v from 'valibot';
-import { describe, expectTypeOf, it } from 'vitest';
+import { describe, expectTypeOf, it } from 'vite-plus/test';
 
 import type { _instantNullable, _instantRequired } from '#src/schemas/instant';
 

@@ -7,5 +7,7 @@
     "@thazstack/typescript-config/react.json"
   ],
   "include": ["src", "test"],
-  "compilerOptions": {}
+  "compilerOptions": {
+    "types": ["vite-plus/client"]
+  }
 }

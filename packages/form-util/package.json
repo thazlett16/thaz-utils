@@ -51,13 +51,17 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vitest/ui": "catalog:",
     "bumpp": "catalog:",
     "react": "catalog:",
     "rollup-plugin-preserve-directives": "catalog:",
     "typescript": "catalog:",
     "valibot": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
+    "vitest-browser-react": "catalog:"
   },
   "peerDependencies": {
     "@js-temporal/polyfill": "catalog:",
