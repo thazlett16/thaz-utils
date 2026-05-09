@@ -7,18 +7,18 @@ import { describe, expect, test } from 'vite-plus/test';
 import { BaseForm } from '#src/components/tanstack-form.config';
 import { useNormalizeFieldValueString } from '#src/hooks/normalize-field-value-string';
 
-describe('useNormalizeFieldValueString', () => {
-  test('returns a string value unchanged', async () => {
+class NormalizeStringComponentUtils {
+  public createWrapperComponent(baseDefaultNameValue: unknown) {
     const { useAppForm } = BaseForm;
 
-    function WrapperComp({ children }: { children: ReactNode }) {
+    return function WrapperComponent({ children }: { children: ReactNode }) {
       interface Person {
-        name: string | null | undefined;
+        name: unknown;
       }
 
       const form = useAppForm({
         defaultValues: {
-          name: 'FirstName',
+          name: baseDefaultNameValue,
         } as Person,
       });
 
@@ -32,160 +32,63 @@ describe('useNormalizeFieldValueString', () => {
           />
         </form.AppForm>
       );
-    }
+    };
+  }
+}
 
-    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
+describe('useNormalizeFieldValueString', () => {
+  test('returns a string value unchanged', async () => {
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent('FirstName');
+
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('FirstName');
   });
 
   test('returns an empty string unchanged', async () => {
-    const { useAppForm } = BaseForm;
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
 
-    function WrapperComp({ children }: { children: ReactNode }) {
-      interface Person {
-        name: string | null | undefined;
-      }
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent('');
 
-      const form = useAppForm({
-        defaultValues: {
-          name: '',
-        } as Person,
-      });
-
-      return (
-        <form.AppForm>
-          <form.AppField
-            name="name"
-            children={() => {
-              return <>{children}</>;
-            }}
-          />
-        </form.AppForm>
-      );
-    }
-
-    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('returns empty string for null', async () => {
-    const { useAppForm } = BaseForm;
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
 
-    function WrapperComp({ children }: { children: ReactNode }) {
-      interface Person {
-        name: string | null | undefined;
-      }
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent(null);
 
-      const form = useAppForm({
-        defaultValues: {
-          name: null,
-        } as Person,
-      });
-
-      return (
-        <form.AppForm>
-          <form.AppField
-            name="name"
-            children={() => {
-              return <>{children}</>;
-            }}
-          />
-        </form.AppForm>
-      );
-    }
-
-    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('returns empty string for undefined', async () => {
-    const { useAppForm } = BaseForm;
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
 
-    function WrapperComp({ children }: { children: ReactNode }) {
-      interface Person {
-        name: string | null | undefined;
-      }
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent(undefined);
 
-      const form = useAppForm({
-        defaultValues: {
-          name: undefined,
-        } as Person,
-      });
-
-      return (
-        <form.AppForm>
-          <form.AppField
-            name="name"
-            children={() => {
-              return <>{children}</>;
-            }}
-          />
-        </form.AppForm>
-      );
-    }
-
-    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const { useAppForm } = BaseForm;
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
 
-    function WrapperComp({ children }: { children: ReactNode }) {
-      interface Person {
-        name: number;
-      }
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent(0);
 
-      const form = useAppForm({
-        defaultValues: {
-          name: 0,
-        } as Person,
-      });
-
-      return (
-        <form.AppForm>
-          <form.AppField
-            name="name"
-            children={() => {
-              return <>{children}</>;
-            }}
-          />
-        </form.AppForm>
-      );
-    }
-
-    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp })).rejects.toThrow(
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
       'useNormalizeFieldValueString',
     );
   });
 
   test('throws FormTypeError for a object field value', async () => {
-    const { useAppForm } = BaseForm;
+    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
 
-    function WrapperComp({ children }: { children: ReactNode }) {
-      interface Person {
-        name: {};
-      }
+    const wrapper = normalizeStringComponentUtils.createWrapperComponent({});
 
-      const form = useAppForm({
-        defaultValues: {
-          name: {},
-        } as Person,
-      });
-
-      return (
-        <form.AppForm>
-          <form.AppField
-            name="name"
-            children={() => {
-              return <>{children}</>;
-            }}
-          />
-        </form.AppForm>
-      );
-    }
-
-    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp })).rejects.toThrow(
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
       'useNormalizeFieldValueString',
     );
   });
