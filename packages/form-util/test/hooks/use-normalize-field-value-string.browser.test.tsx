@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import { renderHook } from 'vitest-browser-react';
+
+import type { ReactNode } from 'react';
 
 import { describe, expect, test } from 'vite-plus/test';
 
@@ -11,7 +12,7 @@ describe('useNormalizeFieldValueString', () => {
     const { useAppForm } = BaseForm;
 
     function WrapperComp({ children }: { children: ReactNode }) {
-      type Person = {
+      interface Person {
         name: string | null | undefined;
       }
 
@@ -26,18 +27,14 @@ describe('useNormalizeFieldValueString', () => {
           <form.AppField
             name="name"
             children={() => {
-              return (
-                <>{children}</>
-              )
+              return <>{children}</>;
             }}
           />
         </form.AppForm>
-      )
+      );
     }
 
-    const { result } = await renderHook(
-      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
-    );
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
     expect(result.current).toBe('FirstName');
   });
 
@@ -45,7 +42,7 @@ describe('useNormalizeFieldValueString', () => {
     const { useAppForm } = BaseForm;
 
     function WrapperComp({ children }: { children: ReactNode }) {
-      type Person = {
+      interface Person {
         name: string | null | undefined;
       }
 
@@ -60,18 +57,14 @@ describe('useNormalizeFieldValueString', () => {
           <form.AppField
             name="name"
             children={() => {
-              return (
-                <>{children}</>
-              )
+              return <>{children}</>;
             }}
           />
         </form.AppForm>
-      )
+      );
     }
 
-    const { result } = await renderHook(
-      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
-    );
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
     expect(result.current).toBe('');
   });
 
@@ -79,7 +72,7 @@ describe('useNormalizeFieldValueString', () => {
     const { useAppForm } = BaseForm;
 
     function WrapperComp({ children }: { children: ReactNode }) {
-      type Person = {
+      interface Person {
         name: string | null | undefined;
       }
 
@@ -94,18 +87,14 @@ describe('useNormalizeFieldValueString', () => {
           <form.AppField
             name="name"
             children={() => {
-              return (
-                <>{children}</>
-              )
+              return <>{children}</>;
             }}
           />
         </form.AppForm>
-      )
+      );
     }
 
-    const { result } = await renderHook(
-      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
-    );
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
     expect(result.current).toBe('');
   });
 
@@ -113,7 +102,7 @@ describe('useNormalizeFieldValueString', () => {
     const { useAppForm } = BaseForm;
 
     function WrapperComp({ children }: { children: ReactNode }) {
-      type Person = {
+      interface Person {
         name: string | null | undefined;
       }
 
@@ -128,18 +117,14 @@ describe('useNormalizeFieldValueString', () => {
           <form.AppField
             name="name"
             children={() => {
-              return (
-                <>{children}</>
-              )
+              return <>{children}</>;
             }}
           />
         </form.AppForm>
-      )
+      );
     }
 
-    const { result } = await renderHook(
-      () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
-    );
+    const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp });
     expect(result.current).toBe('');
   });
 
@@ -147,7 +132,7 @@ describe('useNormalizeFieldValueString', () => {
     const { useAppForm } = BaseForm;
 
     function WrapperComp({ children }: { children: ReactNode }) {
-      type Person = {
+      interface Person {
         name: number;
       }
 
@@ -162,30 +147,46 @@ describe('useNormalizeFieldValueString', () => {
           <form.AppField
             name="name"
             children={() => {
-              return (
-                <>{children}</>
-              )
+              return <>{children}</>;
             }}
-          />a
+          />
         </form.AppForm>
-      )
+      );
     }
 
-    expect(() => {
-      renderHook(
-        () => useNormalizeFieldValueString(), { wrapper: WrapperComp }
-      )
-    }).toThrow('useNormalizeFieldValueString');
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp })).rejects.toThrow(
+      'useNormalizeFieldValueString',
+    );
   });
 
-  // test('throws FormTypeError for an object field value', async () => {
-  //   const screen = await render(
-  //     <ErrorBoundary>
-  //       <FieldWrapper initialValue={{}}>
-  //         <StringDisplay />
-  //       </FieldWrapper>
-  //     </ErrorBoundary>,
-  //   );
-  //   await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
-  // });
+  test('throws FormTypeError for a object field value', async () => {
+    const { useAppForm } = BaseForm;
+
+    function WrapperComp({ children }: { children: ReactNode }) {
+      interface Person {
+        name: {};
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: {},
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return <>{children}</>;
+            }}
+          />
+        </form.AppForm>
+      );
+    }
+
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper: WrapperComp })).rejects.toThrow(
+      'useNormalizeFieldValueString',
+    );
+  });
 });
