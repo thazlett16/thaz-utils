@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { describe, expect, test } from 'vite-plus/test';
 
 import { BaseForm } from '#src/components/tanstack-form.config';
+import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValueString } from '#src/hooks/normalize-field-value-string';
 
 class NormalizeStringHookUtils {
@@ -78,9 +79,7 @@ describe('useNormalizeFieldValueString', () => {
 
     const wrapper = normalizeStringHookUtils.createWrapperComponent(0);
 
-    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
-      'useNormalizeFieldValueString',
-    );
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 
   test('throws FormTypeError for a object field value', async () => {
@@ -88,8 +87,6 @@ describe('useNormalizeFieldValueString', () => {
 
     const wrapper = normalizeStringHookUtils.createWrapperComponent({});
 
-    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
-      'useNormalizeFieldValueString',
-    );
+    await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 });

@@ -1,60 +1,101 @@
-import { render } from 'vitest-browser-react';
+import { renderHook } from 'vitest-browser-react';
+
+import type { ReactNode } from 'react';
 
 import { describe, expect, test } from 'vite-plus/test';
 
+import { BaseForm } from '#src/components/tanstack-form.config';
+import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValueNumber } from '#src/hooks/normalize-field-value-number';
-import { ErrorBoundary, FieldWrapper } from '#test/render-with';
 
-function NumberDisplay() {
-  const value = useNormalizeFieldValueNumber();
-  return <div data-testid="value">{value === null ? 'null' : String(value)}</div>;
+class NormalizeNumberHookUtils {
+  public createWrapperComponent(baseDefaultNameValue: unknown) {
+    const { useAppForm } = BaseForm;
+
+    return function WrapperComponent({ children }: { children: ReactNode }) {
+      interface Person {
+        name: unknown;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: baseDefaultNameValue,
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return <>{children}</>;
+            }}
+          />
+        </form.AppForm>
+      );
+    };
+  }
 }
 
 describe('useNormalizeFieldValueNumber', () => {
-  test('returns a number value unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={42}>
-        <NumberDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('42');
+  test('returns a number ( 0 ) value unchanged', async () => {
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent(0);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
+    expect(result.current).toBe(0);
   });
 
-  test('returns 0 unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={0}>
-        <NumberDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('0');
+  test('returns a number ( +1 ) value unchanged', async () => {
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent(1);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
+    expect(result.current).toBe(1);
+  });
+
+  test('returns a number ( -1 ) value unchanged', async () => {
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent(-1);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
+    expect(result.current).toBe(-1);
   });
 
   test('returns null for null', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={null}>
-        <NumberDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent(null);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
+    expect(result.current).toBeNull();
   });
 
   test('returns null for undefined', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={undefined}>
-        <NumberDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent(undefined);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
+    expect(result.current).toBeNull();
   });
 
   test('throws FormTypeError for a string field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue="42">
-          <NumberDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent('');
+
+    await expect(renderHook(() => useNormalizeFieldValueNumber(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a object field value', async () => {
+    const normalizeNumberHookUtils = new NormalizeNumberHookUtils();
+
+    const wrapper = normalizeNumberHookUtils.createWrapperComponent({});
+
+    await expect(renderHook(() => useNormalizeFieldValueNumber(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 });

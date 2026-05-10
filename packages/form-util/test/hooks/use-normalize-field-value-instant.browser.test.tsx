@@ -1,76 +1,137 @@
-import { render } from 'vitest-browser-react';
+import { renderHook } from 'vitest-browser-react';
+
+import type { ReactNode } from 'react';
 
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, test } from 'vite-plus/test';
+import { assert, describe, expect, test } from 'vite-plus/test';
 
+import { BaseForm } from '#src/components/tanstack-form.config';
+import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValueInstant } from '#src/hooks/normalize-field-value-instant';
-import { ErrorBoundary, FieldWrapper } from '#test/render-with';
 
-const anInstant = Temporal.Instant.from('2024-06-15T12:00:00Z');
-const aZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
-const aPlainDate = Temporal.PlainDate.from('2024-06-15');
+class NormalizeInstantHookUtils {
+  public createWrapperComponent(baseDefaultNameValue: unknown) {
+    const { useAppForm } = BaseForm;
 
-function InstantDisplay() {
-  const value = useNormalizeFieldValueInstant();
-  return <div data-testid="value">{value === null ? 'null' : value.toString()}</div>;
+    return function WrapperComponent({ children }: { children: ReactNode }) {
+      interface Person {
+        name: unknown;
+      }
+
+      const form = useAppForm({
+        defaultValues: {
+          name: baseDefaultNameValue,
+        } as Person,
+      });
+
+      return (
+        <form.AppForm>
+          <form.AppField
+            name="name"
+            children={() => {
+              return <>{children}</>;
+            }}
+          />
+        </form.AppForm>
+      );
+    };
+  }
+
+  get testZonedDateTime() {
+    return Temporal.ZonedDateTime.from('2024-06-15T12:00:00-04:00[America/New_York]');
+  }
+
+  get testInstant() {
+    return Temporal.Instant.from('2024-06-15T16:00:00Z');
+  }
+
+  get testPlainDateTime() {
+    return Temporal.PlainDateTime.from('2024-06-15T12:00:00');
+  }
+
+  get testPlainDate() {
+    return Temporal.PlainDate.from('2024-06-15');
+  }
 }
 
 describe('useNormalizeFieldValueInstant', () => {
-  test('passes a Temporal.Instant through unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={anInstant}>
-        <InstantDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent(anInstant.toString());
+  test('returns an instant value unchanged', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(normalizeInstantHookUtils.testInstant);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
+
+    assert(result.current !== null);
+    expect(normalizeInstantHookUtils.testInstant.equals(result.current)).toBeTruthy();
   });
 
-  test('converts a Temporal.ZonedDateTime to Temporal.Instant', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={aZonedDateTime}>
-        <InstantDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent(aZonedDateTime.toInstant().toString());
+  test('returns an instant value for ZonedDateTime', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(normalizeInstantHookUtils.testZonedDateTime);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
+
+    assert(result.current !== null);
+    expect(normalizeInstantHookUtils.testInstant.equals(result.current)).toBeTruthy();
   });
 
   test('returns null for null', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={null}>
-        <InstantDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(null);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
+    expect(result.current).toBeNull();
   });
 
   test('returns null for undefined', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={undefined}>
-        <InstantDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
-  });
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
 
-  test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue={aPlainDate}>
-          <InstantDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(undefined);
+
+    const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
+    expect(result.current).toBeNull();
   });
 
   test('throws FormTypeError for a string field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue="2024-06-15T12:00:00Z">
-          <InstantDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent('');
+
+    await expect(renderHook(() => useNormalizeFieldValueInstant(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a number field value', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(5);
+
+    await expect(renderHook(() => useNormalizeFieldValueInstant(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a PlainDateTime field value', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(normalizeInstantHookUtils.testPlainDateTime);
+
+    await expect(renderHook(() => useNormalizeFieldValueInstant(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a PlainDate field value', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent(normalizeInstantHookUtils.testPlainDate);
+
+    await expect(renderHook(() => useNormalizeFieldValueInstant(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a object field value', async () => {
+    const normalizeInstantHookUtils = new NormalizeInstantHookUtils();
+
+    const wrapper = normalizeInstantHookUtils.createWrapperComponent({});
+
+    await expect(renderHook(() => useNormalizeFieldValueInstant(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 });
