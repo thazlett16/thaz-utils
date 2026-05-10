@@ -1,65 +1,95 @@
-import { render } from 'vitest-browser-react';
+import { renderHook } from 'vitest-browser-react';
 
 import { Temporal } from '@js-temporal/polyfill';
-import { describe, expect, test } from 'vite-plus/test';
+import { assert, describe, expect, test } from 'vite-plus/test';
 
+import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValuePlainDateTime } from '#src/hooks/normalize-field-value-plain-date-time';
-import { ErrorBoundary, FieldWrapper } from '#test/render-with';
+import { NormalizeHookTestUtils } from '#test/normalize-hook-test-utils';
 
-const aPlainDateTime = Temporal.PlainDateTime.from('2024-06-15T12:00:00');
-const aZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00+00:00[UTC]');
-const aPlainDate = Temporal.PlainDate.from('2024-06-15');
-
-function PlainDateTimeDisplay() {
-  const value = useNormalizeFieldValuePlainDateTime();
-  return <div data-testid="value">{value === null ? 'null' : value.toString()}</div>;
-}
+const testZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00-04:00[America/New_York]');
+const testInstant = Temporal.Instant.from('2024-06-15T16:00:00Z');
+const testPlainDateTime = Temporal.PlainDateTime.from('2024-06-15T12:00:00');
+const testPlainDate = Temporal.PlainDate.from('2024-06-15');
 
 describe('useNormalizeFieldValuePlainDateTime', () => {
-  test('passes a Temporal.PlainDateTime through unchanged', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={aPlainDateTime}>
-        <PlainDateTimeDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent(aPlainDateTime.toString());
+  test('returns a PlainDateTime value unchanged', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(testPlainDateTime);
+
+    const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
+
+    assert(result.current !== null);
+    expect(testPlainDateTime.equals(result.current)).toBeTruthy();
   });
 
-  test('converts a Temporal.ZonedDateTime to Temporal.PlainDateTime', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={aZonedDateTime}>
-        <PlainDateTimeDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent(aZonedDateTime.toPlainDateTime().toString());
+  test('returns a PlainDateTime value for ZonedDateTime', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(testZonedDateTime);
+
+    const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
+
+    assert(result.current !== null);
+    expect(testPlainDateTime.equals(result.current)).toBeTruthy();
   });
 
   test('returns null for null', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={null}>
-        <PlainDateTimeDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(null);
+
+    const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
+    expect(result.current).toBeNull();
   });
 
   test('returns null for undefined', async () => {
-    const screen = await render(
-      <FieldWrapper initialValue={undefined}>
-        <PlainDateTimeDisplay />
-      </FieldWrapper>,
-    );
-    await expect.element(screen.getByTestId('value')).toHaveTextContent('null');
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(undefined);
+
+    const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
+    expect(result.current).toBeNull();
+  });
+
+  test('throws FormTypeError for a Temporal.Instant field value', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(testInstant);
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 
   test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
-    const screen = await render(
-      <ErrorBoundary>
-        <FieldWrapper initialValue={aPlainDate}>
-          <PlainDateTimeDisplay />
-        </FieldWrapper>
-      </ErrorBoundary>,
-    );
-    await expect.element(screen.getByTestId('error-name')).toHaveTextContent('FormTypeError');
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(testPlainDate);
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a string field value', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent('');
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a number field value', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(5);
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for an object field value', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({});
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper })).rejects.toThrow(FormTypeError);
   });
 });
