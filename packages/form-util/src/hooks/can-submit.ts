@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo } from 'react';
 
 import { useStore } from '@tanstack/react-form';
 
@@ -24,5 +24,5 @@ export function useCanSubmit(options?: Partial<Readonly<CanSubmitOptions>>) {
       return canSubmit;
     }
     return !isSubmitting;
-  }, [resolvedCanSubmitOptions.allowSubmitWhenInvalid, isSubmitting, canSubmit])
+  }, [resolvedCanSubmitOptions.allowSubmitWhenInvalid, isSubmitting, canSubmit]);
 }

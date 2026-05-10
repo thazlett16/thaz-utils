@@ -5,7 +5,7 @@ import { useStore } from '@tanstack/react-form';
 import { FormMessageShapeError } from '#src/error';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export function isStandardSchemaMessageShape(error: unknown): error is { message: string } {
+function isStandardSchemaMessageShape(error: unknown): error is { message: string } {
   return (
     error !== null &&
     error !== undefined &&
@@ -15,7 +15,7 @@ export function isStandardSchemaMessageShape(error: unknown): error is { message
   );
 }
 
-export function formatErrorList(errors: unknown[]) {
+function formatErrorList(errors: unknown[]) {
   if (errors.length === 0) {
     return null;
   }

@@ -13,7 +13,7 @@ export default defineConfig({
       },
       test: {
         command: 'vp test',
-        dependsOn: ['@thazstack/form-util#build'],
+        // dependsOn: ['@thazstack/form-util#build'],
       },
       check: {
         command: 'vp check',
