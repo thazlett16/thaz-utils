@@ -39,7 +39,7 @@ export class FieldErrorMessageUtils {
         } as TestValue,
         validators: {
           onChange: ({ value }) => {
-            if (value.testValue.length >= 3) {
+            if (value.testValue.length < 3) {
               return {
                 fields: {
                   testValue: 'Error Message Min Length 3',
@@ -61,7 +61,12 @@ export class FieldErrorMessageUtils {
       });
 
       return (
-        <form>
+        <form onSubmit={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          form.handleSubmit();
+        }}>
           <form.AppField
             name="testValue"
             children={(field) => (
@@ -84,7 +89,7 @@ export class FieldErrorMessageUtils {
   }
 
   get textInput() {
-    return page.getByRole('input');
+    return page.getByRole('textbox');
   }
 
   async blurInput() {

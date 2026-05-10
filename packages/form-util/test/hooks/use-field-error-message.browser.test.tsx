@@ -25,12 +25,12 @@ describe('useFieldErrorMessageList', () => {
 
     expect(result.current).toBeNull();
 
-    await act(() => {
-      fieldErrorMessageUtils.setInputValue('valid');
+    await act(async () => {
+      await fieldErrorMessageUtils.setInputValue('valid');
     });
 
-    await act(() => {
-      fieldErrorMessageUtils.blurInput();
+    await act(async () => {
+      await fieldErrorMessageUtils.blurInput();
     });
 
     expect(result.current).toBeNull();
@@ -56,17 +56,49 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBe('Error Message Min Length 3');
   });
 
-  // test('returns error message after blur when field is invalid', async () => {
-  //   const screen = await render(createElement(FieldErrorMessageTestComponent));
-  //   await userEvent.type(screen.getByTestId('name-input'), 'ab');
-  //   await userEvent.tab();
-  //   await expect.element(screen.getByTestId('error')).toHaveTextContent('too short');
-  // });
+  test('returns error message after blur when field is invalid and then return null after field is valid', async () => {
+    const fieldErrorMessageUtils = new FieldErrorMessageUtils();
 
-  // test('returns error message after a submission attempt', async () => {
-  //   const screen = await render(createElement(FieldErrorMessageTestComponent));
-  //   await userEvent.type(screen.getByTestId('name-input'), 'ab');
-  //   await userEvent.click(screen.getByTestId('submit-btn'));
-  //   await expect.element(screen.getByTestId('error')).toHaveTextContent('too short');
-  // });
+    const wrapper = fieldErrorMessageUtils.createWrapperComponent('');
+
+    const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
+
+    expect(result.current).toBeNull();
+
+    await act(async () => {
+      await fieldErrorMessageUtils.setInputValue('ab');
+    });
+
+    await act(async () => {
+      await fieldErrorMessageUtils.blurInput();
+    });
+
+    expect(result.current).toBe('Error Message Min Length 3');
+
+    await act(async () => {
+      await fieldErrorMessageUtils.setInputValue('abcde');
+    });
+
+    await act(async () => {
+      await fieldErrorMessageUtils.blurInput();
+    });
+
+    expect(result.current).toBeNull();
+  });
+
+  test('returns error message after a submission attempt', async () => {
+    const fieldErrorMessageUtils = new FieldErrorMessageUtils();
+
+    const wrapper = fieldErrorMessageUtils.createWrapperComponent('ab');
+
+    const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
+
+    expect(result.current).toBeNull();
+
+    await act(async () => {
+      await fieldErrorMessageUtils.submitForm();
+    });
+
+    expect(result.current).toBe('Error Message Min Length 3');
+  });
 });
