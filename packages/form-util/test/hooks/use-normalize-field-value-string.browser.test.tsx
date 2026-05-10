@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vite-plus/test';
 import { BaseForm } from '#src/components/tanstack-form.config';
 import { useNormalizeFieldValueString } from '#src/hooks/normalize-field-value-string';
 
-class NormalizeStringComponentUtils {
+class NormalizeStringHookUtils {
   public createWrapperComponent(baseDefaultNameValue: unknown) {
     const { useAppForm } = BaseForm;
 
@@ -38,45 +38,45 @@ class NormalizeStringComponentUtils {
 
 describe('useNormalizeFieldValueString', () => {
   test('returns a string value unchanged', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent('FirstName');
+    const wrapper = normalizeStringHookUtils.createWrapperComponent('FirstName');
 
     const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('FirstName');
   });
 
   test('returns an empty string unchanged', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent('');
+    const wrapper = normalizeStringHookUtils.createWrapperComponent('');
 
     const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('returns empty string for null', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent(null);
+    const wrapper = normalizeStringHookUtils.createWrapperComponent(null);
 
     const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('returns empty string for undefined', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent(undefined);
+    const wrapper = normalizeStringHookUtils.createWrapperComponent(undefined);
 
     const { result } = await renderHook(() => useNormalizeFieldValueString(), { wrapper });
     expect(result.current).toBe('');
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent(0);
+    const wrapper = normalizeStringHookUtils.createWrapperComponent(0);
 
     await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
       'useNormalizeFieldValueString',
@@ -84,9 +84,9 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('throws FormTypeError for a object field value', async () => {
-    const normalizeStringComponentUtils = new NormalizeStringComponentUtils();
+    const normalizeStringHookUtils = new NormalizeStringHookUtils();
 
-    const wrapper = normalizeStringComponentUtils.createWrapperComponent({});
+    const wrapper = normalizeStringHookUtils.createWrapperComponent({});
 
     await expect(renderHook(() => useNormalizeFieldValueString(), { wrapper })).rejects.toThrow(
       'useNormalizeFieldValueString',
