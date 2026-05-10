@@ -4,7 +4,8 @@ import { describe, expect, test } from 'vite-plus/test';
 
 import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValueNumber } from '#src/hooks/normalize-field-value-number';
-import { NormalizeHookTestUtils } from '#test/normalize-hook-test-utils';
+
+import { NormalizeHookTestUtils } from './normalize-hook-test-utils';
 
 describe('useNormalizeFieldValueNumber', () => {
   test('returns a number ( 0 ) value unchanged', async () => {

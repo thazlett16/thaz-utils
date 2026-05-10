@@ -5,7 +5,8 @@ import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { FormTypeError } from '#src/error';
 import { useNormalizeFieldValuePlainDate } from '#src/hooks/normalize-field-value-plain-date';
-import { NormalizeHookTestUtils } from '#test/normalize-hook-test-utils';
+
+import { NormalizeHookTestUtils } from './normalize-hook-test-utils';
 
 const testZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00-04:00[America/New_York]');
 const testInstant = Temporal.Instant.from('2024-06-15T16:00:00Z');
