@@ -11,6 +11,7 @@ const testZonedDateTime = Temporal.ZonedDateTime.from('2024-06-15T12:00:00-04:00
 const testInstant = Temporal.Instant.from('2024-06-15T16:00:00Z');
 const testPlainDateTime = Temporal.PlainDateTime.from('2024-06-15T12:00:00');
 const testPlainDate = Temporal.PlainDate.from('2024-06-15');
+const testPlainTime = Temporal.PlainTime.from('12:00:00');
 
 describe('useNormalizeFieldValuePlainDate', () => {
   test('returns a PlainDate value unchanged', async () => {
@@ -84,6 +85,14 @@ describe('useNormalizeFieldValuePlainDate', () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
     const wrapper = normalizeHookTestUtils.createWrapperComponent(5);
+
+    await expect(renderHook(() => useNormalizeFieldValuePlainDate(), { wrapper })).rejects.toThrow(FormTypeError);
+  });
+
+  test('throws FormTypeError for a Temporal.PlainTime field value', async () => {
+    const normalizeHookTestUtils = new NormalizeHookTestUtils();
+
+    const wrapper = normalizeHookTestUtils.createWrapperComponent(testPlainTime);
 
     await expect(renderHook(() => useNormalizeFieldValuePlainDate(), { wrapper })).rejects.toThrow(FormTypeError);
   });
