@@ -73,27 +73,22 @@ export class FieldErrorMessageTestUtils {
       });
 
       return (
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+        <form.AppForm>
+          <form.FormShell>
+            <form.AppField
+              name="testValue"
+              children={(field) => (
+                <div>
+                  <field.TestInput />
 
-            void form.handleSubmit();
-          }}
-        >
-          <form.AppField
-            name="testValue"
-            children={(field) => (
-              <div>
-                <field.TestInput />
+                  {children}
+                </div>
+              )}
+            />
 
-                {children}
-              </div>
-            )}
-          />
-
-          <button type="submit">Submit</button>
-        </form>
+            <button type="submit">Submit</button>
+          </form.FormShell>
+        </form.AppForm>
       );
     };
   }

@@ -80,31 +80,23 @@ describe('useCanSubmit', () => {
 
     const wrapper = canSubmitUtils.createWrapperComponent({
       defaultTestValue: 'valid',
-      onSubmitAsync: () => new Promise<void>((resolve) => setTimeout(resolve, 1000)),
+      onSubmitAsync: async () =>{  await new Promise<void>((resolve) => setTimeout(resolve, 1000)); },
     });
 
-    const { result, act } = await renderHook(
-      () => useCanSubmit({ allowSubmitWhenInvalid: true }),
-      { wrapper },
-    );
+    const { result, act } = await renderHook(() => useCanSubmit({ allowSubmitWhenInvalid: true }), { wrapper });
 
     expect(result.current).toBeTruthy();
 
-    // Submit outside act — wrapping submitForm in act causes act to drain all fake timers,
-    // which resolves onSubmitAsync immediately before we can observe isSubmitting=true.
-    await canSubmitUtils.submitForm();
+    await act(async () => {
+      await canSubmitUtils.submitForm();
+    });
 
-    // Flush the isSubmitting=true React state update without advancing any fake timers.
-    await act(async () => {});
-
-    // onSubmitAsync is still pending (fake setTimeout hasn't fired), so isSubmitting=true
     expect(result.current).toBeFalsy();
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1000);
     });
 
-    // onSubmitAsync resolved, isSubmitting=false
     expect(result.current).toBeTruthy();
 
     vi.useRealTimers();

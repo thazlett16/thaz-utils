@@ -11,7 +11,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('returns a number ( 0 ) value unchanged', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent(0);
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: 0,
+    });
 
     const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
     expect(result.current).toBe(0);
@@ -20,7 +22,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('returns a number ( +1 ) value unchanged', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent(1);
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: 1,
+    });
 
     const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
     expect(result.current).toBe(1);
@@ -29,7 +33,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('returns a number ( -1 ) value unchanged', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent(-1);
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: -1,
+    });
 
     const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
     expect(result.current).toBe(-1);
@@ -38,7 +44,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('returns null for null', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent(null);
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: null,
+    });
 
     const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
     expect(result.current).toBeNull();
@@ -47,7 +55,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('returns null for undefined', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent(undefined);
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: undefined,
+    });
 
     const { result } = await renderHook(() => useNormalizeFieldValueNumber(), { wrapper });
     expect(result.current).toBeNull();
@@ -56,7 +66,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('throws FormTypeError for a string field value', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent('');
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+    });
 
     await expect(renderHook(() => useNormalizeFieldValueNumber(), { wrapper })).rejects.toThrow(FormTypeError);
   });
@@ -64,7 +76,9 @@ describe('useNormalizeFieldValueNumber', () => {
   test('throws FormTypeError for a object field value', async () => {
     const normalizeHookTestUtils = new NormalizeHookTestUtils();
 
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({});
+    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+      defaultTestValue: {},
+    });
 
     await expect(renderHook(() => useNormalizeFieldValueNumber(), { wrapper })).rejects.toThrow(FormTypeError);
   });

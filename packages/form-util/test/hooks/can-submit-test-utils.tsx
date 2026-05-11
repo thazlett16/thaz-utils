@@ -61,18 +61,20 @@ export class CanSubmitTestUtils {
 
       return (
         <form.AppForm>
-          <form.AppField
-            name="testValue"
-            children={(field) => (
-              <div>
-                <field.TestInput />
+          <form.FormShell>
+            <form.AppField
+              name="testValue"
+              children={(field) => (
+                <div>
+                  <field.TestInput />
 
-                {children}
-              </div>
-            )}
-          />
+                  {children}
+                </div>
+              )}
+            />
 
-          <button type="submit">Submit</button>
+            <button type="submit">Submit</button>
+          </form.FormShell>
         </form.AppForm>
       );
     };
