@@ -6,7 +6,7 @@ import { BaseForm } from '#src/components/tanstack-form.config';
 import { useFieldContext } from '#src/tanstack-form.config';
 
 export class FieldErrorMessageTestUtils {
-  createWrapperComponent(defaultTestValue: string, messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE') {
+  createWrapperComponent(options: { defaultTestValue: string; messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE' }) {
     function TestInput() {
       const field = useFieldContext<string>();
 
@@ -37,11 +37,11 @@ export class FieldErrorMessageTestUtils {
 
       const form = useAppForm({
         defaultValues: {
-          testValue: defaultTestValue,
+          testValue: options.defaultTestValue,
         } as TestValue,
         validators: {
           onChange: ({ value }) => {
-            if (messageShape === 'STANDARD_SCHEMA') {
+            if (options.messageShape === 'STANDARD_SCHEMA') {
               if (value.testValue.length < 3) {
                 return {
                   fields: {
@@ -49,7 +49,7 @@ export class FieldErrorMessageTestUtils {
                   },
                 };
               }
-            } else if (messageShape === 'INVALID_SHAPE') {
+            } else if (options.messageShape === 'INVALID_SHAPE') {
               if (value.testValue.length < 3) {
                 return {
                   fields: {
@@ -78,7 +78,7 @@ export class FieldErrorMessageTestUtils {
             event.preventDefault();
             event.stopPropagation();
 
-            form.handleSubmit();
+            void form.handleSubmit();
           }}
         >
           <form.AppField

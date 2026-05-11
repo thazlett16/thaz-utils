@@ -11,7 +11,9 @@ describe('useFieldErrorMessageList', () => {
   test('returns null before blur or submission', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+    });
 
     const { result } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
     expect(result.current).toBeNull();
@@ -20,7 +22,9 @@ describe('useFieldErrorMessageList', () => {
   test('returns null after blur when field is valid', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 
@@ -40,7 +44,9 @@ describe('useFieldErrorMessageList', () => {
   test('returns error message after blur when field is invalid', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 
@@ -60,7 +66,9 @@ describe('useFieldErrorMessageList', () => {
   test('returns error message after blur when field is invalid and then return null after field is valid', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 
@@ -90,7 +98,9 @@ describe('useFieldErrorMessageList', () => {
   test('returns error message after a submission attempt', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('ab');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: 'ab',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 
@@ -106,7 +116,10 @@ describe('useFieldErrorMessageList', () => {
   test('returns error message when error is in StandardSchema format', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('', 'STANDARD_SCHEMA');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+      messageShape: 'STANDARD_SCHEMA',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 
@@ -126,7 +139,10 @@ describe('useFieldErrorMessageList', () => {
   test('throws FormMessageShapeError when error message has unknown shape', async () => {
     const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
 
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent('', 'INVALID_SHAPE');
+    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+      defaultTestValue: '',
+      messageShape: 'INVALID_SHAPE',
+    });
 
     const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
 

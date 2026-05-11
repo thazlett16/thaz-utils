@@ -23,6 +23,7 @@ export function useCanSubmit(options?: Partial<Readonly<CanSubmitOptions>>) {
       }
       return canSubmit;
     }
+
     return !isSubmitting;
   }, [resolvedCanSubmitOptions.allowSubmitWhenInvalid, isSubmitting, canSubmit]);
 }
