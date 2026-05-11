@@ -1,10 +1,11 @@
 import { renderHook } from 'vitest-browser-react';
 
 import { describe, expect, test } from 'vite-plus/test';
-// import { userEvent } from 'vite-plus/test/browser';
+
+import { FormMessageShapeError } from '#src/error';
+import { useFieldErrorMessageList } from '#src/hooks/field-error-message';
 
 import { FieldErrorMessageUtils } from './field-error-message-utils';
-import { useFieldErrorMessageList } from '#src/hooks/field-error-message';
 
 describe('useFieldErrorMessageList', () => {
   test('returns null before blur or submission', async () => {
@@ -100,5 +101,41 @@ describe('useFieldErrorMessageList', () => {
     });
 
     expect(result.current).toBe('Error Message Min Length 3');
+  });
+
+  test('returns error message when error is in StandardSchema format', async () => {
+    const fieldErrorMessageUtils = new FieldErrorMessageUtils();
+
+    const wrapper = fieldErrorMessageUtils.createWrapperComponent('', 'STANDARD_SCHEMA');
+
+    const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
+
+    expect(result.current).toBeNull();
+
+    await act(async () => {
+      await fieldErrorMessageUtils.setInputValue('ab');
+    });
+
+    await act(async () => {
+      await fieldErrorMessageUtils.blurInput();
+    });
+
+    expect(result.current).toBe('STANDARD_SCHEMA - Error Message Min Length 3');
+  });
+
+  test('throws FormMessageShapeError when error message has unknown shape', async () => {
+    const fieldErrorMessageUtils = new FieldErrorMessageUtils();
+
+    const wrapper = fieldErrorMessageUtils.createWrapperComponent('', 'INVALID_SHAPE');
+
+    const { result, act } = await renderHook(() => useFieldErrorMessageList(), { wrapper });
+
+    expect(result.current).toBeNull();
+
+    await expect(
+      act(async () => {
+        await fieldErrorMessageUtils.setInputValue('ab');
+      }),
+    ).rejects.toThrow(FormMessageShapeError);
   });
 });

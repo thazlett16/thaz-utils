@@ -6,7 +6,7 @@ import { BaseForm } from '#src/components/tanstack-form.config';
 import { useFieldContext } from '#src/tanstack-form.config';
 
 export class FieldErrorMessageUtils {
-  createWrapperComponent(defaultTestValue: string) {
+  createWrapperComponent(defaultTestValue: string, messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE') {
     function TestInput() {
       const field = useFieldContext<string>();
 
@@ -16,7 +16,9 @@ export class FieldErrorMessageUtils {
             name={field.name}
             value={field.state.value}
             onBlur={field.handleBlur}
-            onChange={(e) =>{  field.handleChange(e.target.value); }}
+            onChange={(e) => {
+              field.handleChange(e.target.value);
+            }}
           />
         </>
       );
@@ -39,20 +41,30 @@ export class FieldErrorMessageUtils {
         } as TestValue,
         validators: {
           onChange: ({ value }) => {
-            if (value.testValue.length < 3) {
-              return {
-                fields: {
-                  testValue: 'Error Message Min Length 3',
-                },
-              };
-            }
-
-            if (value.testValue === 'other') {
-              return {
-                fields: {
-                  testValue: 'Error Message Invalid Value',
-                },
-              };
+            if (messageShape === 'STANDARD_SCHEMA') {
+              if (value.testValue.length < 3) {
+                return {
+                  fields: {
+                    testValue: { message: 'STANDARD_SCHEMA - Error Message Min Length 3' },
+                  },
+                };
+              }
+            } else if (messageShape === 'INVALID_SHAPE') {
+              if (value.testValue.length < 3) {
+                return {
+                  fields: {
+                    testValue: { code: 'INVALID - Error Message Min Length 3' },
+                  },
+                };
+              }
+            } else {
+              if (value.testValue.length < 3) {
+                return {
+                  fields: {
+                    testValue: 'Error Message Min Length 3',
+                  },
+                };
+              }
             }
 
             return null;
@@ -61,12 +73,14 @@ export class FieldErrorMessageUtils {
       });
 
       return (
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
 
-          form.handleSubmit();
-        }}>
+            form.handleSubmit();
+          }}
+        >
           <form.AppField
             name="testValue"
             children={(field) => (
