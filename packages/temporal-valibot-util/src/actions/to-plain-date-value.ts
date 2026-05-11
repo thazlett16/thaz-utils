@@ -26,7 +26,7 @@ export interface ToPlainDateAction<
  * Creates a transformation action that converts a value to a `Temporal.PlainDate`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainDate` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `PlainDateTime` or `PlainDate` ISO string.
  * - `Temporal.ZonedDateTime` — `.toPlainDate()` is called.
  * - `Temporal.PlainDateTime` — `.toPlainDate()` is called.
  * - `Temporal.PlainDate` — passed through unchanged.
@@ -41,7 +41,7 @@ export function toPlainDate<TInput>(): ToPlainDateAction<TInput, undefined>;
  * Creates a transformation action that converts a value to a `Temporal.PlainDate`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainDate` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `PlainDateTime` or `PlainDate` ISO string.
  * - `Temporal.ZonedDateTime` — `.toPlainDate()` is called.
  * - `Temporal.PlainDateTime` — `.toPlainDate()` is called.
  * - `Temporal.PlainDate` — passed through unchanged.

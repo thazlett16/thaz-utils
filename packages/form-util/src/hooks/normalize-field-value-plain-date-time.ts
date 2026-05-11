@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-form';
 import { Temporal } from '@js-temporal/polyfill';
 import type * as v from 'valibot';
 
-import { FormConversionError, FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/error';
 import type { _plainDateTimeNullable } from '#src/schemas/plain-date-time';
 import { useFieldContext } from '#src/tanstack-form.config';
 
@@ -14,19 +14,10 @@ export function useNormalizeFieldValuePlainDateTime() {
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  try {
-    if (baseFieldValue instanceof Temporal.ZonedDateTime) {
-      return baseFieldValue.toPlainDateTime();
-    } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
-      return baseFieldValue;
-    }
-  } catch (error: unknown) {
-    throw new FormConversionError(
-      {
-        message: 'useNormalizeFieldValuePlainDateTime - Failed to normalize baseFieldValue',
-      },
-      { cause: error },
-    );
+  if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+    return baseFieldValue.toPlainDateTime();
+  } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
+    return baseFieldValue;
   }
 
   if (!(baseFieldValue === null || baseFieldValue === undefined)) {

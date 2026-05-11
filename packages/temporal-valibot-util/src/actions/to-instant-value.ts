@@ -26,7 +26,7 @@ export interface ToInstantAction<
  * Creates a transformation action that converts a value to a `Temporal.Instant`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed first as a `ZonedDateTime` then as an `Instant` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `Instant` ISO string.
  * - `number` — interpreted as epoch milliseconds.
  * - `bigint` — interpreted as epoch nanoseconds.
  * - `Date` — converted via `Date.getTime()` (epoch milliseconds).
@@ -43,7 +43,7 @@ export function toInstant<TInput>(): ToInstantAction<TInput, undefined>;
  * Creates a transformation action that converts a value to a `Temporal.Instant`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed first as a `ZonedDateTime` then as an `Instant` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `Instant` ISO string.
  * - `number` — interpreted as epoch milliseconds.
  * - `bigint` — interpreted as epoch nanoseconds.
  * - `Date` — converted via `Date.getTime()` (epoch milliseconds).
