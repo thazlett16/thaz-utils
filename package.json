@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "vp run -r --no-cache build",
-    "prepare": "vpx playwright install chromium chromium-headless-shell firefox && vp run build",
+    "playwright:setup": "vpx playwright install chromium chromium-headless-shell firefox",
+    "setup": "vp run -r --no-cache playwright:setup && vp run -r --no-cache msw:setup && vp run build",
     "taze": "vpx taze@latest -Ilwr",
-    "taze:major": "vpx taze@latest major -Ilwr",
-    "ready": "vp fmt && vp lint && vp run build -r"
+    "taze:major": "vpx taze@latest major -Ilwr"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",
@@ -23,5 +23,5 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.33.4"
+  "packageManager": "pnpm@11.0.3"
 }
