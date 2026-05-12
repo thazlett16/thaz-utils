@@ -7,6 +7,10 @@ export default defineConfig({
       build: {
         command: 'vp pack',
       },
+      typecheck: {
+        command: 'vp lint',
+        dependsOn: ['@thazstack/oxfmt-config#build'],
+      },
     },
   },
   resolve: {

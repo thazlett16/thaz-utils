@@ -12,6 +12,14 @@ export default defineConfig({
     tasks: {
       dev: {
         command: 'vp dev',
+        dependsOn: [
+          '@thazstack/temporal-util#build',
+          '@thazstack/temporal-valibot-util#build',
+          '@thazstack/network-util#build',
+          '@thazstack/form-util#build',
+          '@thazstack/form-dayjs-util#build',
+          '@thazstack/form-internationalized-date-util#build',
+        ],
       },
       build: {
         command: 'vp build',
@@ -26,13 +34,15 @@ export default defineConfig({
       },
       preview: {
         command: 'vp preview',
+        dependsOn: ['playground-ui#build'],
       },
       test: {
         command: 'vp test',
         // dependsOn: ['playground-ui#build'],
       },
-      check: {
-        command: 'vp check',
+      typecheck: {
+        command: 'vp lint',
+        dependsOn: ['playground-ui#build'],
       },
     },
   },
