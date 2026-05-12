@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vpx msw init ./public --save"
+    "msw:setup": "vpx msw init ./public --save"
   },
   "dependencies": {
     "@internationalized/date": "catalog:",
