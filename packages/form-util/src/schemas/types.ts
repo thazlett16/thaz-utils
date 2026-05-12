@@ -1,15 +1,17 @@
-/** Messages used when a form field value has an unrecognised type. */
 export interface FormWrongTypeMessage {
-  /** Error message shown when the input does not match any accepted type. */
   wrongTypeMessage: string;
 }
 
-/** Messages used when a form field is required but empty or absent. */
 export interface FormRequiredMessage extends FormWrongTypeMessage {
-  /** Error message shown when the field is required but the value is empty or resolves to `null`. */
   requiredMessage: string;
 }
 
+/**
+ * Type guard that narrows `messages` to {@link FormRequiredMessage} when `requiredMessage` is present.
+ *
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} to check.
+ * @returns `true` if `messages` includes `requiredMessage`.
+ */
 export function isFormRequiredMessage(
   messages: FormWrongTypeMessage | FormRequiredMessage,
 ): messages is FormRequiredMessage {
