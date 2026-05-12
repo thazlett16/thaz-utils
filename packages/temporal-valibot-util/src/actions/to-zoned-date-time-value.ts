@@ -26,8 +26,7 @@ export interface ToZonedDateTimeAction<
  * Creates a transformation action that converts a value to a `Temporal.ZonedDateTime`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed as a `ZonedDateTime` ISO 8601 string (must include timezone annotation,
- *   e.g. `'2024-01-01T00:00:00+00:00[UTC]'`).
+ * - `string` — parsed as a `ZonedDateTime` ISO string.
  * - `Temporal.ZonedDateTime` — passed through unchanged.
  *
  * All other input types produce a validation issue.
@@ -40,8 +39,7 @@ export function toZonedDateTime<TInput>(): ToZonedDateTimeAction<TInput, undefin
  * Creates a transformation action that converts a value to a `Temporal.ZonedDateTime`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed as a `ZonedDateTime` ISO 8601 string (must include timezone annotation,
- *   e.g. `'2024-01-01T00:00:00+00:00[UTC]'`).
+ * - `string` — parsed as a `ZonedDateTime` ISO string.
  * - `Temporal.ZonedDateTime` — passed through unchanged.
  *
  * All other input types produce a validation issue.
@@ -67,24 +65,18 @@ export function toZonedDateTime(
     '~run'(dataset, config) {
       const { value } = dataset;
 
-      try {
-        if (typeof value === 'string') {
-          try {
-            dataset.value = Temporal.ZonedDateTime.from(value);
-          } catch {
-            v._addIssue(this, 'zonedDateTime', dataset, config);
-            // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-            dataset.typed = false;
-          }
-        } else if (!(value instanceof Temporal.ZonedDateTime)) {
-          v._addIssue(this, 'zonedDateTime', dataset, config, {
-            received: '"Invalid conversion option"',
-          });
+      if (typeof value === 'string') {
+        try {
+          dataset.value = Temporal.ZonedDateTime.from(value);
+        } catch {
+          v._addIssue(this, 'zonedDateTime', dataset, config);
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
         }
-      } catch {
-        v._addIssue(this, 'zonedDateTime', dataset, config);
+      } else if (!(value instanceof Temporal.ZonedDateTime)) {
+        v._addIssue(this, 'zonedDateTime', dataset, config, {
+          received: '"Invalid conversion option"',
+        });
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }
