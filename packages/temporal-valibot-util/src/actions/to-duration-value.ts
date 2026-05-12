@@ -87,20 +87,20 @@ export function toDuration(
     '~run'(dataset, config) {
       const { value } = dataset;
 
-      try {
-        if (typeof value === 'number') {
+      if (typeof value === 'number') {
+        try {
           dataset.value = Temporal.Duration.from({
             [durationType]: value,
           });
-        } else if (!(value instanceof Temporal.Duration)) {
-          v._addIssue(this, 'duration', dataset, config, {
-            received: '"Invalid conversion option"',
-          });
+        } catch {
+          v._addIssue(this, 'duration', dataset, config);
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
         }
-      } catch {
-        v._addIssue(this, 'duration', dataset, config);
+      } else if (!(value instanceof Temporal.Duration)) {
+        v._addIssue(this, 'duration', dataset, config, {
+          received: '"Invalid conversion option"',
+        });
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }

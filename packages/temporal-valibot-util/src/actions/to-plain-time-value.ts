@@ -26,7 +26,7 @@ export interface ToPlainTimeAction<
  * Creates a transformation action that converts a value to a `Temporal.PlainTime`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainTime` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `PlainDateTime` or `PlainTime` ISO string.
  * - `Temporal.ZonedDateTime` — `.toPlainTime()` is called.
  * - `Temporal.PlainDateTime` — `.toPlainTime()` is called.
  * - `Temporal.PlainTime` — passed through unchanged.
@@ -41,7 +41,7 @@ export function toPlainTime<TInput>(): ToPlainTimeAction<TInput, undefined>;
  * Creates a transformation action that converts a value to a `Temporal.PlainTime`.
  *
  * Accepted input types and their conversions:
- * - `string` — parsed in order: `ZonedDateTime` → `PlainDateTime` → `PlainTime` ISO string.
+ * - `string` — parsed as a `ZonedDateTime` or `PlainDateTime` or `PlainTime` ISO string.
  * - `Temporal.ZonedDateTime` — `.toPlainTime()` is called.
  * - `Temporal.PlainDateTime` — `.toPlainTime()` is called.
  * - `Temporal.PlainTime` — passed through unchanged.
@@ -68,36 +68,30 @@ export function toPlainTime(
     '~run'(dataset, config) {
       const { value } = dataset;
 
-      try {
-        if (typeof value === 'string') {
+      if (typeof value === 'string') {
+        try {
+          dataset.value = Temporal.ZonedDateTime.from(value).toPlainTime();
+        } catch {
           try {
-            dataset.value = Temporal.ZonedDateTime.from(value).toPlainTime();
+            dataset.value = Temporal.PlainDateTime.from(value).toPlainTime();
           } catch {
             try {
-              dataset.value = Temporal.PlainDateTime.from(value).toPlainTime();
+              dataset.value = Temporal.PlainTime.from(value);
             } catch {
-              try {
-                dataset.value = Temporal.PlainTime.from(value);
-              } catch {
-                v._addIssue(this, 'plainTime', dataset, config);
-                // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-                dataset.typed = false;
-              }
+              v._addIssue(this, 'plainTime', dataset, config);
+              // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
+              dataset.typed = false;
             }
           }
-        } else if (value instanceof Temporal.ZonedDateTime) {
-          dataset.value = value.toPlainTime();
-        } else if (value instanceof Temporal.PlainDateTime) {
-          dataset.value = value.toPlainTime();
-        } else if (!(value instanceof Temporal.PlainTime)) {
-          v._addIssue(this, 'plainTime', dataset, config, {
-            received: '"Invalid conversion option"',
-          });
-          // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-          dataset.typed = false;
         }
-      } catch {
-        v._addIssue(this, 'plainTime', dataset, config);
+      } else if (value instanceof Temporal.ZonedDateTime) {
+        dataset.value = value.toPlainTime();
+      } else if (value instanceof Temporal.PlainDateTime) {
+        dataset.value = value.toPlainTime();
+      } else if (!(value instanceof Temporal.PlainTime)) {
+        v._addIssue(this, 'plainTime', dataset, config, {
+          received: '"Invalid conversion option"',
+        });
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }
