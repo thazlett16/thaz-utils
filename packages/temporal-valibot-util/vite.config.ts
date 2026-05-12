@@ -8,6 +8,10 @@ export default defineConfig({
         command: 'vp pack',
         dependsOn: ['@thazstack/temporal-util#build'],
       },
+      typecheck: {
+        command: 'vp lint',
+        dependsOn: ['@thazstack/temporal-valibot-util#build'],
+      },
     },
   },
   resolve: {

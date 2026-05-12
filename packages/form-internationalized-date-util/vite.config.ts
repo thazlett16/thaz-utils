@@ -13,6 +13,10 @@ export default defineConfig({
           '@thazstack/form-util#build',
         ],
       },
+      typecheck: {
+        command: 'vp lint',
+        dependsOn: ['@thazstack/form-internationalized-date-util#build'],
+      },
     },
   },
   resolve: {

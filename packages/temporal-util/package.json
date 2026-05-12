@@ -34,10 +34,7 @@
     },
     "./package.json": "./package.json"
   },
-  "scripts": {
-    "check": "vp check",
-    "prepack": "vp pack"
-  },
+  "scripts": {},
   "devDependencies": {
     "@js-temporal/polyfill": "catalog:",
     "@thazstack/typescript-config": "workspace:",
