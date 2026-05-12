@@ -13,13 +13,9 @@ export default defineConfig({
           '@thazstack/form-util#build',
         ],
       },
-      test: {
-        command: 'vp test',
-        dependsOn: [
-          '@thazstack/temporal-util#build',
-          '@thazstack/temporal-valibot-util#build',
-          '@thazstack/form-util#build',
-        ],
+      typecheck: {
+        command: 'vp lint',
+        dependsOn: ['@thazstack/form-dayjs-util#build'],
       },
     },
   },
