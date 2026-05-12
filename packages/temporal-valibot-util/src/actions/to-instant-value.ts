@@ -72,36 +72,36 @@ export function toInstant(
     '~run'(dataset, config) {
       const { value } = dataset;
 
-      try {
-        if (typeof value === 'string') {
+      if (typeof value === 'string') {
+        try {
+          dataset.value = Temporal.ZonedDateTime.from(value).toInstant();
+        } catch {
           try {
-            dataset.value = Temporal.ZonedDateTime.from(value).toInstant();
+            dataset.value = Temporal.Instant.from(value);
           } catch {
-            try {
-              dataset.value = Temporal.Instant.from(value);
-            } catch {
-              v._addIssue(this, 'instant', dataset, config);
-              // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
-              dataset.typed = false;
-            }
+            v._addIssue(this, 'instant', dataset, config);
+            // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
+            dataset.typed = false;
           }
-        } else if (typeof value === 'number') {
+        }
+      } else if (typeof value === 'number') {
+        try {
           dataset.value = Temporal.Instant.fromEpochMilliseconds(value);
-        } else if (typeof value === 'bigint') {
-          dataset.value = Temporal.Instant.fromEpochNanoseconds(value);
-        } else if (value instanceof Date) {
-          dataset.value = Temporal.Instant.fromEpochMilliseconds(value.getTime());
-        } else if (value instanceof Temporal.ZonedDateTime) {
-          dataset.value = value.toInstant();
-        } else if (!(value instanceof Temporal.Instant)) {
-          v._addIssue(this, 'instant', dataset, config, {
-            received: '"Invalid conversion option"',
-          });
+        } catch {
+          v._addIssue(this, 'instant', dataset, config);
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
         }
-      } catch {
-        v._addIssue(this, 'instant', dataset, config);
+      } else if (typeof value === 'bigint') {
+        dataset.value = Temporal.Instant.fromEpochNanoseconds(value);
+      } else if (value instanceof Date) {
+        dataset.value = Temporal.Instant.fromEpochMilliseconds(value.getTime());
+      } else if (value instanceof Temporal.ZonedDateTime) {
+        dataset.value = value.toInstant();
+      } else if (!(value instanceof Temporal.Instant)) {
+        v._addIssue(this, 'instant', dataset, config, {
+          received: '"Invalid conversion option"',
+        });
         // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
         dataset.typed = false;
       }
