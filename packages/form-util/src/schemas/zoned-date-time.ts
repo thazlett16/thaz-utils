@@ -12,6 +12,16 @@ export type ZonedDateTimeAction = v.BaseValidation<
   v.BaseIssue<unknown>
 >;
 
+/**
+ * Builds the nullable variant of the zoned-date-time schema. Output type is `Temporal.ZonedDateTime` | `null`.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
+ *
+ * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
+ *
+ * @returns A valibot union schema that outputs `Temporal.ZonedDateTime` | `null`.
+ */
 export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...actions: ZonedDateTimeAction[]) {
   return v.union(
     [
@@ -26,20 +36,30 @@ export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...action
   );
 }
 
+/**
+ * Builds the required variant of the zoned-date-time schema. Asserts that the result is a non-null `Temporal.ZonedDateTime`.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
+ *
+ * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
+ *
+ * @returns A valibot pipe schema that outputs `Temporal.ZonedDateTime`.
+ */
 export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions: ZonedDateTimeAction[]) {
   return v.pipe(_zonedDateTimeNullable(messages), v.pipe(t.zonedDateTime(messages.requiredMessage), ...actions));
 }
 
 /**
- * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
+ * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime` for required variant.
  *
- * Accepts:
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
  *
- * `null`
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
  *
- * `undefined` -> `null`
- *
- * `Temporal.ZonedDateTime`
+ * @returns A valibot schema that outputs `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime`.
  */
 export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
@@ -48,6 +68,17 @@ export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessa
   ? ReturnType<typeof _zonedDateTimeRequired>
   : ReturnType<typeof _zonedDateTimeNullable>;
 
+/**
+ * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime` for required variant.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
+ *
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
+ *
+ * @returns A valibot schema that outputs `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime`.
+ */
 export function zonedDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: ZonedDateTimeAction[]) {
   if (isFormRequiredMessage(messages)) {
     return _zonedDateTimeRequired(messages, ...actions);

@@ -12,6 +12,16 @@ export type PlainDateTimeAction = v.BaseValidation<
   v.BaseIssue<unknown>
 >;
 
+/**
+ * Builds the nullable variant of the plain-date-time schema. Output type is `Temporal.PlainDateTime` | `null`.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
+ *
+ * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainDateTime` value.
+ *
+ * @returns A valibot union schema that outputs `Temporal.PlainDateTime` | `null`.
+ */
 export function _plainDateTimeNullable(messages: FormWrongTypeMessage, ...actions: PlainDateTimeAction[]) {
   return v.union(
     [
@@ -31,22 +41,30 @@ export function _plainDateTimeNullable(messages: FormWrongTypeMessage, ...action
   );
 }
 
+/**
+ * Builds the required variant of the plain-date-time schema. Asserts that the result is a non-null `Temporal.PlainDateTime`.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
+ *
+ * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainDateTime` value.
+ *
+ * @returns A valibot pipe schema that outputs `Temporal.PlainDateTime`.
+ */
 export function _plainDateTimeRequired(messages: FormRequiredMessage, ...actions: PlainDateTimeAction[]) {
   return v.pipe(_plainDateTimeNullable(messages), v.pipe(t.plainDateTime(messages.requiredMessage), ...actions));
 }
 
 /**
- * PlainDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
+ * PlainDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.PlainDateTime` | `null` or `Temporal.PlainDateTime` for required variant.
  *
- * Accepts:
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
  *
- * `null`
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainDateTime` value.
  *
- * `undefined` -> `null`
- *
- * `Temporal.PlainDateTime`
- *
- * `Temporal.ZonedDateTime` -> `Temporal.PlainDateTime` via `.toPlainDateTime()`
+ * @returns A valibot schema that outputs `Temporal.PlainDateTime` | `null` or `Temporal.PlainDateTime`.
  */
 export function plainDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
@@ -55,6 +73,17 @@ export function plainDateTime<T extends FormWrongTypeMessage | FormRequiredMessa
   ? ReturnType<typeof _plainDateTimeRequired>
   : ReturnType<typeof _plainDateTimeNullable>;
 
+/**
+ * PlainDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.PlainDateTime` | `null` or `Temporal.PlainDateTime` for required variant.
+ *
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
+ *
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainDateTime` value.
+ *
+ * @returns A valibot schema that outputs `Temporal.PlainDateTime` | `null` or `Temporal.PlainDateTime`.
+ */
 export function plainDateTime(messages: FormWrongTypeMessage | FormRequiredMessage, ...actions: PlainDateTimeAction[]) {
   if (isFormRequiredMessage(messages)) {
     return _plainDateTimeRequired(messages, ...actions);

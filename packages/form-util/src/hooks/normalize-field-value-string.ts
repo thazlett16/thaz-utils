@@ -8,6 +8,16 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueString = v.InferInput<ReturnType<typeof _stringNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `string`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `string`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `string`.
+ */
 export function useNormalizeFieldValueString() {
   const field = useFieldContext<FieldValueString>();
 

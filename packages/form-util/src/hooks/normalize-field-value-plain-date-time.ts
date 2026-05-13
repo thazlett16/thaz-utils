@@ -3,30 +3,31 @@ import { useStore } from '@tanstack/react-form';
 import { Temporal } from '@js-temporal/polyfill';
 import type * as v from 'valibot';
 
-import { FormConversionError, FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/error';
 import type { _plainDateTimeNullable } from '#src/schemas/plain-date-time';
 import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValuePlainDateTime = v.InferInput<ReturnType<typeof _plainDateTimeNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `Temporal.PlainDateTime` | `null`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `Temporal.PlainDateTime` | `null`.
+ */
 export function useNormalizeFieldValuePlainDateTime() {
   const field = useFieldContext<FieldValuePlainDateTime>();
 
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
-  try {
-    if (baseFieldValue instanceof Temporal.ZonedDateTime) {
-      return baseFieldValue.toPlainDateTime();
-    } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
-      return baseFieldValue;
-    }
-  } catch (error: unknown) {
-    throw new FormConversionError(
-      {
-        message: 'useNormalizeFieldValuePlainDateTime - Failed to normalize baseFieldValue',
-      },
-      { cause: error },
-    );
+  if (baseFieldValue instanceof Temporal.ZonedDateTime) {
+    return baseFieldValue.toPlainDateTime();
+  } else if (baseFieldValue instanceof Temporal.PlainDateTime) {
+    return baseFieldValue;
   }
 
   if (!(baseFieldValue === null || baseFieldValue === undefined)) {
