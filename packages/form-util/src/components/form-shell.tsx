@@ -8,7 +8,7 @@ export type FormShellProps = ComponentProps<'form'>;
 /**
  * A `<form>` wrapper that wires up TanStack Form's submit and reset handlers.
  *
- * Prevents the default browser submit/reset behaviour, calls `formContext.handleSubmit()` on
+ * Prevents the default browser submit/reset behavior, calls `formContext.handleSubmit()` on
  * submit and `formContext.reset()` on reset, and sets `autoComplete="off"` by default.
  * Any prop can be overridden by passing it directly.
  *
