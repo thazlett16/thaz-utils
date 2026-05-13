@@ -8,7 +8,7 @@ export type StringAction = v.BaseValidation<string, string, v.BaseIssue<unknown>
 /**
  * Builds the nullable variant of the string schema. Output type is `string` | `null`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `string` (trimmed; empty string -> `null`)
+ * Accepts/Transforms as follows: `null` / `undefined` / `string` (trimmed)
  *
  * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `string` value.
@@ -42,7 +42,7 @@ export function _stringNullable(messages: FormWrongTypeMessage, ...actions: Stri
 /**
  * Builds the required variant of the string schema. Asserts that the result is a non-null, non-empty `string`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` / empty `string` -> `null` (then fails required check) / `string` (trimmed)
+ * Accepts/Transforms as follows: `null` / `undefined` / `string` (trimmed)
  *
  * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
  * @param actions - Additional valibot actions applied to the `string` value.
@@ -57,7 +57,7 @@ export function _stringRequired(messages: FormRequiredMessage, ...actions: Strin
  * String schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `string` | `null` or `string` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `string` (trimmed; empty string -> `null`)
+ * Accepts/Transforms as follows: `null` / `undefined` / `string` (trimmed)
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `string` value.
@@ -73,7 +73,7 @@ export function string<T extends FormWrongTypeMessage | FormRequiredMessage>(
  * String schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `string` | `null` or `string` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `string` (trimmed; empty string -> `null`)
+ * Accepts/Transforms as follows: `null` / `undefined` / `string` (trimmed)
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `string` value.

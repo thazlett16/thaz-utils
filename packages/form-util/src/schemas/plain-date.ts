@@ -11,7 +11,7 @@ export type PlainDateAction = v.BaseValidation<Temporal.PlainDate, Temporal.Plai
 /**
  * Builds the nullable variant of the plain-date schema. Output type is `Temporal.PlainDate` | `null`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `Temporal.PlainDate` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime` / `Temporal.PlainDate`
  *
  * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `Temporal.PlainDate` value.

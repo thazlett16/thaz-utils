@@ -15,7 +15,7 @@ export type ZonedDateTimeAction = v.BaseValidation<
 /**
  * Builds the nullable variant of the zoned-date-time schema. Output type is `Temporal.ZonedDateTime` | `null`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `Temporal.ZonedDateTime`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
  *
  * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
@@ -39,7 +39,7 @@ export function _zonedDateTimeNullable(messages: FormWrongTypeMessage, ...action
 /**
  * Builds the required variant of the zoned-date-time schema. Asserts that the result is a non-null `Temporal.ZonedDateTime`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` (then fails required check) / `Temporal.ZonedDateTime`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
  *
  * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
  * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
@@ -54,7 +54,7 @@ export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions
  * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `Temporal.ZonedDateTime`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
@@ -72,7 +72,7 @@ export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessa
  * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `Temporal.ZonedDateTime`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime`
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.

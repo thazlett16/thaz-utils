@@ -11,7 +11,7 @@ export type InstantAction = v.BaseValidation<Temporal.Instant, Temporal.Instant,
 /**
  * Builds the nullable variant of the instant schema. Output type is `Temporal.Instant` | `null`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `Temporal.ZonedDateTime` / `Temporal.Instant`
+ * Accepts/Transforms as follows: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.Instant`
  *
  * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `Temporal.Instant` value.

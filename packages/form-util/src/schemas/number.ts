@@ -8,7 +8,7 @@ export type NumberAction = v.BaseValidation<number, number, v.BaseIssue<unknown>
 /**
  * Builds the nullable variant of the number schema. Output type is `number` | `null`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `number`
+ * Accepts/Transforms as follows: `null` / `undefined` / `number`
  *
  * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `number` value.
@@ -32,7 +32,7 @@ export function _numberNullable(messages: FormWrongTypeMessage, ...actions: Numb
 /**
  * Builds the required variant of the number schema. Asserts that the result is a non-null `number`.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` (then fails required check) / `number`
+ * Accepts/Transforms as follows: `null` / `undefined` / `number`
  *
  * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
  * @param actions - Additional valibot actions applied to the `number` value.
@@ -47,7 +47,7 @@ export function _numberRequired(messages: FormRequiredMessage, ...actions: Numbe
  * Number schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `number` | `null` or `number` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `number`
+ * Accepts/Transforms as follows: `null` / `undefined` / `number`
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `number` value.
@@ -63,7 +63,7 @@ export function number<T extends FormWrongTypeMessage | FormRequiredMessage>(
  * Number schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
  * Output type is `number` | `null` or `number` for required variant.
  *
- * Accepts/Transforms as follows: `null` / `undefined` -> `null` / `number`
+ * Accepts/Transforms as follows: `null` / `undefined` / `number`
  *
  * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage} providing the wrong-type error text.
  * @param actions - Additional valibot actions applied to the `number` value.
