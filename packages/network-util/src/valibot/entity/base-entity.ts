@@ -8,6 +8,3 @@ export const baseEntity = v.object({
   updated_at_timestamp: instant,
   updated_by: v.string(),
 });
-
-// type InputBaseEntity = v.InferInput<typeof baseEntity>
-// type OutputBaseEntity = v.InferOutput<typeof baseEntity>
