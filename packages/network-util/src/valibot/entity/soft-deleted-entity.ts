@@ -6,6 +6,3 @@ import { responseNullable } from '#src/valibot/schema/nullable';
 export const softDeletedEntity = v.object({
   soft_deleted_at_timestamp: responseNullable(instant),
 });
-
-// type InputSoftDeletedEntity = v.InferInput<typeof softDeletedEntity>
-// type OutputSoftDeletedEntity = v.InferOutput<typeof softDeletedEntity>
