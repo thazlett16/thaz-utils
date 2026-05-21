@@ -114,15 +114,15 @@ describe('refineNetworkError', () => {
     });
 
     describe('with JSON content type but unparseable body', () => {
-      test('falls back to NetworkError when body does not match response schema', () => {
+      test('falls back to NetworkError when body has invalid message_list type', () => {
         const jsonHeaders = makeHeaders('application/json');
-        const badBody = { unrelated: 'data' };
+        const badBody = { message_list: 'not-an-array' };
         expect(() => {
           refineNetworkError(400, 200, badBody, jsonHeaders);
         }).toThrow(NetworkError);
         expect(() => {
           refineNetworkError(400, 200, badBody, jsonHeaders);
-        }).toThrow(NetworkErrorWithMessageList);
+        }).not.toThrow(NetworkErrorWithMessageList);
       });
     });
   });

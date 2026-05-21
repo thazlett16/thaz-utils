@@ -120,6 +120,14 @@ describe('checkResponseMessageForError', () => {
 
     test('does not throw when body does not match response schema', () => {
       const badBody = { not_message_list: 'invalid' };
+
+      expect(() => {
+        checkResponseMessageForError(badBody, 200, jsonHeaders);
+      }).not.toThrow();
+    });
+
+    test('does not throw when message_list fails schema validation', () => {
+      const badBody = { message_list: 'not-an-array' };
       expect(() => {
         checkResponseMessageForError(badBody, 200, jsonHeaders);
       }).not.toThrow();
