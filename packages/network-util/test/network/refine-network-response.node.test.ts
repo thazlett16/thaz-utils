@@ -122,7 +122,7 @@ describe('refineNetworkError', () => {
         }).toThrow(NetworkError);
         expect(() => {
           refineNetworkError(400, 200, badBody, jsonHeaders);
-        }).not.toThrow(NetworkErrorWithMessageList);
+        }).toThrow(NetworkErrorWithMessageList);
       });
     });
   });

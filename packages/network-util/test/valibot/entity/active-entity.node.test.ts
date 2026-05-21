@@ -12,24 +12,28 @@ describe('activeEntity', () => {
     test('for active with no expiry (null)', () => {
       const value = { active_at_timestamp: activeAt, expired_at_timestamp: null };
       const result = v.safeParse(activeEntity, value);
-      assert(result.success);
-      expect(result.output.active_at_timestamp).toBeInstanceOf(Temporal.Instant);
+      assert.isTrue(result.success);
+      expect(result.output.active_at_timestamp.equals(activeAt)).toBeTruthy();
       expect(result.output.expired_at_timestamp).toBeNull();
     });
 
     test('for active with no expiry (undefined defaults to null)', () => {
       const value = { active_at_timestamp: activeAt, expired_at_timestamp: undefined };
       const result = v.safeParse(activeEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
+      expect(result.output.active_at_timestamp.equals(activeAt)).toBeTruthy();
       expect(result.output.expired_at_timestamp).toBeNull();
     });
 
     test('for active with expiry timestamp', () => {
       const value = { active_at_timestamp: activeAt, expired_at_timestamp: expiredAt };
       const result = v.safeParse(activeEntity, value);
-      assert(result.success);
-      expect(result.output.active_at_timestamp).toBeInstanceOf(Temporal.Instant);
-      expect(result.output.expired_at_timestamp).toBeInstanceOf(Temporal.Instant);
+      console.info('for active with expiry timestamp - result', result);
+      console.info('for active with expiry timestamp - expiredAt', expiredAt);
+      assert.isTrue(result.success);
+      expect(result.output.active_at_timestamp.equals(value.active_at_timestamp)).toBeTruthy();
+      assert.isNotNull(result.output.expired_at_timestamp);
+      expect(result.output.expired_at_timestamp.equals(value.expired_at_timestamp)).toBeTruthy();
     });
 
     test('for active with expiry as ISO string', () => {
@@ -38,15 +42,17 @@ describe('activeEntity', () => {
         expired_at_timestamp: '2025-01-01T00:00:00Z',
       };
       const result = v.safeParse(activeEntity, value);
-      assert(result.success);
-      expect(result.output.active_at_timestamp).toBeInstanceOf(Temporal.Instant);
-      expect(result.output.expired_at_timestamp).toBeInstanceOf(Temporal.Instant);
+      assert.isTrue(result.success);
+      expect(result.output.active_at_timestamp.equals(value.active_at_timestamp)).toBeTruthy();
+      assert.isNotNull(result.output.expired_at_timestamp);
+      expect(result.output.expired_at_timestamp.equals(value.expired_at_timestamp)).toBeTruthy();
     });
 
     test('for empty object as expired_at_timestamp (converts to null)', () => {
       const value = { active_at_timestamp: activeAt, expired_at_timestamp: {} };
       const result = v.safeParse(activeEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
+      expect(result.output.active_at_timestamp.equals(activeAt)).toBeTruthy();
       expect(result.output.expired_at_timestamp).toBeNull();
     });
   });

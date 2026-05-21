@@ -16,7 +16,7 @@ describe('baseEntity', () => {
     test('for Temporal.Instant timestamp values', () => {
       const value = validBase;
       const result = v.safeParse(baseEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.created_at_timestamp).toBeInstanceOf(Temporal.Instant);
       expect(result.output.updated_at_timestamp).toBeInstanceOf(Temporal.Instant);
       expect(result.output.created_by).toBe('user-1');
@@ -31,7 +31,7 @@ describe('baseEntity', () => {
         updated_by: 'user-2',
       };
       const result = v.safeParse(baseEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.created_at_timestamp).toBeInstanceOf(Temporal.Instant);
       expect(result.output.updated_at_timestamp).toBeInstanceOf(Temporal.Instant);
     });

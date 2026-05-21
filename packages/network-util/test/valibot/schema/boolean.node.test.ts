@@ -10,28 +10,28 @@ describe('responseBoolean', () => {
     test('passes through true', () => {
       const value = true;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeTruthy();
     });
 
     test('passes through false', () => {
       const value = false;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeFalsy();
     });
 
     test('defaults null to true', () => {
       const value = null;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeTruthy();
     });
 
     test('defaults undefined to true', () => {
       const value = undefined;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeTruthy();
     });
   });
@@ -42,21 +42,21 @@ describe('responseBoolean', () => {
     test('passes through true', () => {
       const value = true;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeTruthy();
     });
 
     test('defaults null to false', () => {
       const value = null;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeFalsy();
     });
 
     test('defaults undefined to false', () => {
       const value = undefined;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeFalsy();
     });
   });

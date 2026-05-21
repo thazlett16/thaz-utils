@@ -10,7 +10,7 @@ describe('response', () => {
         message_list: [{ type: 'ERROR', code: 'ERR_001', description: 'Something went wrong' }],
       };
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
@@ -22,35 +22,35 @@ describe('response', () => {
         ],
       };
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
     test('for a response with null message_list (defaults to empty array)', () => {
       const value = { message_list: null };
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual({ message_list: [] });
     });
 
     test('for a response with undefined message_list (defaults to empty array)', () => {
       const value = { message_list: undefined };
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual({ message_list: [] });
     });
 
     test('for a response with an empty message_list', () => {
       const value = { message_list: [] };
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual({ message_list: [] });
     });
 
     test('for missing message_list field', () => {
       const value = {};
       const result = v.safeParse(response, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual({ message_list: [] });
     });
   });

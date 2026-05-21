@@ -9,21 +9,21 @@ describe('plainDateTime', () => {
     test('for a Temporal.PlainDateTime object', () => {
       const value = Temporal.PlainDateTime.from('2024-06-15T10:30:00');
       const result = v.safeParse(plainDateTime, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(value)).toBeTruthy();
     });
 
     test('for a plain date-time ISO string', () => {
       const value = '2024-06-15T10:30:00';
       const result = v.safeParse(plainDateTime, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.PlainDateTime.from(value))).toBeTruthy();
     });
 
     test('for a plain date-time with sub-seconds', () => {
       const value = '2024-06-15T23:59:59.999';
       const result = v.safeParse(plainDateTime, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.PlainDateTime.from(value))).toBeTruthy();
     });
   });

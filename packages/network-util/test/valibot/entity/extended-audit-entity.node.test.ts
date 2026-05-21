@@ -15,7 +15,7 @@ describe('extendedAuditEntity', () => {
     test('for an entity with all string values', () => {
       const value = validEntity;
       const result = v.safeParse(extendedAuditEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(validEntity);
     });
 
@@ -27,7 +27,7 @@ describe('extendedAuditEntity', () => {
         updated_by_user_id: null,
       };
       const result = v.safeParse(extendedAuditEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
@@ -39,7 +39,7 @@ describe('extendedAuditEntity', () => {
         updated_by_user_id: undefined,
       };
       const result = v.safeParse(extendedAuditEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.created_by_process).toBeNull();
       expect(result.output.created_by_user_id).toBeNull();
       expect(result.output.updated_by_process).toBeNull();
@@ -54,7 +54,7 @@ describe('extendedAuditEntity', () => {
         updated_by_user_id: 'user-456',
       };
       const result = v.safeParse(extendedAuditEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.created_by_process).toBe('import-job');
       expect(result.output.created_by_user_id).toBeNull();
     });
@@ -67,7 +67,7 @@ describe('extendedAuditEntity', () => {
         updated_by_user_id: null,
       };
       const result = v.safeParse(extendedAuditEntity, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.created_by_process).toBeNull();
     });
   });

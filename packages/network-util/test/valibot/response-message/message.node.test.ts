@@ -8,28 +8,28 @@ describe('message', () => {
     test('for an INFO message', () => {
       const value = { type: 'INFO', code: 'INFO_001', description: 'Informational' };
       const result = v.safeParse(message, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
     test('for a SUCCESS message', () => {
       const value = { type: 'SUCCESS', code: 'OK_001', description: 'Created successfully' };
       const result = v.safeParse(message, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
     test('for a WARNING message', () => {
       const value = { type: 'WARNING', code: 'WARN_001', description: 'Deprecated field used' };
       const result = v.safeParse(message, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
 
     test('for an ERROR message', () => {
       const value = { type: 'ERROR', code: 'ERR_001', description: 'Something went wrong' };
       const result = v.safeParse(message, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual(value);
     });
   });

@@ -13,7 +13,7 @@ export default defineConfig({
       },
       test: {
         command: 'vp test',
-        // dependsOn: ['@thazstack/network-util#build'],
+        dependsOn: ['@thazstack/network-util#build'],
       },
       typecheck: {
         command: 'vp lint',

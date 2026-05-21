@@ -32,28 +32,28 @@ describe('messageType', () => {
     test('for INFO', () => {
       const value = 'INFO';
       const result = v.safeParse(messageType, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBe('INFO');
     });
 
     test('for SUCCESS', () => {
       const value = 'SUCCESS';
       const result = v.safeParse(messageType, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBe('SUCCESS');
     });
 
     test('for WARNING', () => {
       const value = 'WARNING';
       const result = v.safeParse(messageType, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBe('WARNING');
     });
 
     test('for ERROR', () => {
       const value = 'ERROR';
       const result = v.safeParse(messageType, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBe('ERROR');
     });
   });

@@ -9,14 +9,14 @@ describe('plainTime', () => {
     test('for a Temporal.PlainTime object', () => {
       const value = Temporal.PlainTime.from('10:30:00');
       const result = v.safeParse(plainTime, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(value)).toBeTruthy();
     });
 
     test('for a plain time ISO string', () => {
       const value = '10:30:00';
       const result = v.safeParse(plainTime, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.PlainTime.from(value))).toBeTruthy();
     });
   });

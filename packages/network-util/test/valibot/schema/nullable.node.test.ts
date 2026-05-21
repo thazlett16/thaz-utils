@@ -10,28 +10,28 @@ describe('responseNullable', () => {
     test('passes through a valid string', () => {
       const value = 'hello';
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBe('hello');
     });
 
     test('passes through null', () => {
       const value = null;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
 
     test('defaults undefined to null', () => {
       const value = undefined;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
 
     test('converts empty object {} to null', () => {
       const value = {};
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
   });
@@ -42,28 +42,28 @@ describe('responseNullable', () => {
     test('passes through a valid object', () => {
       const value = { id: 1, name: 'Alice' };
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toStrictEqual({ id: 1, name: 'Alice' });
     });
 
     test('passes through null', () => {
       const value = null;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
 
     test('defaults undefined to null', () => {
       const value = undefined;
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
 
     test('converts empty object {} to null', () => {
       const value = {};
       const result = v.safeParse(schema, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
   });

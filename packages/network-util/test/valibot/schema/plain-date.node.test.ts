@@ -9,14 +9,14 @@ describe('plainDate', () => {
     test('for a Temporal.PlainDate object', () => {
       const value = Temporal.PlainDate.from('2024-06-15');
       const result = v.safeParse(plainDate, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(value)).toBeTruthy();
     });
 
     test('for a plain date ISO string', () => {
       const value = '2024-06-15';
       const result = v.safeParse(plainDate, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.PlainDate.from(value))).toBeTruthy();
     });
   });

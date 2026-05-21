@@ -9,21 +9,21 @@ describe('instant', () => {
     test('for a positive epoch Temporal.Instant', () => {
       const value = Temporal.Instant.fromEpochMilliseconds(1_700_000_000_000);
       const result = v.safeParse(instant, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(value)).toBeTruthy();
     });
 
     test('for an ISO instant string', () => {
       const value = '2024-06-15T12:00:00Z';
       const result = v.safeParse(instant, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.Instant.from(value))).toBeTruthy();
     });
 
     test('for a ZonedDateTime ISO string', () => {
       const value = '2024-01-01T00:00:00+00:00[UTC]';
       const result = v.safeParse(instant, value);
-      assert(result.success);
+      assert.isTrue(result.success);
       expect(result.output.equals(Temporal.Instant.from(value))).toBeTruthy();
     });
   });
