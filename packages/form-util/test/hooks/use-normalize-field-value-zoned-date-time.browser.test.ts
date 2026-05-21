@@ -24,7 +24,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValueZonedDateTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testZonedDateTime.equals(result.current)).toBeTruthy();
   });
 

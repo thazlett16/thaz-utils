@@ -24,7 +24,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testPlainDateTime.equals(result.current)).toBeTruthy();
   });
 
@@ -37,7 +37,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValuePlainDateTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testPlainDateTime.equals(result.current)).toBeTruthy();
   });
 

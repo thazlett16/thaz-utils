@@ -24,7 +24,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValuePlainTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testPlainTime.equals(result.current)).toBeTruthy();
   });
 
@@ -37,7 +37,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValuePlainTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testPlainTime.equals(result.current)).toBeTruthy();
   });
 
@@ -50,7 +50,7 @@ describe('useNormalizeFieldValuePlainTime', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValuePlainTime(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testPlainTime.equals(result.current)).toBeTruthy();
   });
 

@@ -24,7 +24,7 @@ describe('useNormalizeFieldValueInstant', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testInstant.equals(result.current)).toBeTruthy();
   });
 
@@ -37,7 +37,7 @@ describe('useNormalizeFieldValueInstant', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testInstant.equals(result.current)).toBeTruthy();
   });
 
