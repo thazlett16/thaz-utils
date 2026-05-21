@@ -8,11 +8,17 @@ import { useSpinDelay } from 'spin-delay';
 import { useDeepCompareMemo } from 'use-deep-compare';
 
 /**
- * blog here for details:
- * https://www.teemutaskula.com/blog/exploring-query-suspense
+ * Wraps `useSuspenseQuery` with a deferred query key so that stale data continues to render
+ * while a new key's data is being fetched, instead of reverting to the Suspense fallback.
  *
- * @param options These options come from tanstack/query Suspense options
- * @param spinDelayOptions These optional options are provided to spinDelay
+ * The `isSuspending` flag is driven by `useSpinDelay`, which prevents flicker for fast
+ * transitions by keeping the flag `true` for a minimum visible duration.
+ *
+ * @see https://www.teemutaskula.com/blog/exploring-query-suspense
+ *
+ * @param options Standard `useSuspenseQuery` options from `@tanstack/react-query`.
+ * @param spinDelayOptions Optional configuration forwarded to `useSpinDelay` (min duration, delay).
+ * @returns An object with the underlying `query` result and an `isSuspending` boolean.
  */
 export function useSuspenseQueryDeferred<
   TQueryFunctionData = unknown,
