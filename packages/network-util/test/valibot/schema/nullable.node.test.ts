@@ -34,6 +34,20 @@ describe('responseNullable', () => {
       assert.isTrue(result.success);
       expect(result.output).toBeNull();
     });
+
+    describe('should return dataset with issues', () => {
+      test('for numbers', () => {
+        const value = 42;
+        const result = v.safeParse(schema, value);
+        expect(result.success).toBeFalsy();
+      });
+
+      test('for arrays', () => {
+        const value = ['a', 'b'];
+        const result = v.safeParse(schema, value);
+        expect(result.success).toBeFalsy();
+      });
+    });
   });
 
   describe('with object schema', () => {
@@ -68,19 +82,63 @@ describe('responseNullable', () => {
     });
   });
 
-  describe('should return dataset with issues', () => {
-    const schema = responseNullable(v.string());
+  describe('with nested object schema', () => {
+    const schema = responseNullable(v.object({ id: v.number(), name: responseNullable(v.string()) }));
 
-    test('for numbers', () => {
-      const value = 42;
+    test('passes through a valid object', () => {
+      const value = { id: 1, name: 'Alice' };
       const result = v.safeParse(schema, value);
-      expect(result.success).toBeFalsy();
+      assert.isTrue(result.success);
+      expect(result.output).toStrictEqual({ id: 1, name: 'Alice' });
     });
 
-    test('for arrays', () => {
-      const value = ['a', 'b'];
+    test('passes through a valid object nested pases through null', () => {
+      const value = { id: 1, name: null };
       const result = v.safeParse(schema, value);
-      expect(result.success).toBeFalsy();
+      assert.isTrue(result.success);
+      expect(result.output).toStrictEqual({ id: 1, name: null });
+    });
+
+    test('passes through a valid object nested defaults undefined to null', () => {
+      const value = { id: 1, name: null };
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toStrictEqual({ id: 1, name: null });
+    });
+
+    test('passes through a valid object nested defaults missing to null', () => {
+      const value = { id: 1 };
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toStrictEqual({ id: 1, name: null });
+    });
+
+    test('passes through a valid object nested converts empty object to null', () => {
+      const value = { id: 1, name: {} };
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toStrictEqual({ id: 1, name: null });
+    });
+
+    test('passes through null', () => {
+      const value = null;
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toBeNull();
+    });
+
+    test('defaults undefined to null', () => {
+      const value = undefined;
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toBeNull();
+    });
+
+    test('converts empty object {} to null', () => {
+      const value = {};
+      const result = v.safeParse(schema, value);
+      assert.isTrue(result.success);
+      expect(result.output).toBeNull();
     });
   });
 });
