@@ -5,25 +5,20 @@ import { page, userEvent } from 'vite-plus/test/browser';
 import { BaseForm } from '#src/components/tanstack-form.config';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export class FieldErrorMessageTestUtils {
-  static createWrapperComponent(options: {
-    defaultTestValue: string;
-    messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE';
-  }) {
+export const FieldErrorMessageTestUtils = {
+  createWrapperComponent(options: { defaultTestValue: string; messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE' }) {
     function TestInput() {
       const field = useFieldContext<string>();
 
       return (
-        <>
-          <input
-            name={field.name}
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChange={(e) => {
-              field.handleChange(e.target.value);
-            }}
-          />
-        </>
+        <input
+          name={field.name}
+          value={field.state.value}
+          onBlur={field.handleBlur}
+          onChange={(e) => {
+            field.handleChange(e.target.value);
+          }}
+        />
       );
     }
 
@@ -94,30 +89,24 @@ export class FieldErrorMessageTestUtils {
         </form.AppForm>
       );
     };
-  }
-
-  static get submitButton() {
+  },
+  submitButton() {
     return page.getByRole('button');
-  }
-
-  static get textInput() {
+  },
+  textInput() {
     return page.getByRole('textbox');
-  }
-
-  static async blurInput() {
+  },
+  async blurInput() {
     await userEvent.tab();
-  }
-
-  static async clearInputValue() {
-    await userEvent.clear(this.textInput);
-  }
-
-  static async setInputValue(value: string) {
-    await this.clearInputValue();
-    await userEvent.type(this.textInput, value);
-  }
-
-  static async submitForm() {
-    await userEvent.click(this.submitButton);
-  }
-}
+  },
+  async clearInputValue() {
+    await userEvent.clear(FieldErrorMessageTestUtils.textInput());
+  },
+  async setInputValue(value: string) {
+    await FieldErrorMessageTestUtils.clearInputValue();
+    await userEvent.type(FieldErrorMessageTestUtils.textInput(), value);
+  },
+  async submitForm() {
+    await userEvent.click(FieldErrorMessageTestUtils.submitButton());
+  },
+};

@@ -5,7 +5,7 @@ import { page, userEvent } from 'vite-plus/test/browser';
 import { BaseForm } from '#src/components/tanstack-form.config';
 import { useFieldContext } from '#src/tanstack-form.config';
 
-export class CanSubmitTestUtils {
+export const CanSubmitTestUtils = {
   createWrapperComponent(options: { defaultTestValue: string; onSubmitAsync?: () => Promise<void> }) {
     const { defaultTestValue, onSubmitAsync } = options;
 
@@ -78,26 +78,21 @@ export class CanSubmitTestUtils {
         </form.AppForm>
       );
     };
-  }
-
-  get textInput() {
+  },
+  textInput() {
     return page.getByRole('textbox');
-  }
-
-  get submitButton() {
+  },
+  submitButton() {
     return page.getByRole('button');
-  }
-
+  },
   async clearInputValue() {
-    await userEvent.clear(this.textInput);
-  }
-
+    await userEvent.clear(CanSubmitTestUtils.textInput());
+  },
   async setInputValue(value: string) {
-    await this.clearInputValue();
-    await userEvent.type(this.textInput, value);
-  }
-
+    await CanSubmitTestUtils.clearInputValue();
+    await userEvent.type(CanSubmitTestUtils.textInput(), value);
+  },
   async submitForm() {
-    await userEvent.click(this.submitButton);
-  }
-}
+    await userEvent.click(CanSubmitTestUtils.submitButton());
+  },
+};
