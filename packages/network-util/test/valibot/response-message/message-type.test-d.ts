@@ -10,7 +10,7 @@ describe('messageType', () => {
   });
 });
 
-describe('MESSAGE_TYPE', () => {
+describe('mESSAGE_TYPE', () => {
   test('values are readonly string literals', () => {
     expectTypeOf(MESSAGE_TYPE.INFO).toEqualTypeOf<'INFO'>();
     expectTypeOf(MESSAGE_TYPE.SUCCESS).toEqualTypeOf<'SUCCESS'>();

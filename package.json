@@ -8,7 +8,8 @@
     "playwright:setup": "vpx playwright install chromium chromium-headless-shell firefox",
     "setup": "vp run -r --no-cache playwright:setup && vp run -r --no-cache msw:setup && vp run build",
     "taze": "vpx taze@latest -Ilwr",
-    "taze:major": "vpx taze@latest major -Ilwr"
+    "taze:major": "vpx taze@latest major -Ilwr",
+    "test": "vp run -r --no-cache test"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "catalog:",

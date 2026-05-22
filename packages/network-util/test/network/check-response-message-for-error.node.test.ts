@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vite-plus/test';
+import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { checkResponseMessageForError } from '#src/network/check-response-message-for-error';
 import { NetworkErrorWithMessageList } from '#src/network/network-error-with-message-list';
@@ -78,44 +78,47 @@ describe('checkResponseMessageForError', () => {
     });
 
     test('thrown error contains the full message list', () => {
+      let caughtError: unknown;
       try {
         checkResponseMessageForError(errorBody, 200, jsonHeaders);
       } catch (error) {
-        expect(NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)).toBeTruthy();
-        if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-          expect(error.messageList).toStrictEqual(errorBody.message_list);
-        }
+        caughtError = error;
       }
+      assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+      expect(caughtError.messageList).toStrictEqual(errorBody.message_list);
     });
 
     test('uses defaultMessage when provided', () => {
+      let caughtError: unknown;
       try {
         checkResponseMessageForError(errorBody, 200, jsonHeaders, 'custom message');
       } catch (error) {
-        if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-          expect(error.message).toBe('custom message');
-        }
+        caughtError = error;
       }
+      assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+      expect(caughtError.message).toBe('custom message');
     });
 
     test('uses default message when not provided', () => {
+      let caughtError: unknown;
       try {
         checkResponseMessageForError(errorBody, 200, jsonHeaders);
       } catch (error) {
-        if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-          expect(error.message).toBe('NetworkErrorWithMessageList');
-        }
+        caughtError = error;
       }
+      assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+      expect(caughtError.message).toBe('NetworkErrorWithMessageList');
     });
 
     test('passes statusCode to the thrown error', () => {
+      let caughtError: unknown;
       try {
         checkResponseMessageForError(errorBody, 200, jsonHeaders);
       } catch (error) {
-        if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-          expect(error.statusCode).toBe(200);
-        }
+        caughtError = error;
       }
+      assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+      expect(caughtError.statusCode).toBe(200);
     });
 
     test('does not throw when body does not match response schema', () => {

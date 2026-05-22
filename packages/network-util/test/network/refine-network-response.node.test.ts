@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vite-plus/test';
+import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { NetworkError } from '#src/network/network-error';
 import { NetworkErrorWithMessageList } from '#src/network/network-error-with-message-list';
@@ -53,13 +53,14 @@ describe('refineNetworkError', () => {
       });
 
       test('thrown NetworkError has correct statusCode', () => {
+        let caughtError: unknown;
         try {
           refineNetworkError(404, 200, null, makeHeaders(null));
         } catch (error) {
-          if (NetworkError.isNetworkError(error)) {
-            expect(error.statusCode).toBe(404);
-          }
+          caughtError = error;
         }
+        assert.instanceOf(caughtError, NetworkError);
+        expect(caughtError.statusCode).toBe(404);
       });
     });
 
@@ -73,43 +74,47 @@ describe('refineNetworkError', () => {
       });
 
       test('thrown error has correct statusCode', () => {
+        let caughtError: unknown;
         try {
           refineNetworkError(422, 200, responseBody, jsonHeaders);
         } catch (error) {
-          if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-            expect(error.statusCode).toBe(422);
-          }
+          caughtError = error;
         }
+        assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+        expect(caughtError.statusCode).toBe(422);
       });
 
       test('thrown error contains the message list', () => {
+        let caughtError: unknown;
         try {
           refineNetworkError(400, 200, responseBody, jsonHeaders);
         } catch (error) {
-          if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-            expect(error.messageList).toStrictEqual(responseBody.message_list);
-          }
+          caughtError = error;
         }
+        assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+        expect(caughtError.messageList).toStrictEqual(responseBody.message_list);
       });
 
       test('uses defaultMessage when provided', () => {
+        let caughtError: unknown;
         try {
           refineNetworkError(400, 200, responseBody, jsonHeaders, 'custom error');
         } catch (error) {
-          if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-            expect(error.message).toBe('custom error');
-          }
+          caughtError = error;
         }
+        assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+        expect(caughtError.message).toBe('custom error');
       });
 
       test('uses default message when not provided', () => {
+        let caughtError: unknown;
         try {
           refineNetworkError(400, 200, responseBody, jsonHeaders);
         } catch (error) {
-          if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(error)) {
-            expect(error.message).toBe('NetworkErrorWithMessageList');
-          }
+          caughtError = error;
         }
+        assert.instanceOf(caughtError, NetworkErrorWithMessageList);
+        expect(caughtError.message).toBe('NetworkErrorWithMessageList');
       });
     });
 

@@ -3,7 +3,7 @@ import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { MESSAGE_TYPE, MESSAGE_TYPE_OPTIONS, messageType } from '#src/valibot/response-message/message-type';
 
-describe('MESSAGE_TYPE', () => {
+describe('mESSAGE_TYPE', () => {
   test('has expected keys and values', () => {
     expect(MESSAGE_TYPE).toStrictEqual({
       INFO: 'INFO',
@@ -14,7 +14,7 @@ describe('MESSAGE_TYPE', () => {
   });
 });
 
-describe('MESSAGE_TYPE_OPTIONS', () => {
+describe('mESSAGE_TYPE_OPTIONS', () => {
   test('contains all message type values', () => {
     expect(MESSAGE_TYPE_OPTIONS).toContain('INFO');
     expect(MESSAGE_TYPE_OPTIONS).toContain('SUCCESS');

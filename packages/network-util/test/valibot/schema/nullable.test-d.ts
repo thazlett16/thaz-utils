@@ -8,7 +8,7 @@ describe('responseNullable', () => {
     const schema = responseNullable(v.string());
 
     test('input type', () => {
-      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | {} | null | undefined>();
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<string | NonNullable<unknown> | null | undefined>();
     });
 
     test('output type', () => {
@@ -20,7 +20,9 @@ describe('responseNullable', () => {
     const schema = responseNullable(v.object({ id: v.number() }));
 
     test('input type', () => {
-      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<{ id: number } | {} | null | undefined>();
+      expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
+        { id: number } | NonNullable<unknown> | null | undefined
+      >();
     });
 
     test('output type', () => {
@@ -39,7 +41,10 @@ describe('responseNullable', () => {
 
     test('input type', () => {
       expectTypeOf<v.InferInput<typeof schema>>().toEqualTypeOf<
-        { test1: string; test2: number; test3?: string | {} | null | undefined } | {} | null | undefined
+        | { test1: string; test2: number; test3?: string | NonNullable<unknown> | null | undefined }
+        | NonNullable<unknown>
+        | null
+        | undefined
       >();
     });
 

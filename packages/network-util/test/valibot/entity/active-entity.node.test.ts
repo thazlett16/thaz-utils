@@ -28,8 +28,6 @@ describe('activeEntity', () => {
     test('for active with expiry timestamp', () => {
       const value = { active_at_timestamp: activeAt, expired_at_timestamp: expiredAt };
       const result = v.safeParse(activeEntity, value);
-      console.info('for active with expiry timestamp - result', result);
-      console.info('for active with expiry timestamp - expiredAt', expiredAt);
       assert.isTrue(result.success);
       expect(result.output.active_at_timestamp.equals(value.active_at_timestamp)).toBeTruthy();
       assert.isNotNull(result.output.expired_at_timestamp);

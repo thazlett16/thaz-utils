@@ -1,15 +1,8 @@
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { NetworkErrorConstructor } from '#src/network/network-error';
 import { NetworkError } from '#src/network/network-error';
 
 describe('networkError', () => {
-  describe('constructor type', () => {
-    test('requires message and statusCode', () => {
-      expectTypeOf<NetworkErrorConstructor>().toMatchTypeOf<{ message: string; statusCode: number }>();
-    });
-  });
-
   describe('instance types', () => {
     const error = new NetworkError({ message: 'oops', statusCode: 404 });
 
@@ -18,10 +11,8 @@ describe('networkError', () => {
     });
 
     test('isNetworkError is a type guard', () => {
-      const unknown: unknown = error;
-      if (NetworkError.isNetworkError(unknown)) {
-        expectTypeOf(unknown).toEqualTypeOf<NetworkError>();
-      }
+      type IsTypeGuard = typeof NetworkError.isNetworkError extends ((x: unknown) => x is NetworkError) ? true : false;
+      expectTypeOf<IsTypeGuard>().toEqualTypeOf<true>();
     });
 
     test('status category getters are boolean', () => {

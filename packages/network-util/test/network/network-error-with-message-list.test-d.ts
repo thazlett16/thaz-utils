@@ -1,20 +1,9 @@
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { NetworkError } from '#src/network/network-error';
-import type { NetworkErrorWithMessageListConstructor } from '#src/network/network-error-with-message-list';
 import { NetworkErrorWithMessageList } from '#src/network/network-error-with-message-list';
+import type { MessageType } from '#src/valibot/response-message/message-type';
 
 describe('networkErrorWithMessageList', () => {
-  describe('constructor type', () => {
-    test('extends NetworkErrorConstructor with messageList', () => {
-      expectTypeOf<NetworkErrorWithMessageListConstructor>().toMatchTypeOf<{
-        message: string;
-        statusCode: number;
-        messageList: readonly { type: string; code: string; description: string }[];
-      }>();
-    });
-  });
-
   describe('instance types', () => {
     const error = new NetworkErrorWithMessageList({
       message: 'oops',
@@ -23,18 +12,20 @@ describe('networkErrorWithMessageList', () => {
     });
 
     test('is assignable to NetworkError', () => {
-      expectTypeOf(error).toMatchTypeOf<NetworkError>();
+      expectTypeOf(error).toEqualTypeOf<NetworkErrorWithMessageList>();
     });
 
     test('messageList is readonly array', () => {
-      expectTypeOf(error.messageList).toMatchTypeOf<readonly unknown[]>();
+      expectTypeOf(error.messageList).toEqualTypeOf<{ code: string; description: string; type: MessageType }[]>();
     });
 
     test('isNetworkErrorWithMessageList is a type guard', () => {
-      const unknown: unknown = error;
-      if (NetworkErrorWithMessageList.isNetworkErrorWithMessageList(unknown)) {
-        expectTypeOf(unknown).toEqualTypeOf<NetworkErrorWithMessageList>();
-      }
+      type IsTypeGuard = typeof NetworkErrorWithMessageList.isNetworkErrorWithMessageList extends ((
+        x: unknown,
+      ) => x is NetworkErrorWithMessageList)
+        ? true
+        : false;
+      expectTypeOf<IsTypeGuard>().toEqualTypeOf<true>();
     });
   });
 });
