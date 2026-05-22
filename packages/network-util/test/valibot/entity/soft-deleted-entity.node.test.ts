@@ -24,7 +24,6 @@ describe('softDeletedEntity', () => {
       const value = { soft_deleted_at_timestamp: Temporal.Instant.from('2024-06-15T12:00:00Z') };
       const result = v.safeParse(softDeletedEntity, value);
       assert.isTrue(result.success);
-      console.info('result', result);
       assert.isNotNull(result.output.soft_deleted_at_timestamp);
       expect(result.output.soft_deleted_at_timestamp.equals(value.soft_deleted_at_timestamp)).toBeTruthy();
     });
