@@ -2,10 +2,10 @@ import type * as v from 'valibot';
 
 import type { response } from '#src/valibot/response-message/response';
 
-import type { NetworkErrorConstructor } from './network-error';
+import type { NetworkErrorResult } from './network-error';
 import { NetworkError } from './network-error';
 
-export interface NetworkErrorWithMessageListConstructor extends NetworkErrorConstructor {
+export interface NetworkErrorWithMessageListResult extends NetworkErrorResult {
   readonly messageList: v.InferOutput<typeof response>['message_list'];
 }
 
@@ -16,10 +16,10 @@ export interface NetworkErrorWithMessageListConstructor extends NetworkErrorCons
  * JSON envelope that can be parsed against the `response` schema, allowing call
  * sites to surface server-provided error messages to the user.
  */
-export class NetworkErrorWithMessageList extends NetworkError {
-  readonly messageList: NetworkErrorWithMessageListConstructor['messageList'];
+export class NetworkErrorWithMessageList extends NetworkError implements NetworkErrorWithMessageListResult {
+  readonly messageList: NetworkErrorWithMessageListResult['messageList'];
 
-  constructor(data: NetworkErrorWithMessageListConstructor) {
+  constructor(data: NetworkErrorWithMessageListResult) {
     super(data);
     this.name = 'NetworkErrorWithMessageList';
     this.messageList = data.messageList;

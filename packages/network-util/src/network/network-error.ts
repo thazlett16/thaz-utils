@@ -1,15 +1,5 @@
-interface BaseErrorConstructor {
-  message: string;
-}
-
-class BaseError extends Error {
-  constructor(data: BaseErrorConstructor) {
-    super(data.message);
-    this.name = 'BaseError';
-  }
-}
-
-export interface NetworkErrorConstructor extends BaseErrorConstructor {
+export interface NetworkErrorResult {
+  readonly message: string;
   readonly statusCode: number;
 }
 
@@ -19,11 +9,11 @@ export interface NetworkErrorConstructor extends BaseErrorConstructor {
  * Provides typed convenience getters for the most common HTTP status ranges and codes
  * so call sites can branch on status semantics without comparing raw numbers.
  */
-export class NetworkError extends BaseError {
-  readonly statusCode: NetworkErrorConstructor['statusCode'];
+export class NetworkError extends Error implements NetworkErrorResult {
+  readonly statusCode: NetworkErrorResult['statusCode'];
 
-  constructor(data: NetworkErrorConstructor) {
-    super(data);
+  constructor(data: NetworkErrorResult) {
+    super(data.message);
     this.name = 'NetworkError';
     this.statusCode = data.statusCode;
   }
