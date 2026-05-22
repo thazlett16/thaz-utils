@@ -14,6 +14,9 @@ export const libraryCodeConfig = defineConfig({
 
         // In library code we need to return undefined for certain cases.
         'unicorn/no-useless-undefined': 'off',
+
+        // In library code there may be private methods marked with underscore outside our control (valibot)
+        'eslint/no-underscore-dangle': 'off',
       },
     },
   ],

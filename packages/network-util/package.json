@@ -45,7 +45,9 @@
     "use-deep-compare": "catalog:"
   },
   "devDependencies": {
+    "@js-temporal/polyfill": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "@thazstack/typescript-config": "workspace:",
     "@ts-rest/core": "catalog:",
@@ -60,7 +62,9 @@
     "vite-plus": "catalog:"
   },
   "peerDependencies": {
+    "@js-temporal/polyfill": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@thazstack/temporal-util": "workspace:",
     "@thazstack/temporal-valibot-util": "workspace:",
     "@ts-rest/core": "catalog:",
     "react": "catalog:",

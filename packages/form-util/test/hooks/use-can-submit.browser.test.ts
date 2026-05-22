@@ -8,9 +8,7 @@ import { CanSubmitTestUtils } from './can-submit-test-utils';
 
 describe('useCanSubmit', () => {
   test('returns true when not submitting', async () => {
-    const canSubmitUtils = new CanSubmitTestUtils();
-
-    const wrapper = canSubmitUtils.createWrapperComponent({
+    const wrapper = CanSubmitTestUtils.createWrapperComponent({
       defaultTestValue: 'valid',
     });
 
@@ -20,9 +18,7 @@ describe('useCanSubmit', () => {
   });
 
   test('returns true when form is valid and allowSubmitWhenInvalid is true', async () => {
-    const canSubmitUtils = new CanSubmitTestUtils();
-
-    const wrapper = canSubmitUtils.createWrapperComponent({
+    const wrapper = CanSubmitTestUtils.createWrapperComponent({
       defaultTestValue: 'valid',
     });
 
@@ -32,9 +28,7 @@ describe('useCanSubmit', () => {
   });
 
   test('returns false when form is invalid and allowSubmitWhenInvalid is true', async () => {
-    const canSubmitUtils = new CanSubmitTestUtils();
-
-    const wrapper = canSubmitUtils.createWrapperComponent({
+    const wrapper = CanSubmitTestUtils.createWrapperComponent({
       defaultTestValue: 'valid',
     });
 
@@ -43,16 +37,14 @@ describe('useCanSubmit', () => {
     expect(result.current).toBeTruthy();
 
     await act(async () => {
-      await canSubmitUtils.setInputValue('ab');
+      await CanSubmitTestUtils.setInputValue('ab');
     });
 
     expect(result.current).toBeFalsy();
   });
 
   test('returns true when field recovers to valid after being invalid and allowSubmitWhenInvalid is true', async () => {
-    const canSubmitUtils = new CanSubmitTestUtils();
-
-    const wrapper = canSubmitUtils.createWrapperComponent({
+    const wrapper = CanSubmitTestUtils.createWrapperComponent({
       defaultTestValue: 'valid',
     });
 
@@ -61,13 +53,13 @@ describe('useCanSubmit', () => {
     expect(result.current).toBeTruthy();
 
     await act(async () => {
-      await canSubmitUtils.setInputValue('ab');
+      await CanSubmitTestUtils.setInputValue('ab');
     });
 
     expect(result.current).toBeFalsy();
 
     await act(async () => {
-      await canSubmitUtils.setInputValue('valid');
+      await CanSubmitTestUtils.setInputValue('valid');
     });
 
     expect(result.current).toBeTruthy();
@@ -76,12 +68,12 @@ describe('useCanSubmit', () => {
   test('returns false while submitting when allowSubmitWhenInvalid is true', async () => {
     vi.useFakeTimers();
 
-    const canSubmitUtils = new CanSubmitTestUtils();
-
-    const wrapper = canSubmitUtils.createWrapperComponent({
+    const wrapper = CanSubmitTestUtils.createWrapperComponent({
       defaultTestValue: 'valid',
       onSubmitAsync: async () => {
-        await new Promise<void>((resolve) => setTimeout(resolve, 1000));
+        await new Promise<void>((resolve) => {
+          setTimeout(resolve, 1000);
+        });
       },
     });
 
@@ -90,7 +82,7 @@ describe('useCanSubmit', () => {
     expect(result.current).toBeTruthy();
 
     await act(async () => {
-      await canSubmitUtils.submitForm();
+      await CanSubmitTestUtils.submitForm();
     });
 
     expect(result.current).toBeFalsy();
