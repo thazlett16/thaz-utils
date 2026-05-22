@@ -4,13 +4,13 @@ import { describe, expectTypeOf, test } from 'vite-plus/test';
 import type { MessageType, messageType } from '#src/valibot/response-message/message-type';
 import { MESSAGE_TYPE } from '#src/valibot/response-message/message-type';
 
-describe('messageType', () => {
+describe('type MessageType', () => {
   test('is a union of the four message type strings', () => {
     expectTypeOf<MessageType>().toEqualTypeOf<'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR'>();
   });
 });
 
-describe('mESSAGE_TYPE', () => {
+describe('const MESSAGE_TYPE', () => {
   test('values are readonly string literals', () => {
     expectTypeOf(MESSAGE_TYPE.INFO).toEqualTypeOf<'INFO'>();
     expectTypeOf(MESSAGE_TYPE.SUCCESS).toEqualTypeOf<'SUCCESS'>();
@@ -19,7 +19,7 @@ describe('mESSAGE_TYPE', () => {
   });
 });
 
-describe('messageType schema', () => {
+describe('schema messageType', () => {
   test('input is MessageType', () => {
     expectTypeOf<InferInput<typeof messageType>>().toEqualTypeOf<MessageType>();
   });
