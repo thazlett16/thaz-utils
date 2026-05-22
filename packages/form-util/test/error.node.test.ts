@@ -22,7 +22,7 @@ describe('formErrorBase', () => {
   });
 
   test('isFormErrorBase returns false for plain Error', () => {
-    expect(FormErrorBase.isFormErrorBase(new Error())).toBeFalsy();
+    expect(FormErrorBase.isFormErrorBase(new Error('Dummy error message'))).toBeFalsy();
   });
 
   test('isFormErrorBase returns false for non-error values', () => {
@@ -50,7 +50,7 @@ describe('formConversionError', () => {
   });
 
   test('isFormConversionError returns false for non-FormConversionError values', () => {
-    expect(FormConversionError.isFormConversionError(new Error())).toBeFalsy();
+    expect(FormConversionError.isFormConversionError(new Error('Dummy error message'))).toBeFalsy();
     expect(FormConversionError.isFormConversionError(null)).toBeFalsy();
   });
 });
@@ -77,7 +77,7 @@ describe('formTypeError', () => {
 
   test('isFormTypeError returns false for non-FormTypeError values', () => {
     expect(FormTypeError.isFormTypeError(new FormErrorBase({ message: '' }))).toBeFalsy();
-    expect(FormTypeError.isFormTypeError(new Error())).toBeFalsy();
+    expect(FormTypeError.isFormTypeError(new Error('Dummy error message'))).toBeFalsy();
     expect(FormTypeError.isFormTypeError(null)).toBeFalsy();
   });
 });
@@ -104,7 +104,7 @@ describe('formMessageShapeError', () => {
 
   test('isFormMessageShapeError returns false for non-FormMessageShapeError values', () => {
     expect(FormMessageShapeError.isFormMessageShapeError(new FormErrorBase({ message: '' }))).toBeFalsy();
-    expect(FormMessageShapeError.isFormMessageShapeError(new Error())).toBeFalsy();
+    expect(FormMessageShapeError.isFormMessageShapeError(new Error('Dummy error message'))).toBeFalsy();
     expect(FormMessageShapeError.isFormMessageShapeError(null)).toBeFalsy();
   });
 });

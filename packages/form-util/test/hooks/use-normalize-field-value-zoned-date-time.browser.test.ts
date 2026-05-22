@@ -16,9 +16,7 @@ const testPlainTime = Temporal.PlainTime.from('12:00:00');
 
 describe('useNormalizeFieldValueZonedDateTime', () => {
   test('returns a ZonedDateTime value unchanged', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testZonedDateTime,
     });
 
@@ -29,9 +27,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('returns null for null', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: null,
     });
 
@@ -40,9 +36,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('returns null for undefined', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: undefined,
     });
 
@@ -51,9 +45,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.Instant field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testInstant,
     });
 
@@ -61,9 +53,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.PlainDateTime field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDateTime,
     });
 
@@ -71,9 +61,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDate,
     });
 
@@ -81,9 +69,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a string field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -91,9 +77,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: 5,
     });
 
@@ -101,9 +85,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.PlainTime field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainTime,
     });
 
@@ -111,9 +93,7 @@ describe('useNormalizeFieldValueZonedDateTime', () => {
   });
 
   test('throws FormTypeError for an object field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: {},
     });
 
