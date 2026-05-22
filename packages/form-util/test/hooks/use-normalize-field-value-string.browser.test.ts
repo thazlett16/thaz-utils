@@ -9,9 +9,7 @@ import { NormalizeHookTestUtils } from './normalize-hook-test-utils';
 
 describe('useNormalizeFieldValueString', () => {
   test('returns a string value unchanged', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: 'FirstName',
     });
 
@@ -20,9 +18,7 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('returns an empty string unchanged', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -31,9 +27,7 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('returns empty string for null', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: null,
     });
 
@@ -42,9 +36,7 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('returns empty string for undefined', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: undefined,
     });
 
@@ -53,9 +45,7 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: 0,
     });
 
@@ -63,9 +53,7 @@ describe('useNormalizeFieldValueString', () => {
   });
 
   test('throws FormTypeError for a object field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: {},
     });
 

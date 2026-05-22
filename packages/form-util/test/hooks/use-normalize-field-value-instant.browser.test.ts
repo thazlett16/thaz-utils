@@ -16,9 +16,7 @@ const testPlainTime = Temporal.PlainTime.from('12:00:00');
 
 describe('useNormalizeFieldValueInstant', () => {
   test('returns an Instant value unchanged', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testInstant,
     });
 
@@ -29,9 +27,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('returns an Instant value for ZonedDateTime', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testZonedDateTime,
     });
 
@@ -42,9 +38,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('returns null for null', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: null,
     });
 
@@ -53,9 +47,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('returns null for undefined', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: undefined,
     });
 
@@ -64,9 +56,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a string field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -74,9 +64,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: 5,
     });
 
@@ -84,9 +72,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a object field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: {},
     });
 
@@ -94,9 +80,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a PlainDateTime field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDateTime,
     });
 
@@ -104,9 +88,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a PlainDate field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDate,
     });
 
@@ -114,9 +96,7 @@ describe('useNormalizeFieldValueInstant', () => {
   });
 
   test('throws FormTypeError for a PlainTime field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainTime,
     });
 

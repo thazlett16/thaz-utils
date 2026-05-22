@@ -126,7 +126,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'types',
-          include: ['test/**/*.test-d.{ts,tsx}'],
+          include: ['test/**/*.test-d.ts'],
           typecheck: {
             enabled: true,
           },

@@ -16,9 +16,7 @@ const testPlainTime = Temporal.PlainTime.from('12:00:00');
 
 describe('useNormalizeFieldValuePlainDateTime', () => {
   test('returns a PlainDateTime value unchanged', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDateTime,
     });
 
@@ -29,9 +27,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('returns a PlainDateTime value for ZonedDateTime', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testZonedDateTime,
     });
 
@@ -42,9 +38,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('returns null for null', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: null,
     });
 
@@ -53,9 +47,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('returns null for undefined', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: undefined,
     });
 
@@ -64,9 +56,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.Instant field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testInstant,
     });
 
@@ -74,9 +64,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.PlainDate field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainDate,
     });
 
@@ -84,9 +72,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for a string field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -94,9 +80,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for a number field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: 5,
     });
 
@@ -104,9 +88,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for a Temporal.PlainTime field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: testPlainTime,
     });
 
@@ -114,9 +96,7 @@ describe('useNormalizeFieldValuePlainDateTime', () => {
   });
 
   test('throws FormTypeError for an object field value', async () => {
-    const normalizeHookTestUtils = new NormalizeHookTestUtils();
-
-    const wrapper = normalizeHookTestUtils.createWrapperComponent({
+    const wrapper = NormalizeHookTestUtils.createWrapperComponent({
       defaultTestValue: {},
     });
 

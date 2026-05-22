@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { BaseForm } from '#src/components/tanstack-form.config';
 
 export class NormalizeHookTestUtils {
-  createWrapperComponent(options: { defaultTestValue: unknown }) {
+  static createWrapperComponent(options: { defaultTestValue: unknown }) {
     const { useAppForm } = BaseForm;
 
     return function WrapperComponent({ children }: { children: ReactNode }) {

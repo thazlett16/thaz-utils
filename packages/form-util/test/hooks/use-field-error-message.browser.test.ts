@@ -9,9 +9,7 @@ import { FieldErrorMessageTestUtils } from './field-error-message-test-utils';
 
 describe('useFieldErrorMessageList', () => {
   test('returns null before blur or submission', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -20,9 +18,7 @@ describe('useFieldErrorMessageList', () => {
   });
 
   test('returns null after blur when field is valid', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -31,20 +27,18 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBeNull();
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.setInputValue('valid');
+      await FieldErrorMessageTestUtils.setInputValue('valid');
     });
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.blurInput();
+      await FieldErrorMessageTestUtils.blurInput();
     });
 
     expect(result.current).toBeNull();
   });
 
   test('returns error message after blur when field is invalid', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -53,20 +47,18 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBeNull();
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.setInputValue('ab');
+      await FieldErrorMessageTestUtils.setInputValue('ab');
     });
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.blurInput();
+      await FieldErrorMessageTestUtils.blurInput();
     });
 
     expect(result.current).toBe('Error Message Min Length 3');
   });
 
   test('returns error message after blur when field is invalid and then return null after field is valid', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
     });
 
@@ -75,30 +67,28 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBeNull();
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.setInputValue('ab');
+      await FieldErrorMessageTestUtils.setInputValue('ab');
     });
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.blurInput();
+      await FieldErrorMessageTestUtils.blurInput();
     });
 
     expect(result.current).toBe('Error Message Min Length 3');
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.setInputValue('abcde');
+      await FieldErrorMessageTestUtils.setInputValue('abcde');
     });
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.blurInput();
+      await FieldErrorMessageTestUtils.blurInput();
     });
 
     expect(result.current).toBeNull();
   });
 
   test('returns error message after a submission attempt', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: 'ab',
     });
 
@@ -107,16 +97,14 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBeNull();
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.submitForm();
+      await FieldErrorMessageTestUtils.submitForm();
     });
 
     expect(result.current).toBe('Error Message Min Length 3');
   });
 
   test('returns error message when error is in StandardSchema format', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
       messageShape: 'STANDARD_SCHEMA',
     });
@@ -126,20 +114,18 @@ describe('useFieldErrorMessageList', () => {
     expect(result.current).toBeNull();
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.setInputValue('ab');
+      await FieldErrorMessageTestUtils.setInputValue('ab');
     });
 
     await act(async () => {
-      await fieldErrorMessageTestUtils.blurInput();
+      await FieldErrorMessageTestUtils.blurInput();
     });
 
     expect(result.current).toBe('STANDARD_SCHEMA - Error Message Min Length 3');
   });
 
   test('throws FormMessageShapeError when error message has unknown shape', async () => {
-    const fieldErrorMessageTestUtils = new FieldErrorMessageTestUtils();
-
-    const wrapper = fieldErrorMessageTestUtils.createWrapperComponent({
+    const wrapper = FieldErrorMessageTestUtils.createWrapperComponent({
       defaultTestValue: '',
       messageShape: 'INVALID_SHAPE',
     });
@@ -150,7 +136,7 @@ describe('useFieldErrorMessageList', () => {
 
     await expect(
       act(async () => {
-        await fieldErrorMessageTestUtils.setInputValue('ab');
+        await FieldErrorMessageTestUtils.setInputValue('ab');
       }),
     ).rejects.toThrow(FormMessageShapeError);
   });

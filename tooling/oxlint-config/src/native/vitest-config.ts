@@ -6,10 +6,17 @@ export const vitestConfig = defineConfig({
   ...baseConfig,
   overrides: [
     {
-      files: ['**/*.test.ts', '**/*.test-d.ts', '**/*.test.tsx', '**/*.test-d.tsx'],
+      files: ['**/*.test.{ts,tsx}', '**/*.test-d.ts'],
       plugins: ['vitest'],
       rules: {
         // Correctness Rules
+        'vitest/no-standalone-expect': [
+          'error',
+          {
+            additionalTestBlockFunctions: ['test.for'],
+          },
+        ],
+
         // Suspicious Rules
         'unicorn/consistent-function-scoping': 'off',
 

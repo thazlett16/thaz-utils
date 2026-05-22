@@ -6,7 +6,10 @@ import { BaseForm } from '#src/components/tanstack-form.config';
 import { useFieldContext } from '#src/tanstack-form.config';
 
 export class FieldErrorMessageTestUtils {
-  createWrapperComponent(options: { defaultTestValue: string; messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE' }) {
+  static createWrapperComponent(options: {
+    defaultTestValue: string;
+    messageShape?: 'STANDARD_SCHEMA' | 'INVALID_SHAPE';
+  }) {
     function TestInput() {
       const field = useFieldContext<string>();
 
@@ -93,28 +96,28 @@ export class FieldErrorMessageTestUtils {
     };
   }
 
-  get submitButton() {
+  static get submitButton() {
     return page.getByRole('button');
   }
 
-  get textInput() {
+  static get textInput() {
     return page.getByRole('textbox');
   }
 
-  async blurInput() {
+  static async blurInput() {
     await userEvent.tab();
   }
 
-  async clearInputValue() {
+  static async clearInputValue() {
     await userEvent.clear(this.textInput);
   }
 
-  async setInputValue(value: string) {
+  static async setInputValue(value: string) {
     await this.clearInputValue();
     await userEvent.type(this.textInput, value);
   }
 
-  async submitForm() {
+  static async submitForm() {
     await userEvent.click(this.submitButton);
   }
 }
