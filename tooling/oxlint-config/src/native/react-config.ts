@@ -28,7 +28,12 @@ export const reactConfig = defineConfig({
     ],
     'react/no-danger': 'error',
     'react/no-unknown-property': 'error',
-    'react/only-export-components': 'error',
+    'react/only-export-components': [
+      'error',
+      {
+        customHOCs: ['createFileRoute', 'createRootRouteWithContext', 'createRootRoute'],
+      },
+    ],
 
     // Pedantic Rules
     'react/checked-requires-onchange-or-readonly': 'error',
