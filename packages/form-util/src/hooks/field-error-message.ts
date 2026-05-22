@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useStore } from '@tanstack/react-form';
 
-import { FormMessageShapeError } from '#src/error';
+import { FormMessageShapeError } from '#src/form-error';
 import { useFieldContext } from '#src/tanstack-form.config';
 
 function isStandardSchemaMessageShape(error: unknown): error is { message: string } {

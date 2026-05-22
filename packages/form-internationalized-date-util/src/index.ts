@@ -1,4 +1,4 @@
-export * from './error';
+export * from './form-error';
 export * from './tanstack-form.config';
 
 export * from './actions';

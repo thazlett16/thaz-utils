@@ -19,8 +19,8 @@ export interface NetworkErrorWithMessageListResult extends NetworkErrorResult {
 export class NetworkErrorWithMessageList extends NetworkError implements NetworkErrorWithMessageListResult {
   readonly messageList: NetworkErrorWithMessageListResult['messageList'];
 
-  constructor(data: NetworkErrorWithMessageListResult) {
-    super(data);
+  constructor(data: Readonly<NetworkErrorWithMessageListResult>, options?: ErrorOptions) {
+    super(data, options);
     this.name = 'NetworkErrorWithMessageList';
     this.messageList = data.messageList;
   }

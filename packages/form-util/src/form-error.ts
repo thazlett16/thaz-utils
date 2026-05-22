@@ -1,11 +1,11 @@
 /** Constructor arguments for {@link FormErrorBase}. */
-export interface FormErrorBaseConstructor {
+interface FormErrorBaseResult {
   message: string;
 }
 
 /** Base class for all form-related errors in this library. */
-export class FormErrorBase extends Error {
-  constructor(props: Readonly<FormErrorBaseConstructor>, options?: ErrorOptions) {
+class FormErrorBase extends Error implements FormErrorBaseResult {
+  constructor(props: Readonly<FormErrorBaseResult>, options?: ErrorOptions) {
     super(props.message, options);
     this.name = 'FormErrorBase';
   }
@@ -17,11 +17,11 @@ export class FormErrorBase extends Error {
 }
 
 /** Constructor arguments for {@link FormConversionError}. */
-export type FormConversionErrorConstructor = FormErrorBaseConstructor;
+export type FormConversionErrorResult = FormErrorBaseResult;
 
 /** Thrown when a value cannot be converted from one form type to another. */
-export class FormConversionError extends FormErrorBase {
-  constructor(props: Readonly<FormConversionErrorConstructor>, options?: ErrorOptions) {
+export class FormConversionError extends FormErrorBase implements FormConversionErrorResult {
+  constructor(props: Readonly<FormConversionErrorResult>, options?: ErrorOptions) {
     super(props, options);
     this.name = 'FormConversionError';
   }
@@ -33,17 +33,16 @@ export class FormConversionError extends FormErrorBase {
 }
 
 /** Constructor arguments for {@link FormTypeError}. */
-export interface FormTypeErrorConstructor extends FormErrorBaseConstructor {
+export interface FormTypeErrorResult extends FormErrorBaseResult {
   /** The value that triggered the type error. */
   data: unknown;
 }
 
 /** Thrown when a form field value does not match the expected type. */
-export class FormTypeError extends FormErrorBase {
-  /** The value that triggered the type error. */
-  readonly data: FormTypeErrorConstructor['data'];
+export class FormTypeError extends FormErrorBase implements FormTypeErrorResult {
+  readonly data: FormTypeErrorResult['data'];
 
-  constructor(props: Readonly<FormTypeErrorConstructor>, options?: ErrorOptions) {
+  constructor(props: Readonly<FormTypeErrorResult>, options?: ErrorOptions) {
     super(props, options);
     this.name = 'FormTypeError';
     this.data = props.data;
@@ -56,17 +55,17 @@ export class FormTypeError extends FormErrorBase {
 }
 
 /** Constructor arguments for {@link FormMessageShapeError}. */
-export interface FormMessageShapeErrorConstructor extends FormErrorBaseConstructor {
+export interface FormMessageShapeErrorResult extends FormErrorBaseResult {
   /** The value that had an unexpected shape. */
   data: unknown;
 }
 
 /** Thrown when a form message does not match the expected shape. */
-export class FormMessageShapeError extends FormErrorBase {
+export class FormMessageShapeError extends FormErrorBase implements FormMessageShapeErrorResult {
   /** The value that had an unexpected shape. */
-  readonly data: FormMessageShapeErrorConstructor['data'];
+  readonly data: FormMessageShapeErrorResult['data'];
 
-  constructor(props: Readonly<FormMessageShapeErrorConstructor>, options?: ErrorOptions) {
+  constructor(props: Readonly<FormMessageShapeErrorResult>, options?: ErrorOptions) {
     super(props, options);
     this.name = 'FormMessageShapeError';
     this.data = props.data;

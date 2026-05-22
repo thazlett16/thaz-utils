@@ -2,7 +2,7 @@ import { renderHook } from 'vitest-browser-react';
 
 import { describe, expect, test } from 'vite-plus/test';
 
-import { FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/form-error';
 import { useNormalizeFieldValueString } from '#src/hooks/normalize-field-value-string';
 
 import { NormalizeHookTestUtils } from './normalize-hook-test-utils';

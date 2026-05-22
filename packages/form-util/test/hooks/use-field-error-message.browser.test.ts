@@ -2,7 +2,7 @@ import { renderHook } from 'vitest-browser-react';
 
 import { describe, expect, test } from 'vite-plus/test';
 
-import { FormMessageShapeError } from '#src/error';
+import { FormMessageShapeError } from '#src/form-error';
 import { useFieldErrorMessageList } from '#src/hooks/field-error-message';
 
 import { FieldErrorMessageTestUtils } from './field-error-message-test-utils';

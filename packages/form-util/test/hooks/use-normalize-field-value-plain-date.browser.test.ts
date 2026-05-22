@@ -3,7 +3,7 @@ import { renderHook } from 'vitest-browser-react';
 import { Temporal } from '@js-temporal/polyfill';
 import { assert, describe, expect, test } from 'vite-plus/test';
 
-import { FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/form-error';
 import { useNormalizeFieldValuePlainDate } from '#src/hooks/normalize-field-value-plain-date';
 
 import { NormalizeHookTestUtils } from './normalize-hook-test-utils';

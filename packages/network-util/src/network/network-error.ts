@@ -12,8 +12,8 @@ export interface NetworkErrorResult {
 export class NetworkError extends Error implements NetworkErrorResult {
   readonly statusCode: NetworkErrorResult['statusCode'];
 
-  constructor(data: NetworkErrorResult) {
-    super(data.message);
+  constructor(data: Readonly<NetworkErrorResult>, options?: ErrorOptions) {
+    super(data.message, options);
     this.name = 'NetworkError';
     this.statusCode = data.statusCode;
   }
