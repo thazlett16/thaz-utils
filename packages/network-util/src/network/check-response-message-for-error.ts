@@ -1,17 +1,20 @@
 import * as v from 'valibot';
 
-import { response } from '../valibot/response-message/response';
+import { response } from '#src/valibot/response-message/response';
+
 import { NetworkErrorWithMessageList } from './network-error-with-message-list';
 
 /**
- * We should never return an error messages in a success response. But this helps to guard in that case.
+ * Guards against server-returned ERROR messages embedded in an otherwise successful response.
  *
- * Should use this after the refineNetworkResponse utility.
+ * Parses the response body against the `response` schema when the `Content-Type` is JSON. If any
+ * message in `message_list` has type `ERROR`, throws a `NetworkErrorWithMessageList` so the caller
+ * can surface the server-provided error details. Call this after `refineNetworkError`.
  *
- * @param body
- * @param statusCode
- * @param headers
- * @param defaultMessage
+ * @param body The parsed response body.
+ * @param statusCode The HTTP status code of the response.
+ * @param headers The response `Headers` object — used to check `Content-Type`.
+ * @param defaultMessage Optional error message for the thrown error; falls back to `'NetworkErrorWithMessageList'`.
  */
 export function checkResponseMessageForError(
   body: unknown,

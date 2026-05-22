@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-form';
 import { Temporal } from '@js-temporal/polyfill';
 import type * as v from 'valibot';
 
-import { FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/form-error';
 import type { _plainTimeNullable } from '#src/schemas/plain-time';
 import { useFieldContext } from '#src/tanstack-form.config';
 

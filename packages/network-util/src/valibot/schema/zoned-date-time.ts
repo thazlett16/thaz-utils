@@ -2,10 +2,8 @@ import * as t from '@thazstack/temporal-valibot-util';
 
 import * as v from 'valibot';
 
-export const zonedDateTime = v.union([
-  t.zonedDateTime(),
-  v.pipe(v.string(), v.trim(), t.toZonedDateTime(), t.zonedDateTime()),
-]);
-
-// type InputZonedDateTime = v.InferInput<typeof zonedDateTime>;
-// type OutputZonedDateTime = v.InferOutput<typeof zonedDateTime>;
+/**
+ * Valibot schema that accepts a `Temporal.ZonedDateTime` instance or an ISO-8601 zoned date-time string and
+ * outputs a `Temporal.ZonedDateTime`.
+ */
+export const zonedDateTime = v.union([t.zonedDateTime(), v.pipe(v.string(), t.toZonedDateTime(), t.zonedDateTime())]);

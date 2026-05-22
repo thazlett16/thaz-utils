@@ -2,7 +2,8 @@ import * as t from '@thazstack/temporal-valibot-util';
 
 import * as v from 'valibot';
 
-export const plainTime = v.union([t.plainTime(), v.pipe(v.string(), v.trim(), t.toPlainTime(), t.plainTime())]);
-
-// type InputPlainTime = v.InferInput<typeof plainTime>;
-// type OutputPlainTime = v.InferOutput<typeof plainTime>;
+/**
+ * Valibot schema that accepts a `Temporal.PlainTime` instance or an ISO-8601 time string and
+ * outputs a `Temporal.PlainTime`.
+ */
+export const plainTime = v.union([t.plainTime(), v.pipe(v.string(), t.toPlainTime(), t.plainTime())]);

@@ -3,7 +3,7 @@ import { renderHook } from 'vitest-browser-react';
 import { Temporal } from '@js-temporal/polyfill';
 import { assert, describe, expect, test } from 'vite-plus/test';
 
-import { FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/form-error';
 import { useNormalizeFieldValueInstant } from '#src/hooks/normalize-field-value-instant';
 
 import { NormalizeHookTestUtils } from './normalize-hook-test-utils';
@@ -22,7 +22,7 @@ describe('useNormalizeFieldValueInstant', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testInstant.equals(result.current)).toBeTruthy();
   });
 
@@ -33,7 +33,7 @@ describe('useNormalizeFieldValueInstant', () => {
 
     const { result } = await renderHook(() => useNormalizeFieldValueInstant(), { wrapper });
 
-    assert(result.current !== null);
+    assert.isNotNull(result.current);
     expect(testInstant.equals(result.current)).toBeTruthy();
   });
 

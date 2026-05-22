@@ -2,7 +2,7 @@ import { useStore } from '@tanstack/react-form';
 
 import type * as v from 'valibot';
 
-import { FormTypeError } from '#src/error';
+import { FormTypeError } from '#src/form-error';
 import type { _stringNullable } from '#src/schemas/string';
 import { useFieldContext } from '#src/tanstack-form.config';
 
