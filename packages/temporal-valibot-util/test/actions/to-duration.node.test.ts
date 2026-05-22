@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { ToDurationAction, ToDurationIssue } from '#src/actions/to-duration-value';
-import { toDuration } from '#src/actions/to-duration-value';
+import type { ToDurationAction, ToDurationIssue } from '../../src/actions/to-duration-value';
+import { toDuration } from '../../src/actions/to-duration-value';
 
 describe('toDuration', () => {
   describe('should return action object', () => {

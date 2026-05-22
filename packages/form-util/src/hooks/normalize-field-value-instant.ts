@@ -9,6 +9,16 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueInstant = v.InferInput<ReturnType<typeof _instantNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `Temporal.Instant` | `null`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.Instant`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `Temporal.Instant` | `null`.
+ */
 export function useNormalizeFieldValueInstant() {
   const field = useFieldContext<FieldValueInstant>();
 

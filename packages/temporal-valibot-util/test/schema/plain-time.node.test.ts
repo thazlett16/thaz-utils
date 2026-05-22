@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { PlainTimeIssue, PlainTimeSchema } from '#src/schema/plain-time';
-import { plainTime } from '#src/schema/plain-time';
+import type { PlainTimeIssue, PlainTimeSchema } from '../../src/schema/plain-time';
+import { plainTime } from '../../src/schema/plain-time';
 
 describe('plainTime', () => {
   describe('should return schema object', () => {

@@ -2,9 +2,9 @@ import { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { TemporalMinValueAction, TemporalMinValueIssue } from '#src/actions/min-temporal-value';
-import { temporalMinValue } from '#src/actions/min-temporal-value';
-import type { TemporalValueInput } from '#src/actions/types';
+import type { TemporalMinValueAction, TemporalMinValueIssue } from '../../src/actions/min-temporal-value';
+import { temporalMinValue } from '../../src/actions/min-temporal-value';
+import type { TemporalValueInput } from '../../src/actions/types';
 
 describe('temporalMinValue', () => {
   describe('should return action object', () => {

@@ -34,6 +34,17 @@ function formatErrorList(errors: unknown[]) {
   });
 }
 
+/**
+ * Returns the first formatted validation error message for the current field, or `null` when
+ * there are no errors or the field has not yet been blurred and no submission has been attempted.
+ *
+ * Accepts errors shaped as `{ message: string }` (Standard Schema) or plain `string`. Throws
+ * {@link FormMessageShapeError} for any other error shape.
+ *
+ * Must be called within a field component provided by `BaseForm`.
+ *
+ * @returns The error message string, or `null`.
+ */
 export function useFieldErrorMessageList() {
   const field = useFieldContext();
 

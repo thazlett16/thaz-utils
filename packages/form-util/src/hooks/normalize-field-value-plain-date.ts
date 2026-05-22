@@ -9,6 +9,16 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValuePlainDate = v.InferInput<ReturnType<typeof _plainDateNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `Temporal.PlainDate` | `null`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime` / `Temporal.PlainDate`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `Temporal.PlainDate` | `null`.
+ */
 export function useNormalizeFieldValuePlainDate() {
   const field = useFieldContext<FieldValuePlainDate>();
 

@@ -33,17 +33,6 @@ export function _stringRequired(messages: FormRequiredMessage, ...actions: Strin
   return v.pipe(_stringNullable(messages), v.pipe(v.string(messages.requiredMessage), ...actions));
 }
 
-/**
- * String schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
- *
- * Accepts:
- *
- * `null`
- *
- * `undefined` -> `null`
- *
- * `string` is trimmed and if empty -> null
- */
 export function string<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: StringAction[]

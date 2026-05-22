@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '#src/actions/max-temporal-value';
-import { temporalMaxValue } from '#src/actions/max-temporal-value';
+import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '../../src/actions/max-temporal-value';
+import { temporalMaxValue } from '../../src/actions/max-temporal-value';
 
 describe('temporalMaxValue', () => {
   describe('should return action object', () => {

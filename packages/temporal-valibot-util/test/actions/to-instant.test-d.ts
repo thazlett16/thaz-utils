@@ -2,8 +2,8 @@ import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { ToInstantAction, ToInstantIssue } from '#src/actions/to-instant-value';
-import { toInstant } from '#src/actions/to-instant-value';
+import type { ToInstantAction, ToInstantIssue } from '../../src/actions/to-instant-value';
+import { toInstant } from '../../src/actions/to-instant-value';
 
 describe('toInstant', () => {
   describe('should return action object', () => {

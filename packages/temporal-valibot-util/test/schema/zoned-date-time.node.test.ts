@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { ZonedDateTimeIssue, ZonedDateTimeSchema } from '#src/schema/zoned-date-time';
-import { zonedDateTime } from '#src/schema/zoned-date-time';
+import type { ZonedDateTimeIssue, ZonedDateTimeSchema } from '../../src/schema/zoned-date-time';
+import { zonedDateTime } from '../../src/schema/zoned-date-time';
 
 describe('zonedDateTime', () => {
   describe('should return schema object', () => {

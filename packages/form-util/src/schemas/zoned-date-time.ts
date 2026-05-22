@@ -30,17 +30,6 @@ export function _zonedDateTimeRequired(messages: FormRequiredMessage, ...actions
   return v.pipe(_zonedDateTimeNullable(messages), v.pipe(t.zonedDateTime(messages.requiredMessage), ...actions));
 }
 
-/**
- * ZonedDateTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
- *
- * Accepts:
- *
- * `null`
- *
- * `undefined` -> `null`
- *
- * `Temporal.ZonedDateTime`
- */
 export function zonedDateTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: ZonedDateTimeAction[]

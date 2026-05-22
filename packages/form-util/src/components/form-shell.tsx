@@ -3,8 +3,18 @@ import { useCallback } from 'react';
 
 import { useFormContext } from '#src/tanstack-form.config';
 
+/** Props for {@link FormShell}. Accepts all standard `<form>` element props. */
 export type FormShellProps = ComponentProps<'form'>;
 
+/**
+ * A `<form>` wrapper that wires up TanStack Form's submit and reset handlers.
+ *
+ * Prevents the default browser submit/reset behaviour, calls `formContext.handleSubmit()` on
+ * submit and `formContext.reset()` on reset, and sets `autoComplete="off"` by default.
+ * Any prop can be overridden by passing it directly.
+ *
+ * @param props - {@link FormShellProps}
+ */
 export function FormShell(props: Readonly<FormShellProps>) {
   const { children, onSubmit, onReset, autoComplete, ...rest } = props;
 

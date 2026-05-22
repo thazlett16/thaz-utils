@@ -3,17 +3,24 @@ import { useBlocker } from '@tanstack/react-router';
 
 import { useFormContext } from '#src/tanstack-form.config';
 
+/** Options for {@link usePromptUnsaved}. */
 export interface PromptUnsavedOptions {
+  /** When `true`, the navigation prompt is shown unconditionally, overriding dirty/submitted state. */
   forceShow: boolean;
+  /** When `true`, the navigation prompt is suppressed unconditionally, overriding dirty state. */
   forceHide: boolean;
 }
 
 /**
- * Adjusted from a maintainer but quick reference here: https://discordapp.com/channels/719702312431386674/1491059705165119509/1491066372246081668
+ * Blocks TanStack Router navigation (and `beforeunload`) when the form has unsaved changes.
  *
- * Not sure if ready yet. need to test logic and make sure it works as expected. Likely need to update this.
+ * The prompt is shown when the form is dirty and has not been submitted or is not currently
+ * submitting. Use `forceShow` / `forceHide` to override this logic.
  *
- * @param options
+ * Must be called within a component rendered inside a `BaseForm` form hook.
+ *
+ * @param options - {@link PromptUnsavedOptions}
+ * @returns The blocker object from `useBlocker`, which includes `proceed` and `reset` callbacks.
  */
 export function usePromptUnsaved(options?: Partial<Readonly<PromptUnsavedOptions>>) {
   const formContext = useFormContext();

@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { ToPlainTimeAction, ToPlainTimeIssue } from '#src/actions/to-plain-time-value';
-import { toPlainTime } from '#src/actions/to-plain-time-value';
+import type { ToPlainTimeAction, ToPlainTimeIssue } from '../../src/actions/to-plain-time-value';
+import { toPlainTime } from '../../src/actions/to-plain-time-value';
 
 describe('toPlainTime', () => {
   describe('should return action object', () => {

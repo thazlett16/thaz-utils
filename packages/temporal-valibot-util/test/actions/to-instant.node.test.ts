@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { ToInstantAction, ToInstantIssue } from '#src/actions/to-instant-value';
-import { toInstant } from '#src/actions/to-instant-value';
+import type { ToInstantAction, ToInstantIssue } from '../../src/actions/to-instant-value';
+import { toInstant } from '../../src/actions/to-instant-value';
 
 describe('toInstant', () => {
   describe('should return action object', () => {

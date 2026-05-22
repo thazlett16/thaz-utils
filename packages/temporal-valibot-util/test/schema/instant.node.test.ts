@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { InstantIssue, InstantSchema } from '#src/schema/instant';
-import { instant } from '#src/schema/instant';
+import type { InstantIssue, InstantSchema } from '../../src/schema/instant';
+import { instant } from '../../src/schema/instant';
 
 describe('instant', () => {
   describe('should return schema object', () => {

@@ -3,7 +3,7 @@ import * as v from 'valibot';
 /**
  * Returns `ifAction` when `condition` is `true`, otherwise returns `elseAction`.
  *
- * Useful for conditionally applying a validation or transform action in a pipe based on runtime state.
+ * Useful for conditionally applying a validation in a pipe based on runtime state. Does not allow transformations
  *
  * @param condition - When `true`, `ifAction` is returned; when `false`, `elseAction` is returned.
  * @param ifAction - The action to apply when `condition` is `true`.
@@ -18,5 +18,5 @@ export function when<TInput>(
     return ifAction;
   }
 
-  return elseAction ?? v.check(() => true);
+  return elseAction;
 }

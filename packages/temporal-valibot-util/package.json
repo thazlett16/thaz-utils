@@ -25,7 +25,7 @@
   },
   "files": [
     "dist",
-    "src"
+      "src"
   ],
   "type": "module",
   "exports": {

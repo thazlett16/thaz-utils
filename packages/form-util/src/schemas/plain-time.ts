@@ -36,21 +36,6 @@ export function _plainTimeRequired(messages: FormRequiredMessage, ...actions: Pl
   return v.pipe(_plainTimeNullable(messages), v.pipe(t.plainTime(messages.requiredMessage), ...actions));
 }
 
-/**
- * PlainTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
- *
- * Accepts:
- *
- * `null`
- *
- * `undefined` -> `null`
- *
- * `Temporal.PlainTime`
- *
- * `Temporal.ZonedDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
- *
- * `Temporal.PlainDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
- */
 export function plainTime<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: PlainTimeAction[]

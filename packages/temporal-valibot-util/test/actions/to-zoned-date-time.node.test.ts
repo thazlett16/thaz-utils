@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { ToZonedDateTimeAction, ToZonedDateTimeIssue } from '#src/actions/to-zoned-date-time-value';
-import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value';
+import type { ToZonedDateTimeAction, ToZonedDateTimeIssue } from '../../src/actions/to-zoned-date-time-value';
+import { toZonedDateTime } from '../../src/actions/to-zoned-date-time-value';
 
 describe('toZonedDateTime', () => {
   describe('should return action object', () => {

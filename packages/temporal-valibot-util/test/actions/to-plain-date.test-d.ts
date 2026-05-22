@@ -2,8 +2,8 @@ import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { ToPlainDateAction, ToPlainDateIssue } from '#src/actions/to-plain-date-value';
-import { toPlainDate } from '#src/actions/to-plain-date-value';
+import type { ToPlainDateAction, ToPlainDateIssue } from '../../src/actions/to-plain-date-value';
+import { toPlainDate } from '../../src/actions/to-plain-date-value';
 
 describe('toPlainDate', () => {
   describe('should return action object', () => {

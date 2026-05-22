@@ -2,8 +2,8 @@ import type { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { DurationIssue, DurationSchema } from '#src/schema/duration';
-import { duration } from '#src/schema/duration';
+import type { DurationIssue, DurationSchema } from '../../src/schema/duration';
+import { duration } from '../../src/schema/duration';
 
 describe('duration', () => {
   describe('should return schema object', () => {

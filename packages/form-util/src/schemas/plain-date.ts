@@ -36,21 +36,6 @@ export function _plainDateRequired(messages: FormRequiredMessage, ...actions: Pl
   return v.pipe(_plainDateNullable(messages), v.pipe(t.plainDate(messages.requiredMessage), ...actions));
 }
 
-/**
- * PlainDate schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
- *
- * Accepts:
- *
- * `null`
- *
- * `undefined` -> `null`
- *
- * `Temporal.PlainDate`
- *
- * `Temporal.ZonedDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
- *
- * `Temporal.PlainDateTime` -> `Temporal.PlainDate` via `.toPlainDate()`
- */
 export function plainDate<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: PlainDateAction[]

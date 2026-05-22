@@ -9,6 +9,16 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueZonedDateTime = v.InferInput<ReturnType<typeof _zonedDateTimeNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `Temporal.ZonedDateTime` | `null`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `Temporal.ZonedDateTime`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `Temporal.ZonedDateTime` | `null`.
+ */
 export function useNormalizeFieldValueZonedDateTime() {
   const field = useFieldContext<FieldValueZonedDateTime>();
 

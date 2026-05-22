@@ -8,6 +8,16 @@ import { useFieldContext } from '#src/tanstack-form.config';
 
 export type FieldValueNumber = v.InferInput<ReturnType<typeof _numberNullable>>;
 
+/**
+ * Reads the current field value from context and normalizes it to `number` | `null`.
+ * Must be called within a field component via `form.AppField`.
+ *
+ * Accepts values of: `null` / `undefined` / `number`
+ *
+ * Throws {@link FormTypeError} for any other unexpected type.
+ *
+ * @returns The normalized `number` | `null`.
+ */
 export function useNormalizeFieldValueNumber() {
   const field = useFieldContext<FieldValueNumber>();
 

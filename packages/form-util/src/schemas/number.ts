@@ -23,17 +23,6 @@ export function _numberRequired(messages: FormRequiredMessage, ...actions: Numbe
   return v.pipe(_numberNullable(messages), v.pipe(v.number(messages.requiredMessage), ...actions));
 }
 
-/**
- * Number schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
- *
- * Accepts:
- *
- * `null`
- *
- * `undefined` -> `null`
- *
- * `number` must be finite (rejects `Infinity`, `NaN`)
- */
 export function number<T extends FormWrongTypeMessage | FormRequiredMessage>(
   messages: T,
   ...actions: NumberAction[]

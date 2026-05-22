@@ -2,9 +2,9 @@ import { Temporal } from '@js-temporal/polyfill';
 import type { InferInput, InferIssue, InferOutput } from 'valibot';
 import { describe, expectTypeOf, test } from 'vite-plus/test';
 
-import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '#src/actions/max-temporal-value';
-import { temporalMaxValue } from '#src/actions/max-temporal-value';
-import type { TemporalValueInput } from '#src/actions/types';
+import type { TemporalMaxValueAction, TemporalMaxValueIssue } from '../../src/actions/max-temporal-value';
+import { temporalMaxValue } from '../../src/actions/max-temporal-value';
+import type { TemporalValueInput } from '../../src/actions/types';
 
 describe('temporalMaxValue', () => {
   describe('should return action object', () => {

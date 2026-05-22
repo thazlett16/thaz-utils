@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { DurationIssue, DurationSchema } from '#src/schema/duration';
-import { duration } from '#src/schema/duration';
+import type { DurationIssue, DurationSchema } from '../../src/schema/duration';
+import { duration } from '../../src/schema/duration';
 
 describe('duration', () => {
   describe('should return schema object', () => {

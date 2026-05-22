@@ -1,8 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { describe, expect, test } from 'vite-plus/test';
 
-import type { TemporalMinValueAction, TemporalMinValueIssue } from '#src/actions/min-temporal-value';
-import { temporalMinValue } from '#src/actions/min-temporal-value';
+import type { TemporalMinValueAction, TemporalMinValueIssue } from '../../src/actions/min-temporal-value';
+import { temporalMinValue } from '../../src/actions/min-temporal-value';
 
 describe('temporalMinValue', () => {
   describe('should return action object', () => {
