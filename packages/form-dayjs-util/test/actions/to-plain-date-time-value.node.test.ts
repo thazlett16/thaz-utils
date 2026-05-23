@@ -1,9 +1,9 @@
 import { Temporal } from '@js-temporal/polyfill';
+import * as v from 'valibot';
 import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { toPlainDateTime } from '#src/actions/to-plain-date-time-value';
 import { dayJS } from '#src/dayjs.config';
-import * as v from "valibot";
 
 const validDayjs = dayJS({ years: 2024, months: 5, dates: 15, hours: 9, minutes: 30, seconds: 45, milliseconds: 100 });
 const invalidDayjs = dayJS.utc('not a date');
