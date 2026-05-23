@@ -7,6 +7,21 @@ import { isDayJSValid } from '#src/actions/is-dayjs-valid';
 import { toPlainTime } from '#src/actions/to-plain-time-value';
 import { dayjs } from '#src/schemas/dayjs';
 
+/**
+ * Builds the nullable variant of the plainTime schema. Output type is `Temporal.PlainTime` | `null`.
+ *
+ * Extends `@thazstack/form-util`'s plainTime schema to also accept a valid `Dayjs` value,
+ * converting it to `Temporal.PlainTime` via hour/minute/second/millisecond components.
+ *
+ * Accepts/Transforms as follows:
+ * `null` / `undefined` → `null` / `Temporal.PlainTime` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime` →
+ * `Temporal.PlainTime` / `Dayjs` (valid) → `Temporal.PlainTime`
+ *
+ * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainTime` value.
+ *
+ * @returns A valibot union schema that outputs `Temporal.PlainTime` | `null`.
+ */
 export function _plainTimeNullable(messages: f.FormWrongTypeMessage, ...actions: f.PlainTimeAction[]) {
   return v.union(
     [
@@ -22,26 +37,30 @@ export function _plainTimeNullable(messages: f.FormWrongTypeMessage, ...actions:
   );
 }
 
+/**
+ * Builds the required variant of the plainTime schema. Asserts that the result is a non-null `Temporal.PlainTime`.
+ *
+ * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainTime` value.
+ *
+ * @returns A valibot pipe schema that outputs `Temporal.PlainTime`.
+ */
 export function _plainTimeRequired(messages: f.FormRequiredMessage, ...actions: f.PlainTimeAction[]) {
   return v.pipe(_plainTimeNullable(messages, ...actions), t.plainTime(messages.requiredMessage));
 }
 
 /**
- * PlainTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`
+ * PlainTime schema requires passing `wrongTypeMessage` and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.PlainTime` | `null` or `Temporal.PlainTime` for required variant.
  *
- * Accepts:
+ * Accepts/Transforms as follows:
+ * `null` / `undefined` → `null` / `Temporal.PlainTime` / `Temporal.ZonedDateTime` / `Temporal.PlainDateTime` →
+ * `Temporal.PlainTime` / `Dayjs` (valid) → `Temporal.PlainTime` via hour/minute/second/millisecond components
  *
- * `null`
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage}
+ * @param actions - Additional valibot actions applied to the `Temporal.PlainTime` value.
  *
- * `undefined` -> `null`
- *
- * `Temporal.PlainTime`
- *
- * `Temporal.ZonedDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
- *
- * `Temporal.PlainDateTime` -> `Temporal.PlainTime` via `.toPlainTime()`
- *
- * `Dayjs` (valid) -> `Temporal.PlainTime` via hour/minute/second/millisecond components
+ * @returns A valibot schema that outputs `Temporal.PlainTime` | `null` (nullable) or `Temporal.PlainTime` (required).
  */
 export function plainTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
   messages: T,

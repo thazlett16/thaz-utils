@@ -8,6 +8,21 @@ import { isDayJSValid } from '#src/actions/is-dayjs-valid';
 import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value';
 import { dayjs } from '#src/schemas/dayjs';
 
+/**
+ * Builds the nullable variant of the zonedDateTime schema. Output type is `Temporal.ZonedDateTime` | `null`.
+ *
+ * Extends `@thazstack/form-util`'s zonedDateTime schema to also accept a valid `Dayjs` value,
+ * converting it to `Temporal.ZonedDateTime` via ISO string + timezone from options.
+ *
+ * Accepts/Transforms as follows:
+ * `null` / `undefined` → `null` / `Temporal.ZonedDateTime` / `Dayjs` (valid) → `Temporal.ZonedDateTime`
+ *
+ * @param options - {@link TimeZoneOptions} specifying the target timezone for `Dayjs` conversions.
+ * @param messages - {@link FormWrongTypeMessage} providing the wrong-type error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
+ *
+ * @returns A valibot union schema that outputs `Temporal.ZonedDateTime` | `null`.
+ */
 export function _zonedDateTimeNullable(
   options: TimeZoneOptions,
   messages: f.FormWrongTypeMessage,
@@ -27,6 +42,15 @@ export function _zonedDateTimeNullable(
   );
 }
 
+/**
+ * Builds the required variant of the zonedDateTime schema. Asserts that the result is a non-null `Temporal.ZonedDateTime`.
+ *
+ * @param options - {@link TimeZoneOptions} specifying the target timezone for `Dayjs` conversions.
+ * @param messages - {@link FormRequiredMessage} providing both wrong-type and required error text.
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
+ *
+ * @returns A valibot pipe schema that outputs `Temporal.ZonedDateTime`.
+ */
 export function _zonedDateTimeRequired(
   options: TimeZoneOptions,
   messages: f.FormRequiredMessage,
@@ -36,17 +60,18 @@ export function _zonedDateTimeRequired(
 }
 
 /**
- * ZonedDateTime schema requires passing `TimeZoneOptions` and `wrongTypeMessage`, and can be marked as a required variant schema by adding `requiredMessage`
+ * ZonedDateTime schema requires passing `TimeZoneOptions` and `wrongTypeMessage`, and can be marked as a required variant schema by adding `requiredMessage`.
+ * Output type is `Temporal.ZonedDateTime` | `null` or `Temporal.ZonedDateTime` for required variant.
  *
- * Accepts:
+ * Accepts/Transforms as follows:
+ * `null` / `undefined` → `null` / `Temporal.ZonedDateTime` / `Dayjs` (valid) → `Temporal.ZonedDateTime`
+ * via ISO string + timezone from `options`
  *
- * `null`
+ * @param options - {@link TimeZoneOptions} specifying the target timezone for `Dayjs` conversions.
+ * @param messages - {@link FormWrongTypeMessage} | {@link FormRequiredMessage}
+ * @param actions - Additional valibot actions applied to the `Temporal.ZonedDateTime` value.
  *
- * `undefined` -> `null`
- *
- * `Temporal.ZonedDateTime`
- *
- * `Dayjs` (valid) -> `Temporal.ZonedDateTime` via ISO string + timezone from options
+ * @returns A valibot schema that outputs `Temporal.ZonedDateTime` | `null` (nullable) or `Temporal.ZonedDateTime` (required).
  */
 export function zonedDateTime<T extends f.FormWrongTypeMessage | f.FormRequiredMessage>(
   options: TimeZoneOptions,

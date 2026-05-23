@@ -1,1 +1,1 @@
-export * from './when';
+export { when } from '@thazstack/form-util';
