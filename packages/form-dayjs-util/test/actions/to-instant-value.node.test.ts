@@ -47,6 +47,7 @@ describe('toInstant', () => {
     test('passes through an existing Temporal.Instant', () => {
       const result = action['~run']({ typed: true, value: anInstant }, {});
       assert.isTrue(result.typed);
+      assert.instanceOf(result.value, Temporal.Instant);
       expect(result.value.equals(anInstant)).toBeTruthy();
     });
   });
