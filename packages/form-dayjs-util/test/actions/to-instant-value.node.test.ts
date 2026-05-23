@@ -1,7 +1,7 @@
 import { Temporal } from '@js-temporal/polyfill';
+import * as v from 'valibot';
 import { assert, describe, expect, test } from 'vite-plus/test';
 
-import type { ToInstantAction } from '#src/actions/to-instant-value';
 import { toInstant } from '#src/actions/to-instant-value';
 import { dayJS } from '#src/dayjs.config';
 
@@ -19,7 +19,7 @@ describe('toInstant', () => {
         async: false,
         message: undefined,
         '~run': expect.any(Function),
-      } satisfies ToInstantAction<unknown, undefined>);
+      });
     });
 
     test('with string message', () => {
@@ -30,54 +30,54 @@ describe('toInstant', () => {
         async: false,
         message: 'message',
         '~run': expect.any(Function),
-      } satisfies ToInstantAction<unknown, string>);
+      });
     });
   });
 
   describe('should transform to Temporal.Instant', () => {
-    const action = toInstant();
+    const schema = v.pipe(v.any(), toInstant());
 
     test('converts a valid Dayjs via ISO string', () => {
-      const result = action['~run']({ typed: true, value: validDayjs }, {});
-      assert.isTrue(result.typed);
-      assert.instanceOf(result.value, Temporal.Instant);
-      expect(anInstant.equals(result.value)).toBeTruthy();
+      const result = v.safeParse(schema, validDayjs);
+      assert.isTrue(result.success);
+      assert.instanceOf(result.output, Temporal.Instant);
+      expect(anInstant.equals(result.output)).toBeTruthy();
     });
 
     test('passes through an existing Temporal.Instant', () => {
-      const result = action['~run']({ typed: true, value: anInstant }, {});
-      assert.isTrue(result.typed);
-      assert.instanceOf(result.value, Temporal.Instant);
-      expect(result.value.equals(anInstant)).toBeTruthy();
+      const result = v.safeParse(schema, anInstant);
+      assert.isTrue(result.success);
+      assert.instanceOf(result.output, Temporal.Instant);
+      expect(anInstant.equals(result.output)).toBeTruthy();
     });
   });
 
   describe('should return dataset with issues', () => {
-    const action = toInstant('error');
+    const schema = v.pipe(v.any(), toInstant('error'));
 
     test('for invalid dayjs', () => {
-      const result = action['~run']({ typed: true, value: invalidDayjs }, {});
-      expect(result.typed).toBeFalsy();
+      const result = v.safeParse(schema, invalidDayjs);
+      expect(result.success).toBeFalsy();
     });
 
     test('for null', () => {
-      const result = action['~run']({ typed: true, value: null }, {});
-      expect(result.typed).toBeFalsy();
+      const result = v.safeParse(schema, null);
+      expect(result.success).toBeFalsy();
     });
 
     test('for a string', () => {
-      const result = action['~run']({ typed: true, value: 'not-an-instant' }, {});
-      expect(result.typed).toBeFalsy();
+      const result = v.safeParse(schema, 'not-an-instant');
+      expect(result.success).toBeFalsy();
     });
 
     test('for a plain object', () => {
-      const result = action['~run']({ typed: true, value: {} }, {});
-      expect(result.typed).toBeFalsy();
+      const result = v.safeParse(schema, {});
+      expect(result.success).toBeFalsy();
     });
 
     test('for a Temporal.PlainDate', () => {
-      const result = action['~run']({ typed: true, value: Temporal.PlainDate.from('2024-06-15') }, {});
-      expect(result.typed).toBeFalsy();
+      const result = v.safeParse(schema, Temporal.PlainDate.from('2024-06-15'));
+      expect(result.success).toBeFalsy();
     });
   });
 });
