@@ -51,14 +51,14 @@ export function toZonedDateTime(
       try {
         if (dayJS.isDayjs(value)) {
           dataset.value = Temporal.Instant.from(value.toISOString()).toZonedDateTimeISO(options.timeZone);
-        } else if (!(value instanceof Temporal.ZonedDateTime)) {
+        } else if (value instanceof Temporal.ZonedDateTime) {
+          dataset.value = value.withTimeZone(options.timeZone);
+        } else {
           v._addIssue(this, 'zonedDateTime', dataset, config, {
             received: '"Invalid conversion option"',
           });
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
-        } else {
-          dataset.value = value.withTimeZone(options.timeZone);
         }
       } catch {
         v._addIssue(this, 'zonedDateTime', dataset, config);
