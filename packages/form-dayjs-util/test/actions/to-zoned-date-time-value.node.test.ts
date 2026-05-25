@@ -1,9 +1,9 @@
 import { Temporal } from '@js-temporal/polyfill';
+import * as v from 'valibot';
 import { assert, describe, expect, test } from 'vite-plus/test';
 
 import { toZonedDateTime } from '#src/actions/to-zoned-date-time-value';
 import { dayJS } from '#src/dayjs.config';
-import * as v from "valibot";
 
 const validDayjs = dayJS.utc('2024-06-15T12:00:00Z');
 const invalidDayjs = dayJS.utc('not a date');
