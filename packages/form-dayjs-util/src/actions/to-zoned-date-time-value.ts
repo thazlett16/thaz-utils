@@ -57,6 +57,8 @@ export function toZonedDateTime(
           });
           // @ts-expect-error We expect this here. As noted in valibot documentation this code is correct but simplifies the types
           dataset.typed = false;
+        } else {
+          dataset.value = value.withTimeZone(options.timeZone);
         }
       } catch {
         v._addIssue(this, 'zonedDateTime', dataset, config);
