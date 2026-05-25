@@ -99,12 +99,16 @@ describe('plainDateTime', () => {
     test('passes a Temporal.PlainDateTime', () => {
       const result = v.safeParse(schema, aPlainDateTime);
       assert.isTrue(result.success);
+      assert.isNotNull(result.output);
+      assert.instanceOf(result.output, Temporal.PlainDateTime);
       expect(result.output).toStrictEqual(aPlainDateTime);
     });
 
     test('converts a valid Dayjs to Temporal.PlainDateTime', () => {
       const result = v.safeParse(schema, validDayjs);
       assert.isTrue(result.success);
+      assert.isNotNull(result.output);
+      assert.instanceOf(result.output, Temporal.PlainDateTime);
       expect(result.output).toBeInstanceOf(Temporal.PlainDateTime);
     });
 
