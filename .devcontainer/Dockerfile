@@ -1,3 +1,1 @@
-FROM debian:trixie
-
-ENTRYPOINT ["top", "-b"]
+FROM mcr.microsoft.com/devcontainers/base:alpine
