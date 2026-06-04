@@ -1,0 +1,23 @@
+{
+  "name": "Thaz Utils devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations" : {
+    "jetbrains" : {
+      "backend" : "WebStorm",
+      "settings" : {},
+      "plugins" : []
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainers/features/node:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "forwardPorts": [],
+  "postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh"
+}
