@@ -27,8 +27,15 @@
     "ghcr.io/devcontainers/features/node:2": {
       "version": "24"
     },
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "./features/vite-plus": {}
   },
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/home/thaz-utils-devcontainer-user/.gitconfig,type=bind,readonly",
+    "source=${localEnv:HOME}/.config/gh,target=/home/thaz-utils-devcontainer-user/.config/gh,type=bind,readonly",
+    "source=${localEnv:HOME}/.local/share/pnpm/store,target=/home/thaz-utils-devcontainer-user/.local/share/pnpm/store,type=bind",
+    "source=${localEnv:HOME}/.config/claude,target=/home/thaz-utils-devcontainer-user/.config/claude,type=bind"
+  ],
   "forwardPorts": [],
   "postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh"
 }

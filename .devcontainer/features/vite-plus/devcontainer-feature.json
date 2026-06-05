@@ -1,0 +1,10 @@
+{
+  "id": "vite-plus",
+  "version": "1.0.0",
+  "name": "Vite+",
+  "description": "Installs the Vite+ (vp) unified web toolchain",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ]
+}
