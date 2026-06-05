@@ -3,6 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "remoteUser": "container_user",
   "customizations" : {
     "jetbrains" : {
       "backend" : "WebStorm",
@@ -11,12 +12,48 @@
     }
   },
   "features": {
-    "ghcr.io/devcontainers/features/sshd:1": {},
-    "ghcr.io/devcontainers/features/node:2": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": "true",
+      "configureZshAsDefaultShell": "false",
+      "installOhMyZsh": "false",
+      "installOhMyZshConfig": "false",
+      "upgradePackages": "true",
+      "username": "container_user",
+      "userUid": "1001",
+      "userGid": "1001",
+      "nonFreePackages": "false"
     },
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": "false"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest",
+      "installDirectlyFromGitHubRelease": "true",
+      "extensions": ""
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest",
+      "gatewayPorts": "no"
+    },
+    "ghcr.io/devcontainers/features/node:2": {
+      "version": "24",
+      "nodeGypDependencies": "true",
+      "nvmInstallPath": "/usr/local/share/nvm",
+      "npmVersion": "none",
+      "pnpmVersion": "latest",
+      "nvmVersion": "latest",
+      "installYarnUsingApt": "none"
+    },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "ghcr.io/helpers4/devcontainer/pnpm-store:1": {},
+    "ghcr.io/helpers4/devcontainer/vite-plus:1": {
+      "installVitePlus": "true",
+      "installGlobally": "true",
+      "installVite": "false",
+      "installVitest": "false",
+      "installOxc": "false"
+    }
   },
   "forwardPorts": [],
   "postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh"
