@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+STORE_DIR="/var/cache/pnpm"
+
+if [ ! -d "${STORE_DIR}" ]; then
+    mkdir -p "${STORE_DIR}" \
+        || { command -v sudo >/dev/null 2>&1 && sudo mkdir -p "${STORE_DIR}"; } \
+        || { echo "pnpm-store: could not create ${STORE_DIR}"; exit 1; }
+fi
+
+store_owner="$(stat -c '%u' "${STORE_DIR}" 2>/dev/null || echo 'unknown')"
+if [ "${store_owner}" != "$(id -u)" ]; then
+    if command -v sudo >/dev/null 2>&1; then
+        sudo chown -R "$(id -u):$(id -g)" "${STORE_DIR}" \
+            || echo "pnpm-store: chown failed — pnpm writes to the store may fail"
+    else
+        echo "pnpm-store: store owned by uid ${store_owner} and sudo unavailable"
+    fi
+fi
+
+if command -v pnpm >/dev/null 2>&1; then
+    echo "pnpm store-dir: $(pnpm config get store-dir 2>/dev/null)"
+fi

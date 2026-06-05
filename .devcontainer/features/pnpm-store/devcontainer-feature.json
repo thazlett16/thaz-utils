@@ -1,0 +1,18 @@
+{
+  "id": "pnpm-store",
+  "version": "1.0.0",
+  "name": "pnpm Store",
+  "description": "Creates a shared pnpm content-addressable store at /var/cache/pnpm via a Docker named volume",
+  "mounts": [
+    {
+      "source": "pnpm-store-${devcontainerId}",
+      "target": "/var/cache/pnpm",
+      "type": "volume"
+    }
+  ],
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ],
+  "postCreateCommand": "/usr/local/bin/devcontainer-pnpm-store"
+}
