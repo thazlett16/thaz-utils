@@ -1,1 +1,1 @@
-FROM mcr.microsoft.com/devcontainers/base:trixie
+FROM buildpack-deps:trixie-curl
