@@ -1,4 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore for Jetbrains .gitignore baseline
+# See https://dockerignore.com/dockerignore-vs-gitignore for .gitignore vs .dockerignore
 
 # Dependencies
 node_modules/
