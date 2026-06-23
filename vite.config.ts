@@ -5,7 +5,7 @@ import { fullConfig, libraryCodeConfig } from '@thazstack/oxlint-config';
 
 export default defineConfig({
   staged: {
-    '*': 'vp check --fix',
+    '*.{js,ts,tsx}': 'vp check --fix',
   },
   run: {
     cache: {

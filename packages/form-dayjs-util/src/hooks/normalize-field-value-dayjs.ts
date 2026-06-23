@@ -34,6 +34,8 @@ export type FieldValueZonedDateTime =
 export function useNormalizeFieldValueDayJS(options: TimeZoneOptions) {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   if (baseFieldValue instanceof Temporal.ZonedDateTime) {

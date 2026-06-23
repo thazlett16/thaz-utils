@@ -3,6 +3,9 @@ import { formDevtoolsPlugin } from '@tanstack/react-form-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
+const renderQueryPanel = () => <ReactQueryDevtoolsPanel />;
+const renderRouterPanel = () => <TanStackRouterDevtoolsPanel />;
+
 export function Devtools() {
   return (
     <TanStackDevtools
@@ -18,12 +21,12 @@ export function Devtools() {
       plugins={[
         {
           name: 'TanStack Query',
-          render: () => <ReactQueryDevtoolsPanel />,
+          render: renderQueryPanel,
         },
         formDevtoolsPlugin(),
         {
           name: 'TanStack Router',
-          render: () => <TanStackRouterDevtoolsPanel />,
+          render: renderRouterPanel,
         },
       ]}
     />

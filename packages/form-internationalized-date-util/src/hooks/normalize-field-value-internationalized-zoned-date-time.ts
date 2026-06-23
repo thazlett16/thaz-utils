@@ -11,6 +11,8 @@ export type FieldValueZonedDateTime = BaseFieldValueZonedDateTime | ZonedDateTim
 export function useNormalizeFieldValueZonedDateTime() {
   const field = useFieldContext<FieldValueZonedDateTime>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   try {

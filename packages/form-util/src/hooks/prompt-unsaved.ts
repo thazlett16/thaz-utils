@@ -24,8 +24,14 @@ export interface PromptUnsavedOptions {
 export function usePromptUnsaved(options?: Partial<Readonly<PromptUnsavedOptions>>) {
   const formContext = useFormContext();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const isDirty = useStore(formContext.store, (state) => state.isDirty);
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const isSubmitting = useStore(formContext.store, (state) => state.isSubmitting);
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const isSubmitted = useStore(formContext.store, (state) => state.isSubmitted);
 
   let showPrompt = isDirty && !isSubmitting && !isSubmitted;
