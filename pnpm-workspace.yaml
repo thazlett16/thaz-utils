@@ -26,6 +26,7 @@ catalog:
   '@tanstack/react-query-devtools': 5.101.0
   '@tanstack/react-router': 1.170.16
   '@tanstack/react-router-devtools': 1.167.0
+  '@tanstack/react-store': 0.11.0
   '@tanstack/router-plugin': 1.168.18
   '@total-typescript/ts-reset': 0.6.1
   '@ts-rest/core': 3.53.0-rc.1
