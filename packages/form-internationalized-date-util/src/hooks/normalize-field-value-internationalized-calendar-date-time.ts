@@ -17,6 +17,8 @@ export type FieldValueCalendarDateTime = FieldValuePlainDateTime | ZonedDateTime
 export function useNormalizeFieldValueCalendarDateTime() {
   const field = useFieldContext<FieldValueCalendarDateTime>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   try {

@@ -2,33 +2,11 @@ import type { ReactNode } from 'react';
 
 import { page, userEvent } from 'vite-plus/test/browser';
 
-import { BaseForm } from '#src/components/tanstack-form.config';
-import { useFieldContext } from '#src/tanstack-form.config';
+import { useAppForm } from '#test/config/test-form-root';
 
 export const CanSubmitTestUtils = {
   createWrapperComponent(options: { defaultTestValue: string; onSubmitAsync?: () => Promise<void> }) {
     const { defaultTestValue, onSubmitAsync } = options;
-
-    function TestInput() {
-      const field = useFieldContext<string>();
-
-      return (
-        <input
-          name={field.name}
-          value={field.state.value}
-          onBlur={field.handleBlur}
-          onChange={(e) => {
-            field.handleChange(e.target.value);
-          }}
-        />
-      );
-    }
-
-    const { useAppForm } = BaseForm.extendForm({
-      fieldComponents: {
-        TestInput,
-      },
-    });
 
     return function WrapperComponent({ children }: { children: ReactNode }) {
       interface TestValue {

@@ -42,6 +42,7 @@
     "bumpp": "catalog:",
     "oxfmt": "catalog:",
     "typescript": "catalog:",
+    "vite": "catalog:",
     "vite-plugin-externalize-deps": "catalog:",
     "vite-plus": "catalog:"
   },

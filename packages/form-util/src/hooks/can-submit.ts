@@ -25,7 +25,11 @@ export function useCanSubmit(options?: Partial<Readonly<CanSubmitOptions>>) {
     allowSubmitWhenInvalid: options?.allowSubmitWhenInvalid ?? false,
   };
   const form = useFormContext();
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const isSubmitting = useStore(form.store, (state) => state.isSubmitting);
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const canSubmit = useStore(form.store, (state) => state.canSubmit);
 
   return useMemo(() => {

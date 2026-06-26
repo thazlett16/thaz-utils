@@ -21,6 +21,8 @@ export type FieldValueString = v.InferInput<ReturnType<typeof _stringNullable>>;
 export function useNormalizeFieldValueString() {
   const field = useFieldContext<FieldValueString>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   if (typeof baseFieldValue === 'string') {

@@ -22,6 +22,8 @@ export type FieldValuePlainDateTime = v.InferInput<ReturnType<typeof _plainDateT
 export function useNormalizeFieldValuePlainDateTime() {
   const field = useFieldContext<FieldValuePlainDateTime>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   if (baseFieldValue instanceof Temporal.ZonedDateTime) {

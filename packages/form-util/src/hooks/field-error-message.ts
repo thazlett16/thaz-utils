@@ -48,12 +48,17 @@ function formatErrorList(errors: unknown[]) {
 export function useFieldErrorMessageList() {
   const field = useFieldContext();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const isBlurred = useStore(field.store, (state) => state.meta.isBlurred);
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const submissionAttempts = useStore(field.form.store, (state) => state.submissionAttempts);
 
-  // We are immediately formatting the value so it is safe here
-  // oxlint-disable-next-line typescript/no-unsafe-return
+  //  We are immediately formatting the value so it is safe here
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-unsafe-return, typescript/no-deprecated
   const errorList = useStore(field.store, (state) => state.meta.errors);
   const formattedError = useMemo(() => {
     return formatErrorList(errorList);

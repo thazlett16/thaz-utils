@@ -21,6 +21,8 @@ export type FieldValueNumber = v.InferInput<ReturnType<typeof _numberNullable>>;
 export function useNormalizeFieldValueNumber() {
   const field = useFieldContext<FieldValueNumber>();
 
+  //  Disabled till @tanstack/react-form exports useSelector instead
+  // oxlint-disable-next-line typescript/no-deprecated
   const baseFieldValue = useStore(field.store, (state) => state.value);
 
   if (typeof baseFieldValue === 'number') {
